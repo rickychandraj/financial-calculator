@@ -130,15 +130,6 @@ const FinancialHealthForm = () => {
         return !answers[questionId] && questionId !== 10;
     };
 
-    const formatNumber = (num) => {
-        const cleanNum = num.toString().replace(/[^\d.]/g, '');
-        const [integerPart, decimalPart] = cleanNum.split('.');
-        const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        return decimalPart !== undefined
-            ? `${formattedInteger}.${decimalPart}`
-            : formattedInteger;
-    };
-
     return (
         <div
             className="w-full max-w-3xl mx-auto min-h-screen"
