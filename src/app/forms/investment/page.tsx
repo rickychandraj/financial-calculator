@@ -7,7 +7,6 @@ import FormQuestionCards from "@/components/ui/form-question-card";
 
 const InvestmentForm = () => {
     const [currentStep, setCurrentStep] = useState(1);
-    const [financialStrategy, setFinancialStrategy] = useState(null);
     const [isResultReady, setIsResultReady] = useState(false);
     const [answers, setAnswers] = useState({
         1: null, // target amount
@@ -109,9 +108,9 @@ const InvestmentForm = () => {
         const returnRate = Number(answers[7]) / 100;
 
         let totalAmount = initialAmount;
-        let periodsPerYear = frequency === 'monthly' ? 12 : 1;
-        let periodicReturn = returnRate / periodsPerYear;
-        let totalPeriods = years * periodsPerYear;
+        const periodsPerYear = frequency === 'monthly' ? 12 : 1;
+        const periodicReturn = returnRate / periodsPerYear;
+        const totalPeriods = years * periodsPerYear;
 
         if (timing === 'begin') {
             totalAmount = initialAmount * Math.pow(1 + periodicReturn, totalPeriods) +

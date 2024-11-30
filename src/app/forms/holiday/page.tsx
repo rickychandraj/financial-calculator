@@ -3,13 +3,10 @@
 import React, { useEffect, useState } from "react";
 import FormHeader from "@/components/ui/form-header";
 import FormQuestionCards from "@/components/ui/form-question-card";
-import NumberInput from "@/components/ui/number-input";
-import CurrencyInput from "@/components/ui/currency-input";
-import SelectOption from "@/components/ui/select-option";
+
 
 const HolidayPlanningForm = () => {
     const [currentStep, setCurrentStep] = useState(1);
-    const [holidayStrategy, setHolidayStrategy] = useState(null);
     const [isResultReady, setIsResultReady] = useState(false);
     const [answers, setAnswers] = useState({
         1: null, // years until holiday
@@ -99,13 +96,13 @@ const HolidayPlanningForm = () => {
 
     // Calculate holiday planning results
     const calculateResults = () => {
-        const yearsUntilHoliday = parseFloat(answers[1]);
-        const currentTripCost = parseFloat(answers[2]);
-        const numberOfPeople = parseFloat(answers[3]);
-        const inflationRate = parseFloat(answers[4]) / 100;
-        const currentSavings = parseFloat(answers[5]);
-        const monthlySavings = parseFloat(answers[6]);
-        const returnRate = parseFloat(answers[7]) / 100;
+        const yearsUntilHoliday = Number(answers[1]);
+        const currentTripCost = Number(answers[2]);
+        const numberOfPeople = Number(answers[3]);
+        const inflationRate = Number(answers[4]) / 100;
+        const currentSavings = Number(answers[5]);
+        const monthlySavings = Number(answers[6]);
+        const returnRate = Number(answers[7]) / 100;
 
         // Calculate future trip cost with inflation
         const futureTripCost = currentTripCost * Math.pow(1 + inflationRate, yearsUntilHoliday);

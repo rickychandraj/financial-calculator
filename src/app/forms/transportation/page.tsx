@@ -6,7 +6,6 @@ import FormQuestionCards from "@/components/ui/form-question-card";
 
 const VehiclePurchaseForm = () => {
     const [currentStep, setCurrentStep] = useState(1);
-    const [vehicleStrategy, setVehicleStrategy] = useState(null);
     const [isResultReady, setIsResultReady] = useState(false);
     const [answers, setAnswers] = useState({
         1: null, // years until purchase

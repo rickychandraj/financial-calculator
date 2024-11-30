@@ -3,14 +3,10 @@
 import React, { useEffect, useState } from "react";
 import FormHeader from "@/components/ui/form-header";
 import FormQuestionCards from "@/components/ui/form-question-card";
-import NumberInput from "@/components/ui/number-input";
-import CurrencyInput from "@/components/ui/currency-input";
-import SelectOption from "@/components/ui/select-option";
 
 
 const PensionFundForm = () => {
     const [currentStep, setCurrentStep] = useState(1);
-    const [pensionStrategy, setPensionStrategy] = useState(null);
     const [isResultReady, setIsResultReady] = useState(false);
     const [answers, setAnswers] = useState({
         1: null, // monthly expenses

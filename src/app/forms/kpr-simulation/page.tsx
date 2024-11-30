@@ -164,15 +164,6 @@ const KPRSimulationForm = () => {
         return !answers[questionId];
     };
 
-    const formatNumber = (num) => {
-        const cleanNum = num.toString().replace(/[^\d.]/g, '');
-        const [integerPart, decimalPart] = cleanNum.split('.');
-        const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        return decimalPart !== undefined
-            ? `${formattedInteger}.${decimalPart}`
-            : formattedInteger;
-    };
-
     return (
         <div
             className="w-full max-w-3xl mx-auto min-h-screen"
@@ -221,7 +212,6 @@ const KPRSimulationForm = () => {
                             >
                                 <div className="blur-[8px] pointer-events-none">
                                     {isResultReady && (() => {
-                                        const results = calculateKPR();
                                         return (
                                             <>
                                                 {/* Loan Summary */}
