@@ -5,9 +5,9 @@ import {
     BarChart,
     Building,
     Building2,
-    Calculator,
     Car,
     CreditCard,
+    BookHeart,
     GraduationCap,
     Heart,
     Home,
@@ -22,21 +22,22 @@ const Tools = () => {
     const highlightedMenuItems = [
         {
             id: 1,
+            icon: BookHeart,
+            title: "Tes Kecocokan Pasangan",
+            badge: "Hot",
+            href: "/forms/couple-test",
+        },
+        {
+            id: 2,
             icon: PiggyBank,
             title: "Cek Kondisi Keuangan",
             href: "/forms/financial-audit",
         },
         {
-            id: 2,
+            id: 3,
             icon: CreditCard,
             title: "Pelunasan Kartu Kredit",
             href: "/forms/credit-card-simulation",
-        },
-        {
-            id: 3,
-            icon: Calculator,
-            title: "Pelunasan Utang",
-            href: "/forms/debt-simulation",
         },
     ]
 
@@ -68,7 +69,7 @@ const Tools = () => {
         {
             id: 10,
             icon: LineChart,
-            title: "Simulasi Investasi",
+            title: "Investasi",
             description: "Mulai investasi",
             href: "/forms/investment",
         },
@@ -78,6 +79,13 @@ const Tools = () => {
             title: "Simulasi KPR",
             description: "Hitung KPR",
             href: "/forms/kpr-simulation",
+        },
+        {
+            id: 7,
+            icon: Home,
+            title: "DP Property",
+            description: "Rencana DP rumah",
+            href: "/forms/property-down-payment"
         },
         {
             id: 4,
@@ -101,13 +109,6 @@ const Tools = () => {
             href: "/forms/item",
         },
         {
-            id: 7,
-            icon: Home,
-            title: "DP Property",
-            description: "Rencana DP rumah",
-            href: "/forms/property-down-payment"
-        },
-        {
             id: 8,
             icon: Car,
             title: "Kendaraan",
@@ -127,7 +128,7 @@ const Tools = () => {
                     mb-8
                 `}
                 style={{
-                    background: "linear-gradient(135deg, #252E64 50%, #12174F 100%)"
+                    background: "linear-gradient(135deg, #252E64 30%, #12174F 70%)"
                 }}
             >
                 <h3 className="text-2xl font-bold">Cek Finansial Kamu</h3>
@@ -145,6 +146,18 @@ const Tools = () => {
                             backdrop-blur-sm transform transition-all duration-300
                             hover:translate-x-2 cursor-pointer group/tool"
                             >
+                                {/* New Badge */}
+                                {item.badge && (
+                                    <span
+                                        className="absolute -top-2 -right-2 px-2 py-0.5 rounded-full text-xs font-medium z-10"
+                                        style={{
+                                            background: '#A51246',
+                                            color: 'white'
+                                        }}
+                                    >
+                                        {item.badge}
+                                    </span>
+                                )}
                                 <div
                                     className="w-5 h-5 mr-3 transform "
                                     style={{
@@ -173,53 +186,33 @@ const Tools = () => {
                 </div>
             </div>
             <h3 className="text-3xl font-bold mb-8 mt-8" style={{ color: "#A51246"}}>Kalkulator Mimpi ↓</h3>
-            <div className="space-y-3">
+            <div className="grid grid-cols-3 gap-12">
                 {menuItems.map((item, index) => (
                     <Link
                         key={index}
                         href={item.href}
                         className="block"
                     >
-                        <div
-                            className="flex items-center p-4 bg-white rounded-xl cursor-pointer"
-                            style={{
-                                transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                            }}
-                            onMouseOver={e => {
-                                e.currentTarget.style.transform = "translateX(10px)";
-                                e.currentTarget.style.boxShadow = "0 8px 16px rgba(0, 0, 0, 0.1)";
-                            }}
-                            onMouseOut={e => {
-                                e.currentTarget.style.transform = "translateX(0)";
-                                e.currentTarget.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.05)";
-                            }}
-                        >
-                            <div style={{
-                                background: "linear-gradient(135deg, #A51246, #B71E54)",
-                                borderRadius: "10px",
-                                padding: "10px",
-                                marginRight: "16px"
-                            }}>
-                                <item.icon className="w-5 h-5" style={{ color: "white" }} />
+                        <div className="flex flex-col items-center justify-center cursor-pointer group">
+                            <div
+                                className="w-16 h-16 rounded-full mb-3 flex items-center justify-center transform transition-all duration-300 group-hover:-translate-y-2"
+                                style={{
+                                    background: "linear-gradient(135deg, #A51246, #B71E54)",
+                                }}
+                            >
+                                <item.icon className="w-8 h-8" style={{ color: "white" }} />
                             </div>
-
-                            <div className="flex-grow">
-                                <div className="flex items-center justify-between">
-                                    <span className="text-lg font-medium" style={{ color: "#12174F" }}>{item.title}</span>
-                                    {item.badge && (
-                                        <span style={{
-                                            color: "#A51246",
-                                            fontSize: "14px",
-                                            fontWeight: "500"
-                                        }}>{item.badge}</span>
-                                    )}
-                                </div>
-                                <span className="text-sm" style={{ color: "#252E64" }}>{item.description}</span>
-                            </div>
+                            <span
+                                className="text-center font-medium text-sm"
+                                style={{ color: "#12174F" }}
+                            >
+                              {item.title}
+                            </span>
                         </div>
                     </Link>
                 ))}
             </div>
+            <div className="mt-8"></div>
         </div>
     )
 }

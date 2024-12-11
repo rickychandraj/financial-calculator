@@ -2,7 +2,6 @@ import React from "react";
 
 import {
     Flame,
-    User,
 } from "lucide-react";
 
 
@@ -12,7 +11,9 @@ export const Header = () => {
         <div className="w-full max-w-3xl mx-auto" style={{ fontFamily: 'system-ui, sans-serif' }}>
             <div className="relative">
                 <div className="h-48" style={{
-                    background: "linear-gradient(135deg, #A51246 0%, #B71E54 50%, #12174F 100%)",
+                    backgroundImage: "url('background.png')",
+                    backgroundSize: "cover",  // This ensures the image covers the container
+                    backgroundPosition: "center",  // Centers the image
                     position: "relative",
                     overflow: "hidden",
                 }}>
@@ -20,7 +21,7 @@ export const Header = () => {
                         position: "absolute",
                         width: "100%",
                         height: "100%",
-                        background: "radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%)"
+                        backgroundImage: "radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%)"
                     }}></div>
                 </div>
 
@@ -30,8 +31,17 @@ export const Header = () => {
                             background: 'linear-gradient(45deg, #A51246, #B71E54)',
                             padding: '4px'
                         }}>
-                            <div className="w-full h-full rounded-full bg-white flex items-center justify-center">
-                                <User className="w-16 h-16" style={{ color: '#12174F' }} />
+                            <div
+                                className="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden"
+                            >
+                                <div
+                                    className="w-full h-full"
+                                    style={{
+                                        backgroundImage: "url('/profile.JPG')",
+                                        backgroundSize: "cover",
+                                        backgroundPosition: "center",
+                                    }}
+                                />
                             </div>
                         </div>
                     </div>

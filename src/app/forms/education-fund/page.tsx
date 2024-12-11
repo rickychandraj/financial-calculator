@@ -51,15 +51,15 @@ const EducationForm = () => {
         sd: {
             jakarta: {
                 negeri: "0",
-                swasta: "23000000",
-                national: "43000000",
-                international: "57000000",
+                swasta: "20000000",
+                national: "35000000",
+                international: "60000000",
             },
             java: {
                 negeri: "0",
-                swasta: "22500000",
-                national: "38000000",
-                international: "57000000",
+                swasta: "15000000",
+                national: "25000000",
+                international: "50000000",
             },
             non_java: {
                 negeri: "0",
@@ -68,70 +68,70 @@ const EducationForm = () => {
                 international: "30000000",
             },
             abroad: {
-                general: "17000000",
+                general: "18000000",
             }
         },
         smp: {
             jakarta: {
                 negeri: "0",
-                swasta: "30000000",
-                national: "32000000",
+                swasta: "35000000",
+                national: "40000000",
                 international: "43000000",
             },
             java: {
                 negeri: "0",
-                swasta: "18500000",
-                national: "27000000",
-                international: "33000000",
+                swasta: "20000000",
+                national: "22000000",
+                international: "40000000",
             },
             non_java: {
                 negeri: "0",
-                swasta: "10000000",
-                national: "18000000",
-                international: "30000000",
+                swasta: "15000000",
+                national: "17000000",
+                international: "40000000",
             },
             abroad: {
-                general: "17000000",
+                general: "18000000",
             }
         },
         sma: {
             jakarta: {
                 negeri: "0",
-                swasta: "22000000",
-                national: "32000000",
-                international: "54000000",
+                swasta: "25000000",
+                national: "45000000",
+                international: "58000000",
             },
             java: {
                 negeri: "0",
-                swasta: "12000000",
-                national: "25000000",
-                international: "33000000",
+                swasta: "25000000",
+                national: "30000000",
+                international: "55000000",
             },
             non_java: {
                 negeri: "0",
-                swasta: "11000000",
-                national: "20000000",
-                international: "27000000",
+                swasta: "25000000",
+                national: "30000000",
+                international: "55000000",
             },
             abroad: {
-                general: "17000000",
+                general: "20000000",
             }
         },
         s1: {
             jakarta: {
-                negeri: "12000000",
-                swasta: "35000000",
+                negeri: "15000000",
+                swasta: "40000000",
             },
             java: {
-                negeri: "30000000",
-                swasta: "29000000",
+                negeri: "20000000",
+                swasta: "35000000",
             },
             non_java: {
-                negeri: "0",
-                swasta: "2700000",
+                negeri: "20000000",
+                swasta: "35000000",
             },
             abroad: {
-                general: "0",
+                general: "1000000000",
             }
         }
     };
@@ -139,56 +139,56 @@ const EducationForm = () => {
     const UANG_SEKOLAH_MAPPING = {
         sd: {
             jakarta: {
-                negeri: "0",
-                swasta: "2000000",
-                national: "2750000",
-                international: "18000000",
+                negeri: "100000",
+                swasta: "1500000",
+                national: "3000000",
+                international: "10000000",
             },
             java: {
-                negeri: "0",
-                swasta: "1600000",
-                national: "3500000",
-                international: "4500000",
+                negeri: "100000",
+                swasta: "1000000",
+                national: "2000000",
+                international: "6000000",
             },
             non_java: {
-                negeri: "0",
+                negeri: "100000",
                 swasta: "1000000",
                 national: "1000000",
                 international: "10800000",
             },
             abroad: {
-                general: "17000000",
+                general: "18000000",
             }
         },
         smp: {
             jakarta: {
-                negeri: "0",
-                swasta: "2400000",
-                national: "2500000",
-                international: "22000000",
+                negeri: "300000",
+                swasta: "2000000",
+                national: "3000000",
+                international: "15000000",
             },
             java: {
-                negeri: "0",
+                negeri: "300000",
                 swasta: "1000000",
-                national: "4000000",
-                international: "8400000",
+                national: "1200000",
+                international: "15000000",
             },
             non_java: {
-                negeri: "0",
+                negeri: "300000",
                 swasta: "1000000",
-                national: "1800000",
-                international: "13000000",
+                national: "1200000",
+                international: "15000000",
             },
             abroad: {
-                general: "21000000",
+                general: "25000000",
             }
         },
         sma: {
             jakarta: {
-                negeri: "0",
-                swasta: "1800000",
-                national: "2700000",
-                international: "22000000",
+                negeri: "500000",
+                swasta: "2000000",
+                national: "3300000",
+                international: "25000000",
             },
             java: {
                 negeri: "0",
@@ -197,27 +197,27 @@ const EducationForm = () => {
                 international: "9000000",
             },
             non_java: {
-                negeri: "0",
-                swasta: "1000000",
-                national: "1800000",
-                international: "14000000",
+                negeri: "350000",
+                swasta: "2500000",
+                national: "3200000",
+                international: "16000000",
             },
             abroad: {
-                general: "26000000",
+                general: "30000000",
             }
         },
         s1: {
             jakarta: {
-                negeri: "7000000",
-                swasta: "20000000",
+                negeri: "2000000",
+                swasta: "22000000",
             },
             java: {
-                negeri: "15000000",
-                swasta: "12000000",
+                negeri: "1200000",
+                swasta: "2000000",
             },
             non_java: {
-                negeri: "7000000",
-                swasta: "6000000",
+                negeri: "1300000",
+                swasta: "4000000",
             },
             abroad: {
                 general: "250000000",
@@ -477,19 +477,19 @@ const EducationForm = () => {
                                             {/* SPP */}
                                             <div className="bg-[#3A4356] p-4 flex justify-between items-center">
                                                 <span className="text-white text-lg">SPP</span>
-                                                <span className="text-white text-lg font-semibold">Rp50,000,000</span>
+                                                <span className="text-white text-lg font-semibold">{`Rp${formatNumber(answers[103])}`}</span>
                                             </div>
 
                                             {/* Biaya Lain */}
                                             <div className="bg-[#1E2432] p-4 flex justify-between items-center">
                                                 <span className="text-white text-lg">Biaya Lain</span>
-                                                <span className="text-white text-lg font-semibold">Rp50,000,000</span>
+                                                <span className="text-white text-lg font-semibold">{`Rp${formatNumber(answers[102])}`}</span>
                                             </div>
 
                                             {/* Total */}
                                             <div className="bg-[#3A4356] p-4 flex justify-between items-center">
                                                 <span className="text-white text-lg">Total</span>
-                                                <span className="text-white text-lg font-semibold">Rp50,000,000</span>
+                                                <span className="text-white text-lg font-semibold">{`Rp${formatNumber(answers[102]+answers[103])}`}</span>
                                             </div>
                                         </div>
                                     </div>

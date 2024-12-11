@@ -11,10 +11,7 @@ const ItemPurchaseForm = () => {
         1: null, // years until purchase
         2: null, // current item price
         3: null, // down payment percentage
-        4: "5", // default inflation rate
-        5: null, // current savings
-        6: null, // monthly investment
-        7: "10", // default investment return
+        4: null, // current savings
     });
 
     const questions = [
@@ -41,31 +38,10 @@ const ItemPurchaseForm = () => {
         },
         {
             id: 4,
-            text: "Asumsi inflasi harga barang kamu adalah",
-            subtext: "Inflasi dapat diartikan sebagai kenaikan harga barang dan jasa secara umum dan terus menerus dalam jangka waktu tertentu",
-            type: "number",
-            suffix: "% / tahun",
-        },
-        {
-            id: 5,
             text: "Berapa uang yang kamu miliki saat ini untuk membeli barang tersebut?",
             subtext: "Berapa banyak jumlah tabunganmu yang kamu sudah pisahkan hanya untuk beli barang ini.",
             type: "currency",
             prefix: "Rp",
-        },
-        {
-            id: 6,
-            text: "Target investasimu setiap bulan sebesar",
-            subtext: "Berapa banyak jumlah uang yang akan kamu tabung setiap bulannya untuk membeli barang ini.",
-            type: "currency",
-            prefix: "Rp",
-        },
-        {
-            id: 7,
-            text: "Kamu akan investasi di produk yang return-nya",
-            subtext: "Dengan asumsi kamu akan menaruh uang tabunganmu pada instrumen investasi.\n\nSilakan masukkan data desimal dengan menggunakan titik, misal 5.75% atau 10.5%.\n\nContoh: Kamu ingin menaruh uangmu di RDPT X pada aplikasi Y, dan dituliskan bahwa return per-tahunnya adalah 5%, maka isikan angka 5 pada kolom di bawah",
-            type: "number",
-            suffix: "% / tahun",
         },
     ];
 
@@ -98,10 +74,11 @@ const ItemPurchaseForm = () => {
         const yearsUntilPurchase = Number(answers[1]);
         const currentPrice = Number(answers[2]);
         const downPaymentPercentage = Number(answers[3]) / 100;
-        const inflationRate = Number(answers[4]) / 100;
-        const currentSavings = Number(answers[5]);
-        const monthlyInvestment = Number(answers[6]);
-        const returnRate = Number(answers[7]) / 100;
+        const currentSavings = Number(answers[4]);
+
+        const inflationRate = Number("4") / 100;
+        const returnRate = Number("6") / 100;
+        const monthlyReturnRate = returnRate / 12;
 
         // Calculate future vehicle price with inflation
         const futurePrice = currentPrice * Math.pow(1 + inflationRate, yearsUntilPurchase);
@@ -113,24 +90,14 @@ const ItemPurchaseForm = () => {
         const loanAmount = futurePrice - requiredDownPayment;
 
         // Calculate future value of current savings
-        const futureSavings = currentSavings * Math.pow(1 + returnRate, yearsUntilPurchase);
-
-        // Calculate future value of monthly investments
-        const monthlyReturn = returnRate / 12;
-        const months = yearsUntilPurchase * 12;
-        const futureInvestments = monthlyInvestment * ((Math.pow(1 + monthlyReturn, months) - 1) / monthlyReturn);
-
-        const totalProjectedSavings = futureSavings + futureInvestments;
+        const totalProjectedSavings = currentSavings * Math.pow(1 + returnRate, yearsUntilPurchase);
 
         // Calculate if savings will meet down payment
         const isDownPaymentMet = totalProjectedSavings >= requiredDownPayment;
 
-        // Calculate additional monthly investment needed if there's a gap
-        let additionalMonthlyNeeded = 0;
-        if (!isDownPaymentMet) {
-            const gap = requiredDownPayment - totalProjectedSavings;
-            additionalMonthlyNeeded = gap * (monthlyReturn) / (Math.pow(1 + monthlyReturn, months) - 1);
-        }
+        // Calculate total amount you need to save each month to be able to purchase
+        const futureAmountToSave = (futurePrice - totalProjectedSavings)
+        const totalAmountToSaveMonthly = (futureAmountToSave * monthlyReturnRate) / ((Math.pow(1 + monthlyReturnRate, yearsUntilPurchase) - 1) * (1 + monthlyReturnRate))
 
         return {
             futurePrice,
@@ -138,8 +105,9 @@ const ItemPurchaseForm = () => {
             loanAmount,
             totalProjectedSavings,
             isDownPaymentMet,
-            additionalMonthlyNeeded,
-            gap: Math.max(0, requiredDownPayment - totalProjectedSavings)
+            futureAmountToSave,
+            totalAmountToSaveMonthly,
+            downPaymentGap: Math.max(0, requiredDownPayment - totalProjectedSavings)
         };
     };
 
@@ -173,7 +141,7 @@ const ItemPurchaseForm = () => {
                 <div>
                     <FormHeader
                         href={"/"}
-                        title={"Perencanaan Pembelian Kendaraan"}
+                        title={"Perencanaan Pembelian Barang"}
                         currentStep={currentStep}
                         totalSteps={totalSteps}
                     />
@@ -199,125 +167,109 @@ const ItemPurchaseForm = () => {
                         currentStep={totalSteps}
                         totalSteps={totalSteps}
                     />
-                    <div className="p-6">
-                        <div className="bg-white rounded-xl p-6 shadow-lg">
-                            <div
-                                className={`
-                                    p-8 rounded-2xl bg-gradient-to-br
-                                    transform transition-all duration-500
-                                    hover:scale-[1.02] hover:shadow-2xl
-                                    text-white relative overflow-hidden
-                                    mb-8
-                                `}
-                                style={{
-                                    background: "linear-gradient(135deg, #252E64 50%, #12174F 100%)"
-                                }}
-                            >
-                                <h3 className="text-2xl mb-6">Hasil Perhitungan Dana Kendaraan</h3>
+                    <div className="p-5">
+                        <div
+                            className={`
+                                p-8 rounded-2xl bg-gradient-to-br
+                                transform 
+                                text-white relative overflow-hidden
+                                mb-8
+                            `}
+                            style={{
+                                background: "linear-gradient(135deg, #252E64 50%, #12174F 90%)"
+                            }}
+                        >
+                            <h3 className="text-3xl mb-6">Hasil Perhitungan Dana Kendaraan</h3>
 
-                                {/* Vehicle Cost Analysis */}
-                                <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
-                                    <h4 className="text-xl mb-4">Analisis Biaya Kendaraan</h4>
-                                    <div className="space-y-2">
-                                        <div className="flex justify-between">
-                                            <span>Harga Kendaraan Saat Ini</span>
-                                            <span>{`Rp${formatNumber(answers[2])}`}</span>
-                                        </div>
-                                        {isResultReady && (() => {
-                                            const results = calculateResults();
-                                            return (
-                                                <>
-                                                    <div className="flex justify-between">
-                                                        <span>Proyeksi Harga Kendaraan</span>
-                                                        <span>{`Rp${formatNumber(Math.round(results.futurePrice))}`}</span>
-                                                    </div>
-                                                    <div className="flex justify-between">
-                                                        <span>Down Payment yang Dibutuhkan</span>
-                                                        <span>{`Rp${formatNumber(Math.round(results.requiredDownPayment))}`}</span>
-                                                    </div>
-                                                    <div className="flex justify-between">
-                                                        <span>Jumlah KKB yang Dibutuhkan</span>
-                                                        <span>{`Rp${formatNumber(Math.round(results.loanAmount))}`}</span>
-                                                    </div>
-                                                </>
-                                            );
-                                        })()}
+                            {/* Vehicle Cost Analysis */}
+                            <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
+                                <h4 className="text-2xl mb-4">Analisis Biaya Kendaraan</h4>
+                                <div className="space-y-2">
+                                    <div className="flex justify-between">
+                                        <span>Harga kendaraan saat ini</span>
+                                        <span>{`Rp${formatNumber(answers[2])}`}</span>
                                     </div>
-                                </div>
-
-                                {/* Savings Progress */}
-                                <div className="bg-[#3A4356] rounded-lg p-4 mb-4">
-                                    <h4 className="text-xl mb-4">Progress Tabungan</h4>
-                                    <div className="space-y-2">
-                                        <div className="flex justify-between">
-                                            <span>Dana Saat Ini</span>
-                                            <span>{`Rp${formatNumber(answers[5])}`}</span>
-                                        </div>
-                                        <div className="flex justify-between">
-                                            <span>Target Investasi Bulanan</span>
-                                            <span>{`Rp${formatNumber(answers[6])}`}</span>
-                                        </div>
-                                        {isResultReady && (() => {
-                                            const results = calculateResults();
-                                            return (
-                                                <>
-                                                    <div className="flex justify-between">
-                                                        <span>Proyeksi Dana Terkumpul</span>
-                                                        <span>{`Rp${formatNumber(Math.round(results.totalProjectedSavings))}`}</span>
-                                                    </div>
-                                                    <div className="flex justify-between">
-                                                        <span>Gap dengan Target DP</span>
-                                                        <span className={results.isDownPaymentMet ? "text-green-400" : "text-red-400"}>
-                                                            {results.isDownPaymentMet
-                                                                ? "Dana Mencukupi"
-                                                                : `Rp${formatNumber(Math.round(results.gap))}`}
-                                                        </span>
-                                                    </div>
-                                                </>
-                                            );
-                                        })()}
-                                    </div>
-                                </div>
-
-                                {/* Recommendation Section */}
-                                {isResultReady && (() => {
-                                    const results = calculateResults();
-                                    return (
-                                        <div className="bg-[#1E2432] rounded-lg p-4">
-                                            <h4 className="text-xl mb-4">Rekomendasi</h4>
-                                            <div className="space-y-2">
+                                    {isResultReady && (() => {
+                                        const results = calculateResults();
+                                        return (
+                                            <>
                                                 <div className="flex justify-between">
-                                                    <span>Status Target</span>
+                                                    <span>Proyeksi harga kendaraan {answers[1]} tahun lagi</span>
+                                                    <span>{`Rp${formatNumber(Math.round(results.futurePrice))}`}</span>
+                                                </div>
+                                                <div className="flex justify-between">
+                                                    <span>Proyeksi total DP yang dibutuhkan</span>
+                                                    <span>{`Rp${formatNumber(Math.round(results.requiredDownPayment))}`}</span>
+                                                </div>
+                                                <div className="flex justify-between">
+                                                    <span>Proyeksi jumlah KKB yang dibutuhkan</span>
+                                                    <span>{`Rp${formatNumber(Math.round(results.loanAmount))}`}</span>
+                                                </div>
+                                            </>
+                                        );
+                                    })()}
+                                </div>
+                            </div>
+
+                            {/* Savings Progress */}
+                            <div className="bg-[#3A4356] rounded-lg p-4 mb-4">
+                                <h4 className="text-2xl mb-4">Progress Tabungan</h4>
+                                <div className="space-y-2">
+                                    <div className="flex justify-between">
+                                        <span>Dana yang sudah terkumpul</span>
+                                        <span>{`Rp${formatNumber(answers[4])}`}</span>
+                                    </div>
+                                    {isResultReady && (() => {
+                                        const results = calculateResults();
+                                        return (
+                                            <>
+                                                <div className="flex justify-between">
+                                                    <span>Gap dengan target DP</span>
                                                     <span className={results.isDownPaymentMet ? "text-green-400" : "text-red-400"}>
                                                         {results.isDownPaymentMet
-                                                            ? "Target Tercapai"
-                                                            : "Target Belum Tercapai"}
+                                                            ? "Dana Mencukupi"
+                                                            : `Rp${formatNumber(Math.round(results.downPaymentGap))}`
+                                                        }
                                                     </span>
                                                 </div>
-                                                {!results.isDownPaymentMet && (
-                                                    <div className="flex justify-between">
-                                                        <span>Tambahan Investasi Bulanan yang Diperlukan</span>
-                                                        <span>{`Rp${formatNumber(Math.round(results.additionalMonthlyNeeded))}`}</span>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </div>
-                                    );
-                                })()}
+                                            </>
+                                        );
+                                    })()}
+                                </div>
                             </div>
 
-                            <div className="flex justify-between mt-2">
-                                <button
-                                    onClick={() => setCurrentStep(prev => Math.max(prev - 1, 1))}
-                                    className="rounded-lg"
-                                    style={{
-                                        color: "#A51246",
-                                        display: currentStep === 1 ? "none" : "block"
-                                    }}
-                                >
-                                    Kembali ke pertanyaan sebelumnya
-                                </button>
-                            </div>
+                            {/* Recommendation Section */}
+                            {isResultReady && (() => {
+                                const results = calculateResults();
+                                return (
+                                    <div className="bg-[#1E2432] rounded-lg p-4">
+                                        <h4 className="text-2xl mb-4">Rekomendasi</h4>
+                                        <div className="space-y-2">
+                                            <div className="flex justify-between">
+                                                <span>Total uang yang harus ditabung hingga {answers[1]} tahun lagi</span>
+                                                <span>{`Rp${formatNumber(Math.round(results.futureAmountToSave))}`}</span>
+                                            </div>
+                                            <div className="flex justify-between">
+                                                <span>Total uang yang harus ditabung setiap akhir bulan (per bulan ini)</span>
+                                                <span>{`Rp${formatNumber(Math.round(results.totalAmountToSaveMonthly))}`}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })()}
+                        </div>
+
+                        <div className="flex justify-between mt-2">
+                            <button
+                                onClick={() => setCurrentStep(prev => Math.max(prev - 1, 1))}
+                                className="rounded-lg"
+                                style={{
+                                    color: "#A51246",
+                                    display: currentStep === 1 ? "none" : "block"
+                                }}
+                            >
+                                Kembali ke pertanyaan sebelumnya
+                            </button>
                         </div>
                     </div>
                 </div>

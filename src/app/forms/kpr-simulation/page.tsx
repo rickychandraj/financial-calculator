@@ -86,6 +86,28 @@ const KPRSimulationForm = () => {
         }
     };
 
+    const calculateResults = () => {
+        const totalCostNeeded = Number(answers[1]);
+        const downPaymentPercentage = Number(answers[2]) / 100;
+        const totalYearsTenor = Number(answers[3]);
+        const kprInterestRate = Number(answers[4]) / 100;
+        const monthlyIncome = Number(answers[5]);
+        const monthlyExpense = Number[answers[6]];
+        const monthlySavings = Math.max(0, monthlyIncome - monthlyExpense);
+
+
+
+        // Calculate required down payment
+        const requiredDownPayment = totalCostNeeded * downPaymentPercentage;
+
+        return {
+            totalYearsTenor,
+            totalCostNeeded,
+            requiredDownPayment,
+            monthlySavings,
+        }
+    }
+
     const handleGetResult = () => {
         setCurrentStep(prev => prev + 1);
     };
@@ -97,6 +119,15 @@ const KPRSimulationForm = () => {
 
     const handleIsNextButtonDisabled = (questionId) => {
         return !answers[questionId];
+    };
+
+    const formatNumber = (num) => {
+        const cleanNum = num.toString().replace(/[^\d.]/g, '');
+        const [integerPart, decimalPart] = cleanNum.split('.');
+        const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        return decimalPart !== undefined
+            ? `${formattedInteger}.${decimalPart}`
+            : formattedInteger;
     };
 
     return (
@@ -111,7 +142,7 @@ const KPRSimulationForm = () => {
                 <div>
                     <FormHeader
                         href={"/"}
-                        title={"Simulasi KPR"}
+                        title={"Perhitungan Simulasi KPR"}
                         currentStep={currentStep}
                         totalSteps={totalSteps}
                     />
@@ -133,89 +164,94 @@ const KPRSimulationForm = () => {
                 <div>
                     <FormHeader
                         href={"/"}
-                        title={"Simulasi KPR"}
+                        title={"Perhitungan Simulasi KPR"}
                         currentStep={totalSteps}
                         totalSteps={totalSteps}
                     />
-                    <div className="p-6">
-                        <div className="bg-white rounded-xl p-6 shadow-lg">
-                            <div
-                                className="relative p-8 rounded-2xl bg-gradient-to-br transform transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl text-white overflow-hidden mb-8"
+                    <div className="p-5">
+                        <div
+                            className="relative p-8 rounded-2xl bg-gradient-to-br transform text-white overflow-hidden mb-8"
+                            style={{
+                                background: "linear-gradient(135deg, #252E64 50%, #12174F 90%)"
+                            }}
+                        >
+                            {isResultReady && (() => {
+                                const results = calculateResults();
+                                return (
+                                    <>
+                                        {/* Loan Summary */}
+                                        <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
+                                            <h4 className="text-2xl mb-4">Ringkasan KPR</h4>
+                                            <div className="space-y-2">
+                                                <div className="flex justify-between">
+                                                    <span>Harga properti</span>
+                                                    <span>{`Rp ${formatNumber(results.totalCostNeeded)}`}</span>
+                                                </div>
+                                                <div className="flex justify-between">
+                                                    <span>Total DP</span>
+                                                    <span>{`Rp ${formatNumber(results.requiredDownPayment)}`}</span>
+                                                </div>
+                                                <div className="flex justify-between">
+                                                    <span>Tenor pembayaran</span>
+                                                    <span>{`${results.totalYearsTenor} tahun`}</span>
+                                                </div>
+                                                <div className="flex justify-between">
+                                                    <span>Total uang yang bisa disimpan setiap tahun</span>
+                                                    <span>{`${results.monthlySavings} / tahun`}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Monthly Payments */}
+                                        <div className="bg-[#3A4356] rounded-lg p-4 mb-4">
+                                            <h4 className="text-2xl mb-4">Progress Tabungan</h4>
+                                            <div className="space-y-2">
+                                                <div className="flex justify-between">
+                                                    <span>Total Cicilan</span>
+                                                    <span>Rp XXXXXXXX</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Additional Costs */}
+                                        <div className="bg-[#1E2432] rounded-lg p-4">
+                                            <h4 className="text-2xl mb-4">Biaya Tambahan</h4>
+                                            <div className="space-y-2">
+                                                <div className="flex justify-between">
+                                                    <span>Total Biaya</span>
+                                                    <span>Rp XXXXXXXX</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </>
+                                );
+                            })()}
+
+                            {/* Overlay with CTA */}
+                            {/*<div className="absolute inset-0 flex flex-col items-center justify-center bg-black/50 rounded-2xl">*/}
+                            {/*    <p className="text-center text-white text-lg mb-6 px-4">*/}
+                            {/*        Lihat hasil simulasi KPR lengkap dan analisis kemampuan finansialmu*/}
+                            {/*    </p>*/}
+                            {/*    <a*/}
+                            {/*        href="/kpr-results"*/}
+                            {/*        className="bg-[#A51246] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#8A0F3D] transition-colors"*/}
+                            {/*    >*/}
+                            {/*        Lihat Hasil Lengkap*/}
+                            {/*    </a>*/}
+                            {/*</div>*/}
+                        </div>
+
+                        <div className="flex justify-between mt-2">
+                            <button
+                                onClick={() => setCurrentStep(prev => Math.max(prev - 1, 1))}
+                                className="rounded-lg"
                                 style={{
-                                    background: "linear-gradient(135deg, #252E64 50%, #12174F 100%)"
+                                    color: "#A51246",
+                                    display: currentStep === 1 ? "none" : "block"
                                 }}
                             >
-                                <div className="blur-[8px] pointer-events-none">
-                                    {isResultReady && (() => {
-                                        return (
-                                            <>
-                                                {/* Loan Summary */}
-                                                <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
-                                                    <h4 className="text-xl mb-4">Ringkasan KPR</h4>
-                                                    <div className="space-y-2">
-                                                        <div className="flex justify-between">
-                                                            <span>Harga Properti</span>
-                                                            <span>Rp XXXXXXXX</span>
-                                                        </div>
-                                                        <div className="flex justify-between">
-                                                            <span>Down Payment</span>
-                                                            <span>Rp XXXXXXXX</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                {/* Monthly Payments */}
-                                                <div className="bg-[#3A4356] rounded-lg p-4 mb-4">
-                                                    <h4 className="text-xl mb-4">Cicilan per Bulan</h4>
-                                                    <div className="space-y-2">
-                                                        <div className="flex justify-between">
-                                                            <span>Total Cicilan</span>
-                                                            <span>Rp XXXXXXXX</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                {/* Additional Costs */}
-                                                <div className="bg-[#1E2432] rounded-lg p-4">
-                                                    <h4 className="text-xl mb-4">Biaya Tambahan</h4>
-                                                    <div className="space-y-2">
-                                                        <div className="flex justify-between">
-                                                            <span>Total Biaya</span>
-                                                            <span>Rp XXXXXXXX</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </>
-                                        );
-                                    })()}
-                                </div>
-
-                                {/* Overlay with CTA */}
-                                <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/50 rounded-2xl">
-                                    <p className="text-center text-white text-lg mb-6 px-4">
-                                        Lihat hasil simulasi KPR lengkap dan analisis kemampuan finansialmu
-                                    </p>
-                                    <a
-                                        href="/kpr-results"
-                                        className="bg-[#A51246] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#8A0F3D] transition-colors"
-                                    >
-                                        Lihat Hasil Lengkap
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div className="flex justify-between mt-2">
-                                <button
-                                    onClick={() => setCurrentStep(prev => Math.max(prev - 1, 1))}
-                                    className="rounded-lg"
-                                    style={{
-                                        color: "#A51246",
-                                        display: currentStep === 1 ? "none" : "block"
-                                    }}
-                                >
-                                    Kembali ke pertanyaan sebelumnya
-                                </button>
-                            </div>
+                                Kembali ke pertanyaan sebelumnya
+                            </button>
                         </div>
                     </div>
                 </div>
