@@ -778,6 +778,7 @@ const CoupleTestForm = () => {
                                 <h2 className="text-xl font-semibold my-2 mt-12" style={{ color: "#12174F" }}>Apa kepribadian pasangan kamu?</h2>
                                 {partnerPersonalityOptions.map((option, optIndex) => (
                                     <div
+                                        key={optIndex}
                                         className="p-4 my-4 rounded-lg cursor-pointer"
                                         style={{
                                             border: "1px solid rgba(165, 18, 70, 0.2)",
