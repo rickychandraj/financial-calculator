@@ -4,13 +4,34 @@ import React, { Suspense, useEffect, useState } from "react";
 import FormHeader from "@/components/ui/form-header";
 import FormQuestionCards from "@/components/ui/form-question-card";
 import { useSearchParams } from "next/navigation";
-import { DESCRIPTION, MAPPINGS } from "@/app/forms/couple-test/constants";
+import {
+    DESCRIPTION,
+    MAPPINGS,
+    REVERSE_MAPPINGS,
+    SIMULATION_RESULT,
+    CONFLICT_RESULT,
+    SUGGESTION_RESULT,
+    MOST_MATCH_MAPPINGS,
+} from "@/app/forms/couple-test/constants";
+import {ArrowLeft} from "lucide-react";
 
 
 const CoupleTestForm = () => {
     const searchParams = useSearchParams();
     const resultParam = searchParams.get("code");
+    const [isCheckingMatchScore, setIsCheckingMatchScore] = useState(false);
     const [resultQueryParam, _] = useState(resultParam);
+
+    const [partnerPersonality, setPartnerPersonality] = useState(null);
+    const partnerPersonalityOptions = [
+        {value: "Economizer", display: "Economizer"},
+        {value: "Diligent", display: "Diligent"},
+        {value: "Binger", display: "Binger"},
+        {value: "Orderly", display: "Orderly"},
+        {value: "Can't Control Finance", display: "Can't Control Finance"},
+        {value: "Planner", display: "Planner"},
+        {value: "Ups and Downs", display: "Ups and Downs"},
+    ]
 
     const [currentStep, setCurrentStep] = useState(1);
     const [resultPersona, setResultPersona] = useState(null);
@@ -646,6 +667,10 @@ const CoupleTestForm = () => {
         return !answers[questionId];
     };
 
+    const handlePartnerPersonalityChange = (value) => {
+        setPartnerPersonality(value);
+    }
+
     return (
         <div
             className="w-full max-w-3xl mx-auto min-h-screen"
@@ -689,40 +714,13 @@ const CoupleTestForm = () => {
                             const results = calculateResults();
                             return (
                                 <>
-                                    <div className={`
-                                        p-8 rounded-2xl bg-gradient-to-br
-                                        transform
-                                        text-white relative overflow-hidden
-                                        mb-8
-                                    `}
-                                        style={{
-                                            background: "linear-gradient(135deg, #252E64 50%, #12174F 90%)"
-                                        }}
-                                    >
-                                        <div className="pointer-events-none">
-                                            <div className="bg-[#3A4356] rounded-lg p-4 mb-4">
-                                                <div className="space-y-2">
-                                                    {resultPersona && (() => {
-                                                        const results = calculateResults();
-                                                        return (
-                                                            <>
-                                                                <div className="flex">
-                                                                    <span>Personality finansial kamu adalah <span style={{fontWeight: 700}}>{results.financePersona}</span>!</span>
-                                                                </div>
-                                                            </>
-                                                        )
-                                                    })()}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                     {/*Overlay with CTA*/}
-                                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/50 rounded-2xl">
-                                        <p className="text-center text-white text-lg mb-6 px-4">
+                                    <div className="absolute inset-0 bg-black/60 backdrop-blur-md backdrop-brightness-50 flex flex-col items-center justify-center bg-black/50 rounded-2xl">
+                                        <p className="text-center text-white text-md mb-6 px-4">
                                             Kamu harus mengisi beberapa data terlebih dahulu untuk melihat hasil lengkap tes ini
                                         </p>
                                         <a
-                                            href={`/${results.financePersona}`}
+                                            href={`https://tribelio.page/couple-test-${REVERSE_MAPPINGS[results.financePersona]}/`}
                                             className="bg-[#A51246] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#8A0F3D] transition-colors"
                                         >
                                             Lihat Hasil Lengkap
@@ -736,7 +734,7 @@ const CoupleTestForm = () => {
             )}
 
             {
-                resultQueryParam && (
+                resultQueryParam && !isCheckingMatchScore && (
                     <>
                         <div>
                             <FormHeader
@@ -773,11 +771,161 @@ const CoupleTestForm = () => {
                                             <div className="flex">
                                                 <span className="font-semibold">Kamu paling cocok berpasangan dengan</span>
                                             </div>
-                                            <ol className="list-disc ml-6 space-y-2">
-                                                <li className="flex">Binger</li>
-                                                <li className="flex">Economizer</li>
-                                                <li className="flex">Can't Control Finance</li>
-                                            </ol>
+                                            {MOST_MATCH_MAPPINGS[MAPPINGS[resultQueryParam]]}
+                                        </div>
+                                    </div>
+                                </div>
+                                <h2 className="text-xl font-semibold my-2 mt-12" style={{ color: "#12174F" }}>Apa kepribadian pasangan kamu?</h2>
+                                {partnerPersonalityOptions.map((option, optIndex) => (
+                                    <div
+                                        className="p-4 my-4 rounded-lg cursor-pointer"
+                                        style={{
+                                            border: "1px solid rgba(165, 18, 70, 0.2)",
+                                            background: partnerPersonality === option.value
+                                                ? "linear-gradient(135deg, rgba(165, 18, 70, 0.1), rgba(183, 30, 84, 0.1))"
+                                                : "white"
+                                        }}
+                                        onClick={() => handlePartnerPersonalityChange(option.value)}
+                                    >
+                                        <span style={{ color: "#252E64" }}>{option.display}</span>
+                                    </div>
+                                ))}
+                                <button
+                                    onClick={() => setIsCheckingMatchScore(true)}
+                                    className="px-6 py-2 rounded-lg text-white"
+                                    disabled={partnerPersonality === null}
+                                    style={{
+                                        background: (
+                                            partnerPersonality === null
+                                                ? "#6c757d"
+                                                : "linear-gradient(135deg, #A51246, #B71E54)"
+                                        ),
+                                        marginLeft: "auto"
+                                    }}
+                                >
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
+                    </>
+                )
+            }
+
+            {
+                isCheckingMatchScore && (
+                    <>
+                        <div>
+                            <div style={{
+                                background: "linear-gradient(135deg, #A51246 0%, #B71E54 50%, #12174F 100%)",
+                                padding: "20px"
+                            }}>
+                                <div className="flex items-center text-white mb-4">
+                                    <div onClick={() => setIsCheckingMatchScore(false)}>
+                                        <ArrowLeft className="w-6 h-6 mr-2 cursor-pointer"/>
+                                    </div>
+                                    <h1 className="text-xl font-semibold">Hasil Tes Kecocokkan</h1>
+                                </div>
+
+                                {/* Progress Bar */}
+                                {currentStep && totalSteps && (
+                                    <>
+                                        <div className="w-full bg-white/20 rounded-full h-2">
+                                            <div
+                                                className="h-full rounded-full"
+                                                style={{
+                                                    width: `${(totalSteps/totalSteps) * 100}%`,
+                                                    background: "linear-gradient(to right, #fff, rgba(255,255,255,0.8))"
+                                                }}
+                                            />
+                                        </div>
+                                        <p className="text-white/90 text-sm mt-2">Pertanyaan {totalSteps} dari {totalSteps}</p>
+                                    </>
+                                )}
+                            </div>
+                            <div className="p-5">
+                                <div
+                                    className={`
+                                        p-8 rounded-2xl bg-gradient-to-br
+                                        transform
+                                        text-white relative overflow-hidden
+                                        mb-8
+                                    `}
+                                    style={{
+                                        background: "linear-gradient(135deg, #252E64 50%, #12174F 90%)"
+                                    }}
+                                >
+                                    <div className="bg-[#3A4356] rounded-lg p-4 mb-4">
+                                        <div className="space-y-2">
+                                            <div className="flex">
+                                                <span className="font-semibold"><span className={"text-green-300 font-semibold"}>{MAPPINGS[resultQueryParam]}</span> x <span className={"text-green-300 font-semibold"}>{partnerPersonality}</span></span>
+                                            </div>
+                                            <div className="flex">
+                                                <span>Berikut simulasi dan analisis kecocokan <span className={"text-green-300 font-semibold"}>{MAPPINGS[resultQueryParam]}</span> jika berpasangan dengan <span className={"text-green-300 font-semibold"}>{partnerPersonality}</span>:</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <h1 className="text-xl font-semibold mb-4 mt-8">Simulasi</h1>
+                                    <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
+                                        <div className="space-y-2">
+                                            <div className="flex">
+                                                <span className="text-gray-300 font-bold">Ekonomi dan Gaya Hidup</span>
+                                            </div>
+                                            <div className="flex">
+                                                <span className="text-white-400 font-semibold">{SIMULATION_RESULT[`${MAPPINGS[resultQueryParam]} x ${partnerPersonality}`]["lifestyle"]}</span>
+                                            </div>
+                                            <div className="flex pt-8">
+                                                <span className="text-gray-300 font-bold">Pengelolaan Keuangan</span>
+                                            </div>
+                                            <div className="flex">
+                                                <span className="text-white-400 font-semibold">{SIMULATION_RESULT[`${MAPPINGS[resultQueryParam]} x ${partnerPersonality}`]["moneyManagement"]}</span>
+                                            </div>
+                                            <div className="flex pt-8">
+                                                <span className="text-gray-300 font-bold">Target Masa Depan</span>
+                                            </div>
+                                            <div className="flex">
+                                                <span className="text-white-400 font-semibold">{SIMULATION_RESULT[`${MAPPINGS[resultQueryParam]} x ${partnerPersonality}`]["futureTarget"]}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <h1 className="text-xl font-semibold mb-4 mt-8">Potensi Konflik</h1>
+                                    <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
+                                        <div className="space-y-2">
+                                            <div className="flex">
+                                                <span className="text-gray-300 font-bold">{CONFLICT_RESULT[`${MAPPINGS[resultQueryParam]} x ${partnerPersonality}`]["firstConflictTitle"]}</span>
+                                            </div>
+                                            <div className="flex">
+                                                <span className="text-white-400 font-semibold">{CONFLICT_RESULT[`${MAPPINGS[resultQueryParam]} x ${partnerPersonality}`]["firstConflictDescription"]}</span>
+                                            </div>
+                                            <div className="flex pt-8">
+                                                <span className="text-gray-300 font-bold">{CONFLICT_RESULT[`${MAPPINGS[resultQueryParam]} x ${partnerPersonality}`]["secondConflictTitle"]}</span>
+                                            </div>
+                                            <div className="flex">
+                                                <span className="text-white-400 font-semibold">{CONFLICT_RESULT[`${MAPPINGS[resultQueryParam]} x ${partnerPersonality}`]["secondConflictDescription"]}</span>
+                                            </div>
+                                            <div className="flex pt-8">
+                                                <span className="text-gray-300 font-bold">{CONFLICT_RESULT[`${MAPPINGS[resultQueryParam]} x ${partnerPersonality}`]["thirdConflictTitle"]}</span>
+                                            </div>
+                                            <div className="flex">
+                                                <span className="text-white-400 font-semibold">{CONFLICT_RESULT[`${MAPPINGS[resultQueryParam]} x ${partnerPersonality}`]["thirdConflictDescription"]}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <h1 className="text-xl font-semibold mb-4 mt-8">Saran</h1>
+                                    <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
+                                        <div className="space-y-2">
+                                            {SUGGESTION_RESULT[`${MAPPINGS[resultQueryParam]} x ${partnerPersonality}`].map((item, index) => (
+                                                <div key={index}>
+                                                    <div className="flex">
+                                                        <span className="text-gray-300 font-bold">{item.title}</span>
+                                                    </div>
+                                                    <div className="flex pb-8">
+                                                        {item.description}
+                                                    </div>
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>

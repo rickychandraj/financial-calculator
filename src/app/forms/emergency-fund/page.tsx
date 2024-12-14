@@ -10,6 +10,7 @@ import CurrencyInput from "@/components/ui/currency-input";
 const FinancialAuditForm = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [emergencyFund, setEmergencyFund] = useState("");
+    const [minEmergencyFund, setMinEmergencyFund] = useState(0);
     const [isResultReady, setIsResultReady] = useState(false);
     const [answers, setAnswers] = useState({
         1: null, // total income
@@ -36,6 +37,7 @@ const FinancialAuditForm = () => {
             text: "Berapa jumlah tanggungan kamu setiap bulan?",
             subtext: "Berapa banyak orang yang bergantung pada penghasilanmu? Contoh : orang tua",
             type: "number",
+            suffix: "orang",
             placeholder: "Contoh: 2",
         },
         {
@@ -121,9 +123,11 @@ const FinancialAuditForm = () => {
             if (isSandwichGeneration) {
                 // Single, sandwich generation
                 setEmergencyFund(`Rp${formatNumber(monthlyIncome * 3)} - Rp${formatNumber(monthlyIncome * 6)}`)
+                setMinEmergencyFund(monthlyIncome * 3)
             } else {
                 // Single, non-sandwich generation
                 setEmergencyFund(`Rp${formatNumber(monthlyExpense * 3)} - Rp${formatNumber(Math.max(monthlyExpense * 6, monthlyIncome * 3))}`)
+                setMinEmergencyFund(monthlyIncome * 3)
             }
         }
 
@@ -132,19 +136,23 @@ const FinancialAuditForm = () => {
                 // Nikah, sudah punya anak, sandwich generation (9x gaji bulanan - 12x gaji bulanan)
                 if (isSandwichGeneration || isPartnerSandwichGeneration) {
                     setEmergencyFund(`Rp${formatNumber(monthlyIncome * 9)} - Rp${formatNumber(monthlyIncome * 12)}`);
+                    setMinEmergencyFund(monthlyIncome * 9)
                 }
                 // Nikah, sudah punya anak, non-sandwich generation (6x gaji bulanan - 9x gaji bulanan)
                 else {
                     setEmergencyFund(`Rp${formatNumber(monthlyIncome * 6)} - Rp${formatNumber(monthlyIncome * 9)}`);
+                    setMinEmergencyFund(monthlyIncome * 6)
                 }
             } else {
                 // Nikah, belum punya anak, sandwich generation (6x pengeluaran bulanan - 9x pengeluaran bulanan)
                 if (isSandwichGeneration || isPartnerSandwichGeneration) {
                     setEmergencyFund(`Rp${formatNumber(monthlyExpense * 6)} - Rp${formatNumber(monthlyExpense * 9)}`);
+                    setMinEmergencyFund(monthlyIncome * 6)
                 }
                 // Nikah, belum punya anak, non-sandwich generation (6x pengeluaran bulanan - 6x pengeluaran bulanan)
                 else {
                     setEmergencyFund(`Rp${formatNumber(monthlyExpense * 6)} - Rp${formatNumber(monthlyExpense * 6)}`);
+                    setMinEmergencyFund(monthlyIncome * 6)
                 }
             }
         }
@@ -206,14 +214,84 @@ const FinancialAuditForm = () => {
             !(answers[questionId]) ||
             // Sudah menikah, tapi belum jawab pertanyaan tambahannya
             questionId === 3
-            && answers[questionId] === "yes"
-            && !(
-                answers[questionId]
-                && answers[100]
-                && answers[101]
-                && answers[102]
+            && (
+                (
+                    answers[questionId] === "married"
+                    && !(
+                        answers[questionId]
+                        && answers[100]
+                        && answers[101]
+                        && answers[102]
+                    )
+                )
+                || (
+                    answers[questionId] === "divorced"
+                    && !(answers[questionId] && answers[100])
+                )
+                || (
+                    answers[questionId] === "widowed"
+                    && !(answers[questionId] && answers[100])
+                )
             )
         )
+    }
+
+    const calculateResults = () => {
+        const monthlyIncome = answers[1] ? Number(answers[1]) : null;
+        const totalDependents = answers[2] ? Number(answers[2]) : null;
+        const status = answers[3] ? answers[3] : null;
+        const monthlyExpense = answers[4] ? Number(answers[4]) : null;
+        const currentEmergencyFund = answers[5] ? Number(answers[5]) : null;
+
+        const isSandwichGeneration = totalDependents ? Number(totalDependents) > 0 : null;
+
+        const totalKids = answers[100] ? Number(answers[100]) : 0;
+        const totalPartnerIncome = answers[101] ? Number(answers[101]) : 0;
+        const totalPartnerDependents = answers[102] ? Number(answers[102]) : 0;
+
+        const isPartnerSandwichGeneration = totalPartnerDependents && (totalPartnerDependents > 0);
+        const isHavingKids = totalKids && (totalKids > 0);
+
+        const totalMonthlyIncome = monthlyIncome + totalPartnerIncome;
+
+        let descriptionTemp = ""
+        let additionalDescription = ""
+
+        if (status == "single") {
+            if (isSandwichGeneration) {
+                descriptionTemp = "Dana darurat kamu sekurang-kurangnya 3-6x pendapatan bulanan kamu"
+            } else {
+                descriptionTemp = "Dana darurat kamu sekurang-kurangnya 3x pengeluaran bulanan - 3x pendapatan bulanan kamu. "
+                if (monthlyIncome < monthlyExpense) {
+                    additionalDescription = "Jumlah pemasukan per bulan kamu masih perlu ditingkatkan hingga sekurang-kurangnya sejumlah pengeluaran kamu per bulan."
+                }
+            }
+        } else {
+            if (isHavingKids) {
+                if (isSandwichGeneration) {
+                    descriptionTemp = "Dana darurat kamu sekurang-kurangnya 9-12x pendapatan bulanan kamu"
+                } else {
+                    descriptionTemp = "Dana darurat kamu sekurang-kurangnya 6-9x pendapatan bulanan kamu"
+                }
+            } else {
+                if (isSandwichGeneration) {
+                    descriptionTemp = "Dana darurat kamu sekurang-kurangnya 6x pengeluaran bulanan - 9x pendapatan bulanan kamu. "
+                    additionalDescription = "Jumlah pemasukan per bulan kamu masih perlu ditingkatkan hingga sekurang-kurangnya sejumlah pengeluaran kamu per bulan."
+                } else {
+                    descriptionTemp = "Dana darurat kamu sekurang-kurangnya 6x pengeluaran bulanan - 6x pendapatan bulanan kamu. "
+                    additionalDescription = "Jumlah pemasukan per bulan kamu masih perlu ditingkatkan hingga sekurang-kurangnya sejumlah pengeluaran kamu per bulan."
+                }
+            }
+        }
+
+        return {
+            description: (
+                <ul className="list-disc ml-6 space-y-1">
+                    <li>{descriptionTemp}</li>
+                    {additionalDescription && <li>{additionalDescription}</li>}
+                </ul>
+            )
+        }
     }
 
     return (
@@ -260,34 +338,76 @@ const FinancialAuditForm = () => {
                             totalSteps={totalSteps}
                         />
                         <div className="p-6">
-                            <div className="bg-white rounded-xl p-6 shadow-lg">
-                                <div
-                                    className={`
-                                        p-8 rounded-2xl bg-gradient-to-br
-                                        transform transition-all duration-500
-                                        hover:scale-[1.02] hover:shadow-2xl
-                                        text-white relative overflow-hidden
-                                        mb-8
-                                    `}
+                            <div
+                                className={`
+                                    p-8 rounded-2xl bg-gradient-to-br
+                                    transform
+                                    text-white relative overflow-hidden
+                                    mb-8
+                                `}
+                                style={{
+                                    background: "linear-gradient(135deg, #252E64 50%, #12174F 100%)"
+                                }}
+                            >
+                                <div className="bg-[#3A4356] rounded-lg p-4 mb-4">
+                                    <div className="space-y-2">
+                                        <h5 className="text-xl">Total dana darurat yang kamu butuhkan:</h5>
+                                        <h5 className="text-xl text-white/80 my-2 font-bold">{emergencyFund}</h5>
+                                    </div>
+                                </div>
+
+                                {/* Monthly Summary Preview */}
+                                <div className="bg-[#1E2432] rounded-lg p-4 mb-4 mt-8">
+                                    <h4 className="text-2xl mb-4">Ringkasan Keuangan</h4>
+                                    <div className="space-y-2">
+                                        <div className="flex justify-between">
+                                            <span>Total pemasukan per bulan</span>
+                                            <span>{`Rp${formatNumber(answers[1])}`}</span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span>Total pengeluaran per bulan</span>
+                                            <span>{`Rp${formatNumber(answers[4])}`}</span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span>Total jumlah dana darurat yang dimiliki saat ini</span>
+                                            <span>{`Rp${formatNumber(answers[5])}`}</span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span>Gap dengan dana darurat</span>
+                                            <span
+                                                className={answers[5] > minEmergencyFund ? "text-green-400 font-semibold" : "text-red-400 font-semibold"}
+                                            >
+                                                {answers[5] > minEmergencyFund ? "Dana Darurat Tercukupi" : `Kurang Rp${formatNumber(minEmergencyFund - answers[5])} lagi`}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="bg-[#1E2432] rounded-lg p-4 mb-4 mt-8">
+                                    <h4 className="text-2xl mb-4">Deskripsi</h4>
+                                    <div className="space-y-2">
+                                        {isResultReady && (() => {
+                                            const results = calculateResults();
+                                            return (
+                                                <div className="flex justify-between">
+                                                    <span>{results.description}</span>
+                                                </div>
+                                            )
+                                        })()}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="flex justify-between mt-2">
+                                <button
+                                    onClick={() => setCurrentStep(prev => Math.max(prev - 1, 1))}
+                                    className="rounded-lg"
                                     style={{
-                                        background: "linear-gradient(135deg, #252E64 50%, #12174F 100%)"
+                                        color: "#A51246",
+                                        display: currentStep === 1 ? "none" : "block"
                                     }}
                                 >
-                                    <h3 className="text-2xl">Total dana darurat yang kamu butuhkan:</h3>
-                                    <h3 className="text-2xl text-white/80 my-2 font-bold">{emergencyFund}</h3>
-                                </div>
-                                <div className="flex justify-between mt-2">
-                                    <button
-                                        onClick={() => setCurrentStep(prev => Math.max(prev - 1, 1))}
-                                        className="rounded-lg"
-                                        style={{
-                                            color: "#A51246",
-                                            display: currentStep === 1 ? "none" : "block"
-                                        }}
-                                    >
-                                        Kembali ke pertanyaan sebelumnya
-                                    </button>
-                                </div>
+                                    Kembali ke pertanyaan sebelumnya
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -306,6 +426,7 @@ const FinancialAuditForm = () => {
                             <NumberInput
                                 placeholder={"Contoh: 2"}
                                 value={answers[100] || ""}
+                                suffix={"orang"}
                                 onChange={(e) => handleInputChange(100, e.target.value)}
                             />
                             {answers[3] == "married" &&
@@ -328,6 +449,7 @@ const FinancialAuditForm = () => {
                                 <NumberInput
                                   placeholder={"Contoh: 2"}
                                   value={answers[102] || ""}
+                                  suffix={"orang"}
                                   onChange={(e) => handleInputChange(102, e.target.value)}
                                 />
                               </>
