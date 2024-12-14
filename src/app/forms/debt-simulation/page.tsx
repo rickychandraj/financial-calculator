@@ -231,8 +231,8 @@ const DebtSimulation = () => {
                                             <td className="text-white text-xs font-semibold"></td>
                                             <td className="text-white text-xs font-semibold">{`Rp${formatNumber(answers[2])}`}</td>
                                         </tr>
-                                        {simulationTable.map((item) => (
-                                        <tr className="bg-[#1E2432]">
+                                        {simulationTable.map((item, index) => (
+                                        <tr className="bg-[#1E2432]" key={index}>
                                             <td className="text-white text-xs font-semibold">{item.period}</td>
                                             <td className="text-white text-xs font-semibold">{`Rp${formatNumber(Math.round(Number(item.cicilanPerBulan)))}`}</td>
                                             <td className="text-white text-xs font-semibold">{`Rp${formatNumber(Math.round(Number(item.bungaPerBulan)))}`}</td>
