@@ -65,11 +65,15 @@ const DPPropertyForm = () => {
         const dpPercentage = Number(answers[3]) / 100;
         const currentSavings = Number(answers[4]);
 
+        const inflationRate = Number("4") / 100;
         const returnRate = Number("6") / 100;
         const monthlyReturnRate = returnRate / 12;
 
+        // Calculate future vehicle price with inflation
+        const futurePrice = propertyPrice * Math.pow(1 + inflationRate, yearsToCollect);
+
         // Calculate total DP needed
-        const totalDPNeeded = (propertyPrice * Math.pow(1 + returnRate, yearsToCollect)) * dpPercentage;
+        const totalDPNeeded = (propertyPrice * Math.pow(1 + inflationRate, yearsToCollect)) * dpPercentage;
 
         // Calculate future value of current savings
         const totalProjectedSavings = currentSavings * Math.pow(1 + returnRate, yearsToCollect);
@@ -78,11 +82,12 @@ const DPPropertyForm = () => {
         const gapToTarget = totalDPNeeded - totalProjectedSavings;
 
         const futureAmountToSave = (totalDPNeeded - totalProjectedSavings)
-        const totalAmountToSaveMonthly = (futureAmountToSave * monthlyReturnRate) / ((Math.pow(1 + monthlyReturnRate, yearsToCollect) - 1) * (1 + monthlyReturnRate))
+        const totalAmountToSaveMonthly = (futureAmountToSave * monthlyReturnRate) / ((Math.pow(1 + monthlyReturnRate, yearsToCollect * 12) - 1))
 
 
         return {
             dpNeeded: totalDPNeeded,
+            futurePrice,
             totalProjectedSavings,
             gapToTarget,
             futureAmountToSave,
@@ -125,7 +130,7 @@ const DPPropertyForm = () => {
                 <div>
                     <FormHeader
                         href={"/"}
-                        title={"Simulasi Dana DP Properti"}
+                        title={"Simulasi DP Properti"}
                         currentStep={currentStep}
                         totalSteps={totalSteps}
                     />
@@ -147,7 +152,7 @@ const DPPropertyForm = () => {
                 <div>
                     <FormHeader
                         href={"/"}
-                        title={"Simulasi Dana DP Properti"}
+                        title={"Simulasi DP Properti"}
                         currentStep={totalSteps}
                         totalSteps={totalSteps}
                     />
@@ -173,6 +178,10 @@ const DPPropertyForm = () => {
                                                     <span>{`Rp${formatNumber(answers[1])}`}</span>
                                                 </div>
                                                 <div className="flex justify-between">
+                                                    <span>Proyeksi harga properti {answers[2]} tahun lagi</span>
+                                                    <span>{`Rp${formatNumber(Math.round(results.futurePrice))}`}</span>
+                                                </div>
+                                                <div className="flex justify-between">
                                                     <span>Proyeksi total DP yang dibutuhkan {answers[2]} tahun lagi</span>
                                                     <span>{`Rp${formatNumber(Math.round(results.dpNeeded))}`}</span>
                                                 </div>
@@ -183,7 +192,11 @@ const DPPropertyForm = () => {
                                             <h4 className="text-2xl mb-4">Proyeksi {answers[2]} Tahun</h4>
                                             <div className="space-y-2">
                                                 <div className="flex justify-between">
-                                                    <span>Proyeksi nilai dana terkumpul</span>
+                                                    <span>Dana yang sudah terkumpul</span>
+                                                    <span>{`Rp${formatNumber(answers[4])}`}</span>
+                                                </div>
+                                                <div className="flex justify-between">
+                                                    <span>Proyeksi nilai dana yang sudah terkumpul {answers[2]} tahun lagi</span>
                                                     <span>{`Rp${formatNumber(Math.round(results.totalProjectedSavings))}`}</span>
                                                 </div>
                                                 <div className="flex justify-between">
@@ -198,17 +211,21 @@ const DPPropertyForm = () => {
                                             </div>
                                         </div>
 
-                                        <div className="bg-[#1E2432] rounded-lg p-4">
-                                            <h4 className="text-xl mb-4">Rekomendasi</h4>
-                                            <div className="flex justify-between">
-                                                <span>Total uang yang harus ditabung hingga {answers[2]} tahun lagi</span>
-                                                <span>{`Rp${formatNumber(Math.round(results.futureAmountToSave))}`}</span>
+                                        {!results.isTargetMet && (
+                                            <div className="bg-[#1E2432] rounded-lg p-4">
+                                                <h4 className="text-2xl mb-4">Rekomendasi</h4>
+                                                <div className="space-y-2">
+                                                    <div className="flex justify-between">
+                                                        <span>Total uang yang harus ditabung hingga {answers[2]} tahun lagi</span>
+                                                        <span>{`Rp${formatNumber(Math.round(results.futureAmountToSave))}`}</span>
+                                                    </div>
+                                                    <div className="flex justify-between">
+                                                        <span>Total uang yang harus ditabung setiap akhir bulan (per bulan ini)</span>
+                                                        <span>{`Rp${formatNumber(Math.round(results.totalAmountToSaveMonthly))}`}</span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div className="flex justify-between">
-                                                <span>Total uang yang harus ditabung setiap akhir bulan (per bulan ini)</span>
-                                                <span>{`Rp${formatNumber(Math.round(results.totalAmountToSaveMonthly))}`}</span>
-                                            </div>
-                                        </div>
+                                        )}
                                     </>
                                 );
                             })()}

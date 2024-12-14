@@ -34,32 +34,25 @@ const KPRSimulationForm = () => {
         },
         {
             id: 3,
-            text: "Berapa lama tenor KPR yang kamu inginkan?",
-            subtext: "Semakin lama tenor, semakin kecil cicilan bulanan tapi total bunga yang dibayar akan lebih besar",
-            type: "select",
-            options: [
-                {value: "5", display: "5 tahun"},
-                {value: "10", display: "10 tahun"},
-                {value: "15", display: "15 tahun"},
-                {value: "20", display: "20 tahun"},
-                {value: "25", display: "25 tahun"},
-                {value: "30", display: "30 tahun"},
-            ]
-        },
-        {
-            id: 4,
-            text: "Berapa perkiraan suku bunga KPR?",
-            subtext: "Rata-rata suku bunga KPR saat ini berkisar 5-12% per tahun. Silakan cek suku bunga bank yang kamu tuju",
-            type: "number",
-            suffix: "% / tahun"
-        },
-        {
-            id: 5,
             text: "Berapa penghasilan tetap kamu setiap bulan?",
             subtext: "Jumlah gaji atau pendapatan rutin bulanan sebelum dipotong pajak",
             type: "currency",
             prefix: "Rp",
             suffix: "/ bulan"
+        },
+        {
+            id: 4,
+            text: "Kamu mau KPR berapa lama?",
+            subtext: "Durasi kamu untuk melunasi seluruh peminjaman kamu ke bank",
+            type: "number",
+            suffix: "bulan",
+        },
+        {
+            id: 5,
+            text: "% bunga fix",
+            subtext: "Besaran bunga yang bersifat tetap / flat selama periode tertentu",
+            type: "number",
+            suffix: "%"
         },
         {
             id: 6,
@@ -68,7 +61,14 @@ const KPRSimulationForm = () => {
             type: "currency",
             prefix: "Rp",
             suffix: "/ bulan"
-        }
+        },
+        {
+            id: 7,
+            text: "% bunga floating",
+            subtext: "Besaran bunga yang bersifat tetap / flat selama periode tertentu",
+            type: "number",
+            suffix: "%"
+        },
     ];
 
     const totalSteps = questions.length;
@@ -95,12 +95,15 @@ const KPRSimulationForm = () => {
         const monthlyExpense = Number[answers[6]];
         const monthlySavings = Math.max(0, monthlyIncome - monthlyExpense);
 
+        const inflationRate = Number("4") / 100;
 
+        const futurePrice = totalCostNeeded * Math.pow(1 + inflationRate, totalYearsTenor);
 
         // Calculate required down payment
         const requiredDownPayment = totalCostNeeded * downPaymentPercentage;
 
         return {
+            futurePrice,
             totalYearsTenor,
             totalCostNeeded,
             requiredDownPayment,
@@ -184,8 +187,12 @@ const KPRSimulationForm = () => {
                                             <h4 className="text-2xl mb-4">Ringkasan KPR</h4>
                                             <div className="space-y-2">
                                                 <div className="flex justify-between">
-                                                    <span>Harga properti</span>
+                                                    <span>Harga properti saat ini</span>
                                                     <span>{`Rp ${formatNumber(results.totalCostNeeded)}`}</span>
+                                                </div>
+                                                <div className="flex justify-between">
+                                                    <span>Proyeksi harga properti {answers[2]} tahun lagi</span>
+                                                    <span>{`Rp${formatNumber(Math.round(results.futurePrice))}`}</span>
                                                 </div>
                                                 <div className="flex justify-between">
                                                     <span>Total DP</span>

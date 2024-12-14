@@ -97,7 +97,7 @@ const HolidayPlanningForm = () => {
         const isTargetMet = totalProjectedSavings >= totalFutureCost;
 
         const futureAmountToSave = (totalFutureCost - totalProjectedSavings)
-        const totalAmountToSaveMonthly = (futureAmountToSave * monthlyReturnRate) / ((Math.pow(1 + monthlyReturnRate, yearsUntilHoliday) - 1) * (1 + monthlyReturnRate))
+        const totalAmountToSaveMonthly = (futureAmountToSave * monthlyReturnRate) / ((Math.pow(1 + monthlyReturnRate, yearsUntilHoliday * 12) - 1))
 
         return {
             currentCostPerPerson: currentTripCost,

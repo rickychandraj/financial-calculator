@@ -3,7 +3,6 @@ import Link from "next/link";
 import {
     ArrowRight,
     BarChart,
-    Building,
     Building2,
     Car,
     CreditCard,
@@ -36,8 +35,8 @@ const Tools = () => {
         {
             id: 3,
             icon: CreditCard,
-            title: "Pelunasan Kartu Kredit",
-            href: "/forms/credit-card-simulation",
+            title: "Pelunasan Utang",
+            href: "/forms/debt-simulation",
         },
     ]
 
@@ -61,7 +60,7 @@ const Tools = () => {
         {
             id: 3,
             icon: GraduationCap,
-            title: "Dana Pendidikan Anak",
+            title: "Pendidikan Anak",
             description: "Investasi pendidikan",
             href: "/forms/education-fund",
             badge: "Hot",
@@ -74,23 +73,16 @@ const Tools = () => {
             href: "/forms/investment",
         },
         {
-            id: 13,
-            icon: Building,
-            title: "Simulasi KPR",
-            description: "Hitung KPR",
-            href: "/forms/kpr-simulation",
-        },
-        {
             id: 7,
             icon: Home,
-            title: "DP Property",
+            title: "DP Properti",
             description: "Rencana DP rumah",
             href: "/forms/property-down-payment"
         },
         {
             id: 4,
             icon: Heart,
-            title: "Umroh / Naik Haji",
+            title: "Umroh",
             description: "Persiapkan ibadah",
             href: "/forms/umrah",
         },
@@ -185,15 +177,15 @@ const Tools = () => {
                     </div>
                 </div>
             </div>
-            <h3 className="text-3xl font-bold mb-8 mt-8" style={{ color: "#A51246"}}>Kalkulator Mimpi ↓</h3>
-            <div className="grid grid-cols-3 gap-12">
+            <h3 className="text-2xl font-bold mb-8 mt-8" style={{ color: "#A51246"}}>Kalkulator Mimpi ↓</h3>
+            <div className="grid grid-cols-3 gap-6">
                 {menuItems.map((item, index) => (
                     <Link
                         key={index}
                         href={item.href}
                         className="block"
                     >
-                        <div className="flex flex-col items-center justify-center cursor-pointer group">
+                        <div className="flex flex-col items-center justify-center cursor-pointer group my-2">
                             <div
                                 className="w-16 h-16 rounded-full mb-3 flex items-center justify-center transform transition-all duration-300 group-hover:-translate-y-2"
                                 style={{

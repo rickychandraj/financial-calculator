@@ -13,16 +13,13 @@ const EducationForm = () => {
     const [kidName, setKidName] = useState("");
     const [isResultReady, setIsResultReady] = useState(false);
     const [answers, setAnswers] = useState({
-        1: null,
-        2: null,
-        3: null,
-        4: null,
-        5: null,
-        6: "15",
-        100: null,
-        101: null,
-        102: null,
-        103: null,
+        1: null, // nama anak
+        2: null, // usia anak
+        3: null, // jenjang pendidikan
+        100: null, // school region
+        101: null, // school category
+        102: null, // estimasi uang pangkal
+        103: null, // estimasi SPP
         104: "10",
     })
 
@@ -242,7 +239,7 @@ const EducationForm = () => {
         {
             id: 3,
             text: `Rencana pendidikan untuk ${kidName}`,
-            subtext: "Pilih rencana jenjang awal pendidikan",
+            subtext: "Pilih jenjang pendidikan",
             type: "select",
             options: [
                 {value: "sd", display: "SD/MI"},
@@ -250,27 +247,6 @@ const EducationForm = () => {
                 {value: "sma", display: "SMA/SMK/MA"},
                 {value: "s1", display: "S1/D4"},
             ],
-        },
-        {
-            id: 4,
-            text: "Penghasilan orang tua saat ini",
-            type: "currency",
-            placeholder: "Contoh: 50,000,000",
-            prefix: "Rp",
-            suffix: "/ bulan"
-        },
-        {
-            id: 5,
-            text: `Dana pendidikan ${kidName} yang sudah terkumpul saat ini`,
-            type: "currency",
-            placeholder: "Contoh: 10,000,000",
-            prefix: "Rp",
-        },
-        {
-            id: 6,
-            text: "Inflasi biaya pendidikan",
-            type: "number",
-            suffix: "% / tahun",
         },
     ]
 
@@ -297,22 +273,54 @@ const EducationForm = () => {
     const handleGetResult = () => {
         setCurrentStep(prev => prev + 1);
     }
+
+    const calculateResults = () => {
+        console.log("Calculate Results...")
+        const inflationRate = Number("10") / 100;
+
+        const educationLevel = answers[3];
+        const childrenAge = Number(answers[2]);
+
+        let yearsUntil = 0;
+        if (educationLevel == "sd") {
+            yearsUntil = Math.max(yearsUntil, 6 - childrenAge);
+        } else if (educationLevel == "smp") {
+            yearsUntil = Math.max(yearsUntil, 12 - childrenAge);
+        } else if (educationLevel == "sma") {
+            yearsUntil = Math.max(yearsUntil, 15 - childrenAge);
+        } else if (educationLevel == "sma") {
+            yearsUntil = Math.max(yearsUntil, 18 - childrenAge);
+        }
+
+        console.log(answers[102]);
+        console.log(answers[103]);
+        console.log(answers[104]);
+        console.log("childrenAge");
+        console.log(childrenAge);
+
+        const uangPangkal = Number(answers[102]) * Math.pow(1 + inflationRate, yearsUntil);
+        const spp = Number(answers[103]) * Math.pow(1 + inflationRate, yearsUntil) * 12 * yearsUntil;
+        const biayaLainLain = inflationRate * (spp + uangPangkal);
+        const total = uangPangkal + spp + biayaLainLain;
+
+        return {
+            uangPangkal,
+            spp,
+            biayaLainLain,
+            total,
+        };
+    };
+
     useEffect(() => {
         console.log("Updated answers:", answers);
         setEducationFundStrategy(null);
 
         const educationRange = answers[3] ?? null;
-        const currentParentsIncome = answers[4] ?? null;
-        const educationFundCollected = answers[5] ?? null;
-        const educationFundInflation = answers[6] ?? null;
         const schoolRegion = answers[100] ?? null;
         const schoolCategory = answers[101] ?? null;
 
         if (
             educationRange
-            && currentParentsIncome
-            && educationFundCollected
-            && educationFundInflation
             && schoolRegion
             && schoolCategory
         ) {
@@ -346,9 +354,6 @@ const EducationForm = () => {
         setKidName(answers[1]);
 
         const educationRange = answers[3] ?? null;
-        const currentParentsIncome = answers[4] ?? null;
-        const educationFundCollected = answers[5] ?? null;
-        const educationFundInflation = answers[6] ?? null;
         const schoolRegion = answers[100] ?? null;
         const schoolCategory = answers[101] ?? null;
 
@@ -379,12 +384,12 @@ const EducationForm = () => {
             }
         }
 
-        if (currentParentsIncome && educationFundCollected && educationFundInflation) {
+        if (educationRange) {
             setIsResultReady(true);
         }
 
         console.log("Updated educationFundStrategy:", educationFundStrategy);
-    }, [answers[1], answers[3], answers[4], answers[5], answers[6], answers[100], answers[101]]) // Only depend on the input values
+    }, [answers[1], answers[3], answers[4], answers[100], answers[101]]) // Only depend on the input values
 
     const formatNumber = (num) => {
         // Remove any non-digit characters except decimal point
@@ -445,67 +450,71 @@ const EducationForm = () => {
                             currentStep={totalSteps}
                             totalSteps={totalSteps}
                         />
-                        <div className="p-6">
-                            <div className="bg-white rounded-xl p-6 shadow-lg">
-                                <div
-                                    className={`
-                                        p-8 rounded-2xl bg-gradient-to-br
-                                        transform transition-all duration-500
-                                        hover:scale-[1.02] hover:shadow-2xl
-                                        text-white relative overflow-hidden
-                                        mb-8
-                                    `}
+                        <div className="p-5">
+                            <div
+                                className={`
+                                    p-8 rounded-2xl bg-gradient-to-br
+                                    transform
+                                    text-white relative overflow-hidden
+                                    mb-8
+                                `}
+                                style={{
+                                    background: "linear-gradient(135deg, #252E64 50%, #12174F 90%)"
+                                }}
+                            >
+                                {isResultReady && (() => {
+                                    const results = calculateResults();
+                                    return (
+                                        <>
+                                            <h3 className="text-3xl">Rincian biaya pendidikan:</h3>
+                                            <div className="w-full max-w-2xl rounded-lg overflow-hidden mt-4">
+                                                {/* Header */}
+                                                <div className="bg-[#A51246] p-4 text-center">
+                                                    <h2 className="text-xl font-semibold text-[#FFFFFF]">{EDUCATION_RANGE_MAPPING[answers[3]]}</h2>
+                                                </div>
+
+                                                {/* Cost Breakdown */}
+                                                <div className="divide-y divide-gray-700">
+                                                    {/* Uang Pangkal */}
+                                                    <div className="bg-[#1E2432] p-4 flex justify-between items-center">
+                                                        <span className="text-white text-lg">Uang Pangkal</span>
+                                                        <span className="text-white text-lg font-semibold">{`Rp${formatNumber(Math.round(results.uangPangkal))}`}</span>
+                                                    </div>
+
+                                                    {/* SPP */}
+                                                    <div className="bg-[#3A4356] p-4 flex justify-between items-center">
+                                                        <span className="text-white text-lg">SPP</span>
+                                                        <span className="text-white text-lg font-semibold">{`Rp${formatNumber(Math.round(results.spp))}`}</span>
+                                                    </div>
+
+                                                    {/* Biaya Lain */}
+                                                    <div className="bg-[#1E2432] p-4 flex justify-between items-center">
+                                                        <span className="text-white text-lg">Biaya Lain</span>
+                                                        <span className="text-white text-lg font-semibold">{`Rp${formatNumber(Math.round(results.biayaLainLain))}`}</span>
+                                                    </div>
+
+                                                    {/* Total */}
+                                                    <div className="bg-[#3A4356] p-4 flex justify-between items-center">
+                                                        <span className="text-white text-lg">Total</span>
+                                                        <span className="text-white text-lg font-semibold">{`Rp${formatNumber(Math.round(results.total))}`}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </>
+                                    )
+                                })()}
+                            </div>
+                            <div className="flex justify-between mt-2">
+                                <button
+                                    onClick={() => setCurrentStep(prev => Math.max(prev - 1, 1))}
+                                    className="rounded-lg"
                                     style={{
-                                        background: "linear-gradient(135deg, #252E64 50%, #12174F 100%)"
+                                        color: "#A51246",
+                                        display: currentStep === 1 ? "none" : "block"
                                     }}
                                 >
-                                    <h3 className="text-2xl">Rincian biaya pendidikan:</h3>
-                                    <div className="w-full max-w-2xl rounded-lg overflow-hidden mt-4">
-                                        {/* Header */}
-                                        <div className="bg-[#A51246] p-4 text-center">
-                                            <h2 className="text-xl font-semibold text-[#FFFFFF]">SD</h2>
-                                        </div>
-
-                                        {/* Cost Breakdown */}
-                                        <div className="divide-y divide-gray-700">
-                                            {/* Uang Pangkal */}
-                                            <div className="bg-[#1E2432] p-4 flex justify-between items-center">
-                                                <span className="text-white text-lg">Uang Pangkal</span>
-                                                <span className="text-white text-lg font-semibold">{`Rp${formatNumber(answers[102])}`}</span>
-                                            </div>
-
-                                            {/* SPP */}
-                                            <div className="bg-[#3A4356] p-4 flex justify-between items-center">
-                                                <span className="text-white text-lg">SPP</span>
-                                                <span className="text-white text-lg font-semibold">{`Rp${formatNumber(answers[103])}`}</span>
-                                            </div>
-
-                                            {/* Biaya Lain */}
-                                            <div className="bg-[#1E2432] p-4 flex justify-between items-center">
-                                                <span className="text-white text-lg">Biaya Lain</span>
-                                                <span className="text-white text-lg font-semibold">{`Rp${formatNumber(answers[102])}`}</span>
-                                            </div>
-
-                                            {/* Total */}
-                                            <div className="bg-[#3A4356] p-4 flex justify-between items-center">
-                                                <span className="text-white text-lg">Total</span>
-                                                <span className="text-white text-lg font-semibold">{`Rp${formatNumber(answers[102]+answers[103])}`}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="flex justify-between mt-2">
-                                    <button
-                                        onClick={() => setCurrentStep(prev => Math.max(prev - 1, 1))}
-                                        className="rounded-lg"
-                                        style={{
-                                            color: "#A51246",
-                                            display: currentStep === 1 ? "none" : "block"
-                                        }}
-                                    >
-                                        Kembali ke pertanyaan sebelumnya
-                                    </button>
-                                </div>
+                                    Kembali ke pertanyaan sebelumnya
+                                </button>
                             </div>
                         </div>
                     </div>

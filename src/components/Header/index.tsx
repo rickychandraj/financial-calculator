@@ -1,10 +1,5 @@
 import React from "react";
 
-import {
-    Flame,
-} from "lucide-react";
-
-
 export const Header = () => {
 
     return (
@@ -55,7 +50,6 @@ export const Header = () => {
                         <div className="mt-4" style={{ color: '#252E64' }}>
                             <p className="flex items-center">
                                 Bantu atur uang, lunas utang & otw 100jt pertama
-                                <Flame className="w-5 h-5 ml-1" style={{ color: '#A51246' }} />
                             </p>
                             <p className="mt-2">MBA, 9yrs+ praktisi literasi keuangan</p>
                         </div>

@@ -3,9 +3,17 @@
 import React, { useEffect, useState } from "react";
 import FormHeader from "@/components/ui/form-header";
 import FormQuestionCards from "@/components/ui/form-question-card";
+import { useSearchParams } from "next/navigation";
+import { DESCRIPTION, MAPPINGS } from "@/app/forms/couple-test/constants";
+
 
 const CoupleTestForm = () => {
+    const searchParams = useSearchParams();
+    const resultParam = searchParams.get("code");
+    const [resultQueryParam, _] = useState(resultParam);
+
     const [currentStep, setCurrentStep] = useState(1);
+    const [resultPersona, setResultPersona] = useState(null);
     const [isResultReady, setIsResultReady] = useState(false);
     const [answers, setAnswers] = useState({
         1: null,
@@ -628,11 +636,10 @@ const CoupleTestForm = () => {
 
     useEffect(() => {
         console.log(answers);
+        console.log(resultQueryParam);
+        console.log(MAPPINGS["mbr1291"]);
         const allFieldsFilled = Object.values(answers).every(value => value !== null);
         setIsResultReady(allFieldsFilled);
-        console.log(allFieldsFilled);
-        console.log(currentStep);
-        console.log(totalSteps);
     }, [answers]);
 
     const handleIsNextButtonDisabled = (questionId) => {
@@ -647,7 +654,7 @@ const CoupleTestForm = () => {
                 backgroundColor: "#F9FAFB",
             }}
         >
-            {currentStep <= totalSteps && (
+            {currentStep <= totalSteps && !resultQueryParam && (
                 <div>
                     <FormHeader
                         href={"/"}
@@ -682,8 +689,7 @@ const CoupleTestForm = () => {
                             const results = calculateResults();
                             return (
                                 <>
-                                    <div
-                                            className={`
+                                    <div className={`
                                         p-8 rounded-2xl bg-gradient-to-br
                                         transform
                                         text-white relative overflow-hidden
@@ -693,9 +699,21 @@ const CoupleTestForm = () => {
                                             background: "linear-gradient(135deg, #252E64 50%, #12174F 90%)"
                                         }}
                                     >
-                                        <h3 className="text-3xl mb-6">Hasil Tes Kecocokkan Pasangan</h3>
-                                        <div className="blur-[8px] pointer-events-none">
-
+                                        <div className="pointer-events-none">
+                                            <div className="bg-[#3A4356] rounded-lg p-4 mb-4">
+                                                <div className="space-y-2">
+                                                    {resultPersona && (() => {
+                                                        const results = calculateResults();
+                                                        return (
+                                                            <>
+                                                                <div className="flex">
+                                                                    <span>Personality finansial kamu adalah <span style={{fontWeight: 700}}>{results.financePersona}</span>!</span>
+                                                                </div>
+                                                            </>
+                                                        )
+                                                    })()}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     {/*Overlay with CTA*/}
@@ -716,6 +734,58 @@ const CoupleTestForm = () => {
                     </div>
                 </div>
             )}
+
+            {
+                resultQueryParam && (
+                    <>
+                        <div>
+                            <FormHeader
+                                href={"/"}
+                                title={"Hasil Tes"}
+                                currentStep={null}
+                                totalSteps={null}
+                            />
+                            <div className="p-5">
+                                <div
+                                    className={`
+                                        p-8 rounded-2xl bg-gradient-to-br
+                                        transform
+                                        text-white relative overflow-hidden
+                                        mb-8
+                                    `}
+                                    style={{
+                                        background: "linear-gradient(135deg, #252E64 50%, #12174F 90%)"
+                                    }}
+                                >
+                                    <div className="bg-[#3A4356] rounded-lg p-4 mb-4">
+                                        <div className="space-y-2">
+                                            <div className="flex">
+                                                <span className="font-semibold">Personality finansial kamu adalah <span className={"text-green-300 font-semibold"}>{MAPPINGS[resultQueryParam]}</span>!</span>
+                                            </div>
+                                            <div className="flex">
+                                                <span>{DESCRIPTION[MAPPINGS[resultQueryParam]]}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
+                                        <div className="space-y-2">
+                                            <div className="flex">
+                                                <span className="font-semibold">Kamu paling cocok berpasangan dengan</span>
+                                            </div>
+                                            <ol className="list-disc ml-6 space-y-2">
+                                                <li className="flex">Binger</li>
+                                                <li className="flex">Economizer</li>
+                                                <li className="flex">Can't Control Finance</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                )
+            }
         </div>
     )
 }

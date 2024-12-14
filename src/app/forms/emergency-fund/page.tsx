@@ -12,20 +12,20 @@ const FinancialAuditForm = () => {
     const [emergencyFund, setEmergencyFund] = useState("");
     const [isResultReady, setIsResultReady] = useState(false);
     const [answers, setAnswers] = useState({
-        1: null,
-        2: null,
-        3: null,
-        4: null,
-        5: null,
-        100: null,
-        101: null,
-        102: null,
+        1: null, // total income
+        2: null, // dependents
+        3: null, // status
+        4: null, // total expense
+        5: null, // current emergency fund collected
+        100: null, // total children
+        101: null, // total income of partner
+        102: null, // total dependents of partner
     });
 
     const questions = [
         {
             id: 1,
-            text: "Berapa gaji / pemasukan kamu saat ini?",
+            text: "Berapa total gaji / pemasukan kamu saat ini?",
             subtext: "Hitung besarnya total pemasukan bersih bulanan kamu",
             type: "currency",
             placeholder: "Contoh: 50,000,000",
@@ -33,15 +33,24 @@ const FinancialAuditForm = () => {
         },
         {
             id: 2,
-            text: "Apakah kamu sudah menikah?",
-            type: "select",
-            options: [
-                {value: "yes", display: "Sudah"},
-                {value: "no", display: "Belum"},
-            ]
+            text: "Berapa jumlah tanggungan kamu setiap bulan?",
+            subtext: "Berapa banyak orang yang bergantung pada penghasilanmu? Contoh : orang tua",
+            type: "number",
+            placeholder: "Contoh: 2",
         },
         {
             id: 3,
+            text: "Apa status kamu saat ini?",
+            type: "select",
+            options: [
+                {value: "single", display: "Lajang"},
+                {value: "married", display: "Menikah"},
+                {value: "divorced", display: "Cerai Hidup"},
+                {value: "widowed", display: "Cerai Mati"},
+            ]
+        },
+        {
+            id: 4,
             text: "Berapa pengeluaran pokok keluarga kamu setiap bulan?",
             subtext: "Hitung besarnya pengeluaran pokok bulanan kamu. Contoh : Bayar kos 3jt, listrik 1jt, pulsa 150k, transport 1jt. Berarti kolom ini diisi 5,150,000",
             type: "currency",
@@ -49,20 +58,13 @@ const FinancialAuditForm = () => {
             prefix: "Rp"
         },
         {
-            id: 4,
+            id: 5,
             text: "Berapa jumlah dana darurat yang kamu miliki saat ini?",
-            subtext: "Contoh: saat ini kamu punya uang 5 juta, tapi yang dialokasikan untuk dana darurat hanya 1 juta; maka, masukkan angka 1,000,000 pada kolom ini.",
+            subtext: "Contoh: saat ini kamu punya uang 5 juta, tapi yang dialokasikan untuk dana darurat hanya 1 juta; maka, masukkan angka 1,000,000 pada kolom ini. Apabila belum memiliki dana darurat, tulis 0",
             type: "currency",
             placeholder: "Contoh: 100,000,000",
             prefix: "Rp",
         },
-        {
-            id: 5,
-            text: "Berapa jumlah tanggungan kamu setiap bulan?",
-            subtext: "Berapa banyak orang yang bergantung pada penghasilanmu? Contoh : orang tua, suami/istri, anak, dll",
-            type: "number",
-            placeholder: "Contoh: 2",
-        }
     ];
 
     const totalSteps = questions.length;
@@ -87,39 +89,45 @@ const FinancialAuditForm = () => {
         console.log("Updated answers:", answers);
         setEmergencyFund("");
 
-        const isMarried = answers[2] ? answers[2] : null;
-        const isSandwichGeneration = answers[5] ? Number(answers[5]) > 0 : null;
         const monthlyIncome = answers[1] ? Number(answers[1]) : null;
-        const monthlyExpense = answers[3] ? Number(answers[3]) : null;
+        const totalDependents = answers[2] ? Number(answers[2]) : null;
+        const status = answers[3] ? answers[3] : null;
+        const monthlyExpense = answers[4] ? Number(answers[4]) : null;
+        const currentEmergencyFund = answers[5] ? Number(answers[5]) : null;
+
+        const isSandwichGeneration = totalDependents ? Number(totalDependents) > 0 : null;
+
+        const totalKids = answers[100] ? Number(answers[100]) : 0;
+        const totalPartnerIncome = answers[101] ? Number(answers[101]) : 0;
+        const totalPartnerDependents = answers[102] ? Number(answers[102]) : 0;
+
+        const isPartnerSandwichGeneration = totalPartnerDependents && (totalPartnerDependents > 0);
+        const isHavingKids = totalKids && (totalKids > 0);
+
+        const totalMonthlyIncome = monthlyIncome + totalPartnerIncome;
 
         if (
-            isMarried === null
-            || isSandwichGeneration === null
-            || monthlyIncome === null
+            monthlyIncome === null
+            || totalDependents === null
+            || status === null
             || monthlyExpense === null
+            || currentEmergencyFund === null
         ) {
             console.log("Updated emergencyFund:", emergencyFund);
             return;
         }
 
-        if (isMarried === "no") {
+        if (status === "single") {
             if (isSandwichGeneration) {
-                // Single, sandwich generation (3x gaji bulanan - 6x gaji bulanan)
+                // Single, sandwich generation
                 setEmergencyFund(`Rp${formatNumber(monthlyIncome * 3)} - Rp${formatNumber(monthlyIncome * 6)}`)
             } else {
-                // Single, non-sandwich generation (3x pengeluaran bulanan - 3x pengeluaran bulanan)
-                setEmergencyFund(`Rp${formatNumber(monthlyExpense * 3)} - Rp${formatNumber(monthlyExpense * 6)}`)
+                // Single, non-sandwich generation
+                setEmergencyFund(`Rp${formatNumber(monthlyExpense * 3)} - Rp${formatNumber(Math.max(monthlyExpense * 6, monthlyIncome * 3))}`)
             }
-        } else {
-            const isHavingKids = answers[100] ? Number(answers[100]) > 0 : null;
-            const totalPartnerIncome = answers[101] ? Number(answers[101]) : null;
-            const isPartnerSandwichGeneration = answers[102] ? Number(answers[102]) > 0 : null;
+        }
 
-            if (totalPartnerIncome === null || isHavingKids === null || isPartnerSandwichGeneration === null) {
-                console.log("Updated emergencyFund:", emergencyFund);
-                return;
-            }
-
+        if (status === "married") {
             if (isHavingKids) {
                 // Nikah, sudah punya anak, sandwich generation (9x gaji bulanan - 12x gaji bulanan)
                 if (isSandwichGeneration || isPartnerSandwichGeneration) {
@@ -162,11 +170,22 @@ const FinancialAuditForm = () => {
             }));
         }
 
-        if (questionId === 2 && value === "no") {
+        if (questionId === 3 && value === "single") {
             setAnswers(prev => ({
                 ...prev,
                 [100]: null,
             }));
+            setAnswers(prev => ({
+                ...prev,
+                [101]: null,
+            }));
+            setAnswers(prev => ({
+                ...prev,
+                [102]: null,
+            }));
+        }
+
+        if (questionId === 3 && (value === "divorced" || value === "widowed")) {
             setAnswers(prev => ({
                 ...prev,
                 [101]: null,
@@ -186,7 +205,7 @@ const FinancialAuditForm = () => {
         return (
             !(answers[questionId]) ||
             // Sudah menikah, tapi belum jawab pertanyaan tambahannya
-            questionId === 2
+            questionId === 3
             && answers[questionId] === "yes"
             && !(
                 answers[questionId]
@@ -276,8 +295,10 @@ const FinancialAuditForm = () => {
             }
 
             {
-                currentStep === 2
-                && answers[currentStep] === "yes"
+                currentStep === 3
+                && (
+                    answers[currentStep] === "married" || answers[currentStep] === "divorced" || answers[currentStep] === "widowed"
+                )
                 && (
                     <div className="p-6">
                         <div className="bg-white rounded-xl p-6 shadow-lg">
@@ -287,19 +308,30 @@ const FinancialAuditForm = () => {
                                 value={answers[100] || ""}
                                 onChange={(e) => handleInputChange(100, e.target.value)}
                             />
-                            <h2 className="text-xl font-semibold my-2 mt-8" style={{ color: "#12174F" }}>Berapa total pemasukan pasangan kamu saat ini?</h2>
-                            <CurrencyInput
-                                prefix={"Rp"}
-                                placeholder={"Contoh: 50,000,000"}
-                                value={answers[101] || ""}
-                                onChange={(e) => handleInputChange(101, e.target.value)}
-                            />
-                            <h2 className="text-xl font-semibold my-2 mt-8" style={{ color: "#12174F" }}>Berapa jumlah tanggungan pasangan kamu setiap bulan?</h2>
-                            <NumberInput
-                                placeholder={"Contoh: 2"}
-                                value={answers[102] || ""}
-                                onChange={(e) => handleInputChange(102, e.target.value)}
-                            />
+                            {answers[3] == "married" &&
+                              <>
+                                <h2 className="text-xl font-semibold my-2 mt-8" style={{ color: "#12174F" }}>Berapa total pemasukan pasangan kamu saat ini?</h2>
+                                <CurrencyInput
+                                    prefix={"Rp"}
+                                    placeholder={"Contoh: 50,000,000"}
+                                    value={answers[101] || ""}
+                                    onChange={(e) => handleInputChange(101, e.target.value)}
+                                />
+                              </>
+                            }
+                            {answers[3] == "married" &&
+                              <>
+                                <h2 className="text-xl font-semibold mt-8" style={{color: "#12174F"}}>Berapa jumlah
+                                  tanggungan pasangan kamu setiap bulan?</h2>
+                                <p className="text-sm mb-2" style={{color: "#252E64"}}>Berapa banyak orang yang
+                                  bergantung pada penghasilan pasangan kamu? Contoh : orang tua</p>
+                                <NumberInput
+                                  placeholder={"Contoh: 2"}
+                                  value={answers[102] || ""}
+                                  onChange={(e) => handleInputChange(102, e.target.value)}
+                                />
+                              </>
+                            }
                         </div>
                     </div>
                 )

@@ -10,8 +10,7 @@ const ItemPurchaseForm = () => {
     const [answers, setAnswers] = useState({
         1: null, // years until purchase
         2: null, // current item price
-        3: null, // down payment percentage
-        4: null, // current savings
+        3: null, // current savings
     });
 
     const questions = [
@@ -31,13 +30,6 @@ const ItemPurchaseForm = () => {
         },
         {
             id: 3,
-            text: "Berapa besar %DP (Down Payment) yang ingin kamu bayarkan?",
-            subtext: "Kalau kamu berencana membeli barang dengan sistem kredit, maka ada biaya awal yang harus kamu bayarkan, besaran DP biasanya berkisar antara 10-50%.",
-            type: "number",
-            suffix: "%",
-        },
-        {
-            id: 4,
             text: "Berapa uang yang kamu miliki saat ini untuk membeli barang tersebut?",
             subtext: "Berapa banyak jumlah tabunganmu yang kamu sudah pisahkan hanya untuk beli barang ini.",
             type: "currency",
@@ -73,8 +65,7 @@ const ItemPurchaseForm = () => {
     const calculateResults = () => {
         const yearsUntilPurchase = Number(answers[1]);
         const currentPrice = Number(answers[2]);
-        const downPaymentPercentage = Number(answers[3]) / 100;
-        const currentSavings = Number(answers[4]);
+        const currentSavings = Number(answers[3]);
 
         const inflationRate = Number("4") / 100;
         const returnRate = Number("6") / 100;
@@ -83,31 +74,22 @@ const ItemPurchaseForm = () => {
         // Calculate future vehicle price with inflation
         const futurePrice = currentPrice * Math.pow(1 + inflationRate, yearsUntilPurchase);
 
-        // Calculate required down payment
-        const requiredDownPayment = futurePrice * downPaymentPercentage;
-
         // Calculate loan amount needed
-        const loanAmount = futurePrice - requiredDownPayment;
+        const loanAmount = futurePrice;
 
         // Calculate future value of current savings
         const totalProjectedSavings = currentSavings * Math.pow(1 + returnRate, yearsUntilPurchase);
 
-        // Calculate if savings will meet down payment
-        const isDownPaymentMet = totalProjectedSavings >= requiredDownPayment;
-
         // Calculate total amount you need to save each month to be able to purchase
         const futureAmountToSave = (futurePrice - totalProjectedSavings)
-        const totalAmountToSaveMonthly = (futureAmountToSave * monthlyReturnRate) / ((Math.pow(1 + monthlyReturnRate, yearsUntilPurchase) - 1) * (1 + monthlyReturnRate))
+        const totalAmountToSaveMonthly = (futureAmountToSave * monthlyReturnRate) / ((Math.pow(1 + monthlyReturnRate, yearsUntilPurchase * 12) - 1))
 
         return {
             futurePrice,
-            requiredDownPayment,
             loanAmount,
             totalProjectedSavings,
-            isDownPaymentMet,
             futureAmountToSave,
             totalAmountToSaveMonthly,
-            downPaymentGap: Math.max(0, requiredDownPayment - totalProjectedSavings)
         };
     };
 
@@ -163,7 +145,7 @@ const ItemPurchaseForm = () => {
                 <div>
                     <FormHeader
                         href={"/"}
-                        title={"Perencanaan Pembelian Kendaraan"}
+                        title={"Perencanaan Pembelian Barang"}
                         currentStep={totalSteps}
                         totalSteps={totalSteps}
                     />
@@ -179,14 +161,14 @@ const ItemPurchaseForm = () => {
                                 background: "linear-gradient(135deg, #252E64 50%, #12174F 90%)"
                             }}
                         >
-                            <h3 className="text-3xl mb-6">Hasil Perhitungan Dana Kendaraan</h3>
+                            <h3 className="text-3xl mb-6">Hasil Perhitungan Dana Barang</h3>
 
                             {/* Vehicle Cost Analysis */}
                             <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
-                                <h4 className="text-2xl mb-4">Analisis Biaya Kendaraan</h4>
+                                <h4 className="text-2xl mb-4">Analisis Biaya Barang</h4>
                                 <div className="space-y-2">
                                     <div className="flex justify-between">
-                                        <span>Harga kendaraan saat ini</span>
+                                        <span>Harga barang saat ini</span>
                                         <span>{`Rp${formatNumber(answers[2])}`}</span>
                                     </div>
                                     {isResultReady && (() => {
@@ -194,16 +176,8 @@ const ItemPurchaseForm = () => {
                                         return (
                                             <>
                                                 <div className="flex justify-between">
-                                                    <span>Proyeksi harga kendaraan {answers[1]} tahun lagi</span>
+                                                    <span>Proyeksi harga barang {answers[1]} tahun lagi</span>
                                                     <span>{`Rp${formatNumber(Math.round(results.futurePrice))}`}</span>
-                                                </div>
-                                                <div className="flex justify-between">
-                                                    <span>Proyeksi total DP yang dibutuhkan</span>
-                                                    <span>{`Rp${formatNumber(Math.round(results.requiredDownPayment))}`}</span>
-                                                </div>
-                                                <div className="flex justify-between">
-                                                    <span>Proyeksi jumlah KKB yang dibutuhkan</span>
-                                                    <span>{`Rp${formatNumber(Math.round(results.loanAmount))}`}</span>
                                                 </div>
                                             </>
                                         );
@@ -215,22 +189,17 @@ const ItemPurchaseForm = () => {
                             <div className="bg-[#3A4356] rounded-lg p-4 mb-4">
                                 <h4 className="text-2xl mb-4">Progress Tabungan</h4>
                                 <div className="space-y-2">
-                                    <div className="flex justify-between">
-                                        <span>Dana yang sudah terkumpul</span>
-                                        <span>{`Rp${formatNumber(answers[4])}`}</span>
-                                    </div>
                                     {isResultReady && (() => {
                                         const results = calculateResults();
                                         return (
                                             <>
                                                 <div className="flex justify-between">
-                                                    <span>Gap dengan target DP</span>
-                                                    <span className={results.isDownPaymentMet ? "text-green-400" : "text-red-400"}>
-                                                        {results.isDownPaymentMet
-                                                            ? "Dana Mencukupi"
-                                                            : `Rp${formatNumber(Math.round(results.downPaymentGap))}`
-                                                        }
-                                                    </span>
+                                                    <span>Dana yang sudah terkumpul</span>
+                                                    <span>{`Rp${formatNumber(answers[3])}`}</span>
+                                                </div>
+                                                <div className="flex justify-between">
+                                                    <span>Proyeksi nilai dana yang sudah terkumpul {answers[1]} tahun lagi</span>
+                                                    <span>{`Rp${formatNumber(Math.round(results.totalProjectedSavings))}`}</span>
                                                 </div>
                                             </>
                                         );

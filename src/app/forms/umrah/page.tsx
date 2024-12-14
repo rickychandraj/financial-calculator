@@ -95,7 +95,7 @@ const UmrahPlanningForm = () => {
         const isTargetMet = totalProjectedSavings >= totalFutureCost;
 
         const futureAmountToSave = (totalFutureCost - totalProjectedSavings)
-        const totalAmountToSaveMonthly = (futureAmountToSave * monthlyReturnRate) / ((Math.pow(1 + monthlyReturnRate, yearsUntilUmrah) - 1) * (1 + monthlyReturnRate))
+        const totalAmountToSaveMonthly = (futureAmountToSave * monthlyReturnRate) / ((Math.pow(1 + monthlyReturnRate, yearsUntilUmrah * 12) - 1))
 
         return {
             currentCostPerPerson: currentPackageCost,

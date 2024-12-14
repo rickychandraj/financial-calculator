@@ -25,16 +25,20 @@ const FormHeader = ({
                 </div>
 
                 {/* Progress Bar */}
-                <div className="w-full bg-white/20 rounded-full h-2">
-                    <div
-                        className="h-full rounded-full"
-                        style={{
-                            width: `${(currentStep/totalSteps) * 100}%`,
-                            background: "linear-gradient(to right, #fff, rgba(255,255,255,0.8))"
-                        }}
-                    />
-                </div>
-                <p className="text-white/90 text-sm mt-2">Pertanyaan {currentStep} dari {totalSteps}</p>
+                {currentStep && totalSteps && (
+                    <>
+                        <div className="w-full bg-white/20 rounded-full h-2">
+                            <div
+                                className="h-full rounded-full"
+                                style={{
+                                    width: `${(currentStep/totalSteps) * 100}%`,
+                                    background: "linear-gradient(to right, #fff, rgba(255,255,255,0.8))"
+                                }}
+                            />
+                        </div>
+                        <p className="text-white/90 text-sm mt-2">Pertanyaan {currentStep} dari {totalSteps}</p>
+                    </>
+                )}
             </div>
         </div>
     )

@@ -107,15 +107,16 @@ const InvestmentForm = () => {
 
         const totalProjectedSavings = initialAmount * Math.pow(1 + returnRate, yearsToCollect)
         const projectedTargetAmount = targetAmount * Math.pow(1 + returnRate, yearsToCollect)
-        const totalAmountNeedToChase = Math.max(projectedTargetAmount - totalProjectedSavings, 0)
+        const totalAmountNeedToChase = Math.max(targetAmount - totalProjectedSavings, 0)
 
         if (timing == "begin") {
             amountToSave = totalAmountNeedToChase * periodicReturn / Math.pow((1 + periodicReturn), totalPeriods) - 1
         } else {
-            amountToSave = totalAmountNeedToChase * periodicReturn / (Math.pow((1 + periodicReturn), totalPeriods) - 1) * (1 + periodicReturn)
+            amountToSave = (totalAmountNeedToChase * periodicReturn) / ((Math.pow(1 + periodicReturn, yearsToCollect * 12) - 1))
         }
 
         return {
+            totalProjectedSavings,
             targetAmount,
             initialAmount,
             totalAmountNeedToChase,
@@ -180,59 +181,62 @@ const InvestmentForm = () => {
                         totalSteps={totalSteps}
                     />
                     <div className="p-5">
-                        <div
-                            className={`
-                                p-8 rounded-2xl bg-gradient-to-br
-                                transform
-                                text-white relative overflow-hidden
-                                mb-8
-                            `}
-                            style={{
-                                background: "linear-gradient(135deg, #252E64 50%, #12174F 100%)"
-                            }}
-                        >
-                            <h3 className="text-2xl mb-6">Hasil Perhitungan Simulasi Investasi</h3>
+                        {isResultReady && (() => {
+                            const results = calculateResults();
+                            return (
+                            <div
+                                className={`
+                                    p-8 rounded-2xl bg-gradient-to-br
+                                    transform
+                                    text-white relative overflow-hidden
+                                    mb-8
+                                `}
+                                style={{
+                                    background: "linear-gradient(135deg, #252E64 50%, #12174F 100%)"
+                                }}
+                            >
+                                <h3 className="text-2xl mb-6">Hasil Perhitungan Simulasi Investasi</h3>
 
-                            {/* Target Section */}
-                            <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
-                                <h4 className="text-2xl mb-4">Ringkasan Target Investasi</h4>
-                                <div className="space-y-2">
-                                    <div className="flex justify-between">
-                                        <span>Target jumlah dana</span>
-                                        <span>{`Rp${formatNumber(answers[1])}`}</span>
+                                {/* Target Section */}
+                                <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
+                                    <h4 className="text-2xl mb-4">Ringkasan Target Investasi</h4>
+                                    <div className="space-y-2">
+                                        <div className="flex justify-between">
+                                            <span>Target jumlah dana</span>
+                                            <span>{`Rp${formatNumber(answers[1])}`}</span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span>Jangka waktu pengumpulan dana</span>
+                                            <span>{`${answers[2]} tahun`}</span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span>Total dana yang sudah terkumpul</span>
+                                            <span>{`Rp${formatNumber(answers[3])}`}</span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span>Proyeksi total dana yang sudah terkumpul {answers[2]} tahun lagi</span>
+                                            <span>{`Rp${formatNumber(Math.round(results.totalProjectedSavings))}`}</span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span>Periode investasi</span>
+                                            <span>{`Setiap ${answers[5] == "begin" ? "awal" : "akhir"} ${answers[4] == 'monthly' ? 'bulan' : 'tahun'}`}</span>
+                                        </div>
                                     </div>
-                                    <div className="flex justify-between">
-                                        <span>Jangka waktu pengumpulan dana</span>
-                                        <span>{`${answers[2]} tahun`}</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <span>Total dana yang sudah terkumpul</span>
-                                        <span>{`Rp${formatNumber(answers[3])}`}</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <span>Periode investasi</span>
-                                        <span>{`${answers[4] === 'monthly' ? 'Bulanan' : 'Tahunan'} di setiap ${answers[5] === 'begin' ? 'awal' : 'akhir'} periode`}</span>
+                                </div>
+
+                                {/* Investment Section */}
+                                <div className="bg-[#3A4356] rounded-lg p-4 mb-4">
+                                    <h4 className="text-2xl mb-4">Strategi</h4>
+                                    <div className="space-y-2">
+                                        <div className="flex justify-between">
+                                            <span>Jumlah dana yang harus diinvestasikan setiap {answers[4] == "yearly" ? "tahun" : answers[4] == "monthly" ? "bulan" : ""}</span>
+                                            <span>{`Rp${formatNumber(Math.round(results.amountToSave))}`}</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
-                            {/* Investment Section */}
-                            {isResultReady && (() => {
-                                const results = calculateResults();
-                                return (
-                                    <div className="bg-[#3A4356] rounded-lg p-4 mb-4">
-                                        <h4 className="text-2xl mb-4">Strategi</h4>
-                                        <div className="space-y-2">
-                                            <div className="flex justify-between">
-                                                <span>Jumlah dana yang harus diinvestasikan setiap {answers[4] == "yearly" ? "tahun" : answers[4] == "monthly" ? "bulan" : ""}</span>
-                                                <span>{`Rp${formatNumber(Math.round(results.amountToSave))}`}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )
-                            })()}
-
-                        </div>
+                            )
+                        })()}
 
                         <div className="flex justify-between mt-2">
                             <button
