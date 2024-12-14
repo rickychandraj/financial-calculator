@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import FormHeader from "@/components/ui/form-header";
 import FormQuestionCards from "@/components/ui/form-question-card";
 import { useSearchParams } from "next/navigation";
@@ -790,4 +790,12 @@ const CoupleTestForm = () => {
     )
 }
 
-export default CoupleTestForm;
+export default function Page() {
+    return (
+        <div>
+            <Suspense fallback={<div>Loading form...</div>}>
+                <CoupleTestForm />
+            </Suspense>
+        </div>
+    )
+};
