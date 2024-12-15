@@ -26,7 +26,7 @@ const FinancialAuditForm = () => {
     const questions = [
         {
             id: 1,
-            text: "Berapa total gaji / pemasukan kamu saat ini?",
+            text: "Berapa gaji / income kamu saat ini?",
             subtext: "Hitung besarnya total pemasukan bersih bulanan kamu",
             type: "currency",
             placeholder: "Contoh: 50,000,000",
@@ -35,7 +35,7 @@ const FinancialAuditForm = () => {
         {
             id: 2,
             text: "Berapa jumlah tanggungan kamu setiap bulan?",
-            subtext: "Berapa banyak orang yang bergantung pada penghasilanmu? Contoh : orang tua",
+            subtext: "Berapa banyak orang yang bergantung pada penghasilanmu? Contoh: orang tua, suami/istri, anak, dll",
             type: "number",
             suffix: "orang",
             placeholder: "Contoh: 2",
@@ -53,8 +53,8 @@ const FinancialAuditForm = () => {
         },
         {
             id: 4,
-            text: "Berapa pengeluaran pokok keluarga kamu setiap bulan?",
-            subtext: "Hitung besarnya pengeluaran pokok bulanan kamu. Contoh : Bayar kos 3jt, listrik 1jt, pulsa 150k, transport 1jt. Berarti kolom ini diisi 5,150,000",
+            text: "Berapa pengeluaran kamu setiap bulan?",
+            subtext: "Hitung besarnya pengeluaran bulanan kamu. Contoh: Bayar kos 3jt, listrik 1jt, pulsa 150k, transport 1jt. Berarti kolom ini diisi 5,150,000",
             type: "currency",
             placeholder: "Contoh: 20,000,000",
             prefix: "Rp"
@@ -62,7 +62,7 @@ const FinancialAuditForm = () => {
         {
             id: 5,
             text: "Berapa jumlah dana darurat yang kamu miliki saat ini?",
-            subtext: "Contoh: saat ini kamu punya uang 5 juta, tapi yang dialokasikan untuk dana darurat hanya 1 juta; maka, masukkan angka 1,000,000 pada kolom ini. Apabila belum memiliki dana darurat, tulis 0",
+            subtext: "Berapa banyak jumlah dana darurat yang telah kamu kumpulkan hingga saat ini? Contoh: saat ini kamu punya uang 10 juta, tapi yang dikhususkan untuk dana darurat hanya 2 juta; maka masukkan angka 2,000,000 pada kolom ini",
             type: "currency",
             placeholder: "Contoh: 100,000,000",
             prefix: "Rp",
