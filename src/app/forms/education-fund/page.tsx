@@ -226,13 +226,13 @@ const EducationForm = () => {
         {
             id: 1,
             text: "Nama anak",
-            subtext: "Catatan: informasi ini hanya akan digunakan untuk kebutuhan survey",
+            subtext: "Catatan: informasi ini hanya akan digunakan untuk kebutuhan penamaan perhitungan",
             type: "text",
         },
         {
             id: 2,
             text: `Usia ${kidName} saat ini`,
-            subtext: "Catatan: informasi ini hanya akan digunakan untuk kebutuhan survey",
+            subtext: "Catatan: informasi ini hanya akan digunakan untuk kebutuhan penamaan perhitungan",
             type: "number",
             suffix: "tahun",
         },
@@ -563,6 +563,7 @@ const EducationForm = () => {
                                     />
                                 }
                             <h2 className="text-xl font-semibold my-2 mt-12" style={{ color: "#12174F" }}>Perkiraan uang pangkal</h2>
+                            <p className="text-sm mb-4" style={{ color: "#252E64" }}>Kamu dapat mengubah perkiraan uang pangkal di bawah ini sesuai perkiraan kamu.</p>
                             <CurrencyInput
                                 prefix={"Rp"}
                                 placeholder={""}
@@ -570,6 +571,7 @@ const EducationForm = () => {
                                 onChange={(e) => handleInputChange(102, e.target.value)}
                             />
                             <h2 className="text-xl font-semibold my-2 mt-12" style={{ color: "#12174F" }}>Perkiraan uang sekolah</h2>
+                            <p className="text-sm mb-4" style={{ color: "#252E64" }}>Kamu dapat mengubah perkiraan uang pangkal di bawah ini sesuai perkiraan kamu.</p>
                             <CurrencyInput
                                 prefix={"Rp"}
                                 suffix={"/ bulan"}
@@ -578,6 +580,7 @@ const EducationForm = () => {
                                 onChange={(e) => handleInputChange(103, e.target.value)}
                             />
                             <h2 className="text-xl font-semibold my-2 mt-12" style={{ color: "#12174F" }}>Perkiraan biaya lain-lain</h2>
+                            <p className="text-sm mb-4" style={{ color: "#252E64" }}>Kamu dapat mengubah perkiraan uang pangkal di bawah ini sesuai perkiraan kamu.</p>
                             <NumberInput
                                 placeholder={""}
                                 suffix={"%"}
