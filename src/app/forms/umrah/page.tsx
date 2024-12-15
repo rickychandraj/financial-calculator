@@ -9,40 +9,48 @@ const UmrahPlanningForm = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [isResultReady, setIsResultReady] = useState(false);
     const [answers, setAnswers] = useState({
-        1: null, // years until umrah
+        1: null, // years until umroh
         2: null, // current package cost
         3: null, // number of people
         4: null, // current savings
+        5: null, // return rate
     });
 
     const questions = [
         {
             id: 1,
-            text: "Berapa lama lagi kamu ingin pergi umrah?",
+            text: "Berapa lama lagi kamu ingin pergi umroh?",
             subtext: "Contoh: saat ini tahun 2024, dan kamu ingin pergi pada tahun 2026, berarti 2026 - 2024 = 2 tahun. Berarti kolom di bawah diisi dengan angka 2",
             type: "number",
             suffix: "tahun"
         },
         {
             id: 2,
-            text: "Berapa perkiraan biaya paket umrah saat ini?",
-            subtext: "Perkiraan total biaya termasuk visa, transportasi, akomodasi, dan kebutuhan ibadah",
+            text: "Berapa perkiraan biaya paket umroh PER ORANG saat ini?",
+            subtext: "Perkiraan total biaya termasuk visa, transportasi, akomodasi, dan kebutuhan ibadah. Paket Umroh dengan travel Aji Maju Wisata dari @_SemogaSegeraUmroh_ dimulai dari 30 juta rupiah per orang",
             type: "currency",
             prefix: "Rp",
         },
         {
             id: 3,
-            text: "Berapa jumlah orang yang akan pergi umrah?",
+            text: "Berapa jumlah orang yang akan pergi umroh?",
             subtext: "Jumlah orang yang akan ikut dalam perjalanan ibadah ini",
             type: "number",
             suffix: "orang",
         },
         {
             id: 4,
-            text: "Berapa dana umrah yang sudah kamu kumpulkan?",
-            subtext: "Jumlah tabungan yang sudah kamu siapkan khusus untuk ibadah umrah",
+            text: "Berapa dana umroh yang sudah kamu kumpulkan?",
+            subtext: "Jumlah tabungan yang sudah kamu siapkan khusus untuk ibadah umroh. Jika belum sama sekali, masukkan 0.",
             type: "currency",
             prefix: "Rp",
+        },
+        {
+            id: 5,
+            text: "Kamu akan investasi di produk yang return-nya?",
+            subtext: "Dengan asumsi kamu akan menaruh uang tabunganmu pada instrumen investasi. Sebagai gambaran: untuk profil risiko konservatif, kamu cocok investasi di reksadana pasar uang atau obligasi dengan return rata-rata 6% per tahun. Untuk profil risiko moderat, kamu cocok berinvestasi di obligasi atau reksadana campuran dengan return rata-rata 10% per tahun. Untuk profil risiko agresif, kamu cocok berinvestasi di saham atau reksadana saham dengan return rata-rata 15% per tahun.",
+            type: "number",
+            suffix: "%",
         },
     ];
 
@@ -70,15 +78,15 @@ const UmrahPlanningForm = () => {
         setCurrentStep(prev => prev + 1);
     };
 
-    // Calculate umrah planning results
+    // Calculate umroh planning results
     const calculateResults = () => {
         const yearsUntilUmrah = Number(answers[1]);
         const currentPackageCost = Number(answers[2]);
         const numberOfPeople = Number(answers[3]);
         const currentSavings = Number(answers[4]);
 
-        const inflationRate = Number("4") / 100;
-        const returnRate = Number("6") / 100;
+        const inflationRate = Number("5.7") / 100;
+        const returnRate = Number(answers[5]) / 100;
         const monthlyReturnRate = returnRate / 12;
 
         // Calculate future package cost with inflation
@@ -140,7 +148,7 @@ const UmrahPlanningForm = () => {
                 <div>
                     <FormHeader
                         href={"/"}
-                        title={"Perencanaan Dana Umrah"}
+                        title={"Dana Umroh by @_SEMOGASEGERAUMROH_"}
                         currentStep={currentStep}
                         totalSteps={totalSteps}
                     />
@@ -162,7 +170,7 @@ const UmrahPlanningForm = () => {
                 <div>
                     <FormHeader
                         href={"/"}
-                        title={"Perencanaan Dana Umrah"}
+                        title={"Dana Umroh by @_SEMOGASEGERAUMROH_"}
                         currentStep={totalSteps}
                         totalSteps={totalSteps}
                     />
@@ -178,7 +186,7 @@ const UmrahPlanningForm = () => {
                                 background: "linear-gradient(135deg, #252E64 50%, #12174F 90%)"
                             }}
                         >
-                            <h3 className="text-3xl mb-6">Hasil Perhitungan Dana Umrah</h3>
+                            <h3 className="text-3xl mb-6">Hasil Perhitungan Dana umroh</h3>
 
                             {/* Cost Analysis */}
                             <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
