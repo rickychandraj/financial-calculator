@@ -72,7 +72,7 @@ const DebtSimulation = () => {
         {
             id: 5,
             text: "Rencananya, kamu mau membayar berapa per bulan nya untuk utang ini?",
-            subtext: `Pastikan jumlahnya di atas jumlah pembayaran minimum per bulan, yaitu Rp${formatNumber(totalMinimumPaymentMonthly)}`,
+            subtext: `Pastikan jumlahnya di atas jumlah pembayaran minimum per bulan, yaitu Rp${formatNumber(Math.round(Math.max(totalMinimumPaymentMonthly, Number(answers[3])/100*Number(answers[2]))))}`,
             type: "currency",
             prefix: "Rp",
         },
@@ -85,13 +85,11 @@ const DebtSimulation = () => {
 
             let periodTemp = 1
 
-            while (sisaUtang > 0) {
+            while (sisaUtang > 0 && periodTemp < 1000) {
                 let cicilanPerBulanTemp = Number(answers[5]);
                 let bungaPerBulanTemp = Number(answers[3]) / 100 * sisaUtang;
                 let penguranganPokokUtangTemp = cicilanPerBulanTemp - bungaPerBulanTemp;
                 let sisaUtangTemp = sisaUtang - penguranganPokokUtangTemp;
-
-                console.log(sisaUtang)
 
                 if (sisaUtang < cicilanPerBulanTemp) {
                     penguranganPokokUtangTemp = sisaUtang;
@@ -124,7 +122,7 @@ const DebtSimulation = () => {
         const allFieldsFilled = Object.values(answers).every(value => value !== null);
         setIsResultReady(allFieldsFilled);
 
-        if (answers[5] && Number(answers[5]) < Number(totalMinimumPaymentMonthly)) {
+        if (answers[5] && Number(answers[5]) <= Math.max(Number(totalMinimumPaymentMonthly), Number(answers[3])/ 100 * Number(answers[2]))) {
             setIsResultReady(false);
         }
     }, [answers])
