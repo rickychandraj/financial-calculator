@@ -13,6 +13,7 @@ const PensionFundForm = () => {
         2: null, // current age
         3: null, // retirement age
         4: null, // current pension savings
+        5: null, // return rate
     });
 
     const questions = [
@@ -42,6 +43,13 @@ const PensionFundForm = () => {
             subtext: "Jumlah tabungan untuk dana pensiun yang sudah terkumpul sampai dengan kamu mengisi form ini",
             type: "currency",
             prefix: "Rp",
+        },
+        {
+            id: 5,
+            text: "Kamu akan investasi di produk yang return-nya?",
+            subtext: "Dengan asumsi kamu akan menaruh uang tabunganmu pada instrumen investasi. Sebagai gambaran: untuk profil risiko konservatif, kamu cocok investasi di reksadana pasar uang atau obligasi dengan return rata-rata 6% per tahun. Untuk profil risiko moderat, kamu cocok berinvestasi di obligasi atau reksadana campuran dengan return rata-rata 10% per tahun. Untuk profil risiko agresif, kamu cocok berinvestasi di saham atau reksadana saham dengan return rata-rata 15% per tahun.",
+            type: "number",
+            suffix: "% / tahun"
         },
     ];
 
@@ -77,8 +85,8 @@ const PensionFundForm = () => {
         const currentSavings = Number(answers[4]);
 
         const lifeExpectancy = 100; // Assumed life expectancy
-        const inflationRate = Number("4") / 100;
-        const returnRate = Number("6") / 100;
+        const inflationRate = Number("5.7") / 100;
+        const returnRate = Number(answers[5]) / 100;
         const monthlyReturnRate = returnRate / 12;
 
         const yearsToRetirement = retirementAge - currentAge;

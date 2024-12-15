@@ -50,7 +50,7 @@ const UmrahPlanningForm = () => {
             text: "Kamu akan investasi di produk yang return-nya?",
             subtext: "Dengan asumsi kamu akan menaruh uang tabunganmu pada instrumen investasi. Sebagai gambaran: untuk profil risiko konservatif, kamu cocok investasi di reksadana pasar uang atau obligasi dengan return rata-rata 6% per tahun. Untuk profil risiko moderat, kamu cocok berinvestasi di obligasi atau reksadana campuran dengan return rata-rata 10% per tahun. Untuk profil risiko agresif, kamu cocok berinvestasi di saham atau reksadana saham dengan return rata-rata 15% per tahun.",
             type: "number",
-            suffix: "%",
+            suffix: "% / tahun",
         },
     ];
 

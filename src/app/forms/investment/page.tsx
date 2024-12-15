@@ -62,6 +62,13 @@ const InvestmentForm = () => {
                 },
             ]
         },
+        {
+            id: 6,
+            text: "Kamu akan investasi di produk yang returnnya?",
+            subtext: "Dengan asumsi kamu akan menaruh uang tabunganmu pada instrumen investasi. Sebagai gambaran: untuk profil risiko konservatif, kamu cocok investasi di reksadana pasar uang atau obligasi dengan return rata-rata 6% per tahun. Untuk profil risiko moderat, kamu cocok berinvestasi di obligasi atau reksadana campuran dengan return rata-rata 10% per tahun. Untuk profil risiko agresif, kamu cocok berinvestasi di saham atau reksadana saham dengan return rata-rata 15% per tahun.",
+            type: "number",
+            suffix: "% / tahun",
+        }
     ];
 
     const totalSteps = questions.length;
@@ -98,7 +105,7 @@ const InvestmentForm = () => {
 
         let amountToSave = 0;
 
-        const returnRate = Number("6") / 100;
+        const returnRate = Number(answers[6]) / 100;
 
         const periodsPerYear = frequency == "monthly" ? 12 : 1;
         const periodicReturn = returnRate / periodsPerYear;
@@ -106,7 +113,6 @@ const InvestmentForm = () => {
         const totalPeriods = yearsToCollect * periodsPerYear;
 
         const totalProjectedSavings = initialAmount * Math.pow(1 + returnRate, yearsToCollect)
-        const projectedTargetAmount = targetAmount * Math.pow(1 + returnRate, yearsToCollect)
         const totalAmountNeedToChase = Math.max(targetAmount - totalProjectedSavings, 0)
 
         if (timing == "begin") {

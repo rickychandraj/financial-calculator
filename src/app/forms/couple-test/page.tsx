@@ -776,6 +776,9 @@ const CoupleTestForm = () => {
                                     </div>
                                 </div>
                                 <h2 className="text-xl font-semibold my-2 mt-12" style={{ color: "#12174F" }}>Apa kepribadian pasangan kamu?</h2>
+                                <p className="text-center text-white text-md mb-6 px-4">
+                                    Pasangan kamu harus mengambil tes kepribadian keuangan ini secara terpisah, yuk bagikan link ini: https://calculator.mamaberuang.com/forms/couple-test ke pasangan kamu. Kemudian, masukkan hasil tes kepribadian keuangan pasangan kamu dibawah ini
+                                </p>
                                 {partnerPersonalityOptions.map((option, optIndex) => (
                                     <div
                                         key={optIndex}

@@ -25,7 +25,7 @@ const HolidayPlanningForm = () => {
         },
         {
             id: 2,
-            text: "Berapa perkiraan biaya liburan saat ini?",
+            text: "Berapa perkiraan biaya liburan PER ORANG saat ini?",
             subtext: "Perkiraan total biaya termasuk transportasi, akomodasi, konsumsi, tiket wisata, dll",
             type: "currency",
             prefix: "Rp",

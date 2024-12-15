@@ -18,7 +18,7 @@ const FinancialHealthForm = () => {
     const questions = [
         {
             id: 1,
-            text: "Berapa total penghasilan kamu setiap bulan?",
+            text: "Berapa penghasilan tetap kamu setiap bulan?",
             subtext: "Contoh: gaji bulanan atau pendapatan rutin dari usaha/bisnis",
             type: "currency",
             prefix: "Rp",
@@ -26,7 +26,7 @@ const FinancialHealthForm = () => {
         },
         {
             id: 2,
-            text: "Berapa total pengeluaran kamu setiap bulan?",
+            text: "Berapa pengeluaran kamu setiap bulan?",
             subtext: "Termasuk kebutuhan sehari-hari ataupun kebutuhan yang sifatnya tidak wajib",
             type: "currency",
             prefix: "Rp",
