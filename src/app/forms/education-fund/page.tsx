@@ -283,13 +283,13 @@ const EducationForm = () => {
 
         let yearsUntil = 0;
         if (educationLevel == "sd") {
-            yearsUntil = Math.max(yearsUntil, 6 - childrenAge);
+            yearsUntil = 6;
         } else if (educationLevel == "smp") {
-            yearsUntil = Math.max(yearsUntil, 12 - childrenAge);
+            yearsUntil = 3;
         } else if (educationLevel == "sma") {
-            yearsUntil = Math.max(yearsUntil, 15 - childrenAge);
-        } else if (educationLevel == "sma") {
-            yearsUntil = Math.max(yearsUntil, 18 - childrenAge);
+            yearsUntil = 3;
+        } else if (educationLevel == "s1") {
+            yearsUntil = 4;
         }
 
         console.log(answers[102]);
