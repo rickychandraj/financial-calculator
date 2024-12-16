@@ -303,11 +303,16 @@ const EducationForm = () => {
         const biayaLainLain = inflationRate * (spp + uangPangkal);
         const total = uangPangkal + spp + biayaLainLain;
 
+        const futureAmountToSave = total * ((1 - (1 / Math.pow(1 + inflationRate, yearsUntil))) / inflationRate);
+        const totalAmountToSaveMonthly = (futureAmountToSave * inflationRate / 12) / ((Math.pow(1 + inflationRate/12, yearsUntil * 12) - 1))
+
         return {
             uangPangkal,
             spp,
             biayaLainLain,
             total,
+            futureAmountToSave,
+            totalAmountToSaveMonthly,
         };
     };
 
@@ -497,6 +502,21 @@ const EducationForm = () => {
                                                     <div className="bg-[#3A4356] p-4 flex justify-between items-center">
                                                         <span className="text-white text-lg">Total</span>
                                                         <span className="text-white text-lg font-semibold">{`Rp${formatNumber(Math.round(results.total))}`}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="bg-[#1E2432] rounded-lg p-4 mt-8">
+                                                <h4 className="text-2xl mb-4">Strategi</h4>
+                                                <div className="space-y-2">
+                                                    <div className="flex justify-between">
+                                                        <span>Jumlah uang yang harus ditabung sampai {answers[1]} masuk sekolah</span>
+                                                        <span>{`Rp${formatNumber(Math.round(results.futureAmountToSave))}`}</span>
+                                                    </div>
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <div className="flex justify-between">
+                                                        <span>Jumlah uang yang ditabung setiap akhir bulan (per bulan ini) </span>
+                                                        <span>{`Rp${formatNumber(Math.round(results.totalAmountToSaveMonthly))}`}</span>
                                                     </div>
                                                 </div>
                                             </div>
