@@ -84,7 +84,7 @@ const PensionFundForm = () => {
         const retirementAge = Number(answers[3]);
         const currentSavings = Number(answers[4]);
 
-        const lifeExpectancy = 100; // Assumed life expectancy
+        const lifeExpectancy = 74; // Assumed life expectancy
         const inflationRate = Number("5.7") / 100;
         const returnRate = Number(answers[5]) / 100;
         const monthlyReturnRate = returnRate / 12;
@@ -99,6 +99,15 @@ const PensionFundForm = () => {
 
         // Calculate total needed at retirement
         const monthsInRetirement = yearsInRetirement * 12;
+
+        console.log("futureMonthlyExpenses")
+        console.log(futureMonthlyExpenses)
+        console.log("yearlyExpenses")
+        console.log(monthlyExpenses * 12 * Math.pow(1 + inflationRate, yearsToRetirement))
+        console.log("monthlyReturnRate")
+        console.log(monthlyReturnRate)
+        console.log("yearsInRetirement")
+        console.log(yearsInRetirement * 12)
         const totalNeeded = futureMonthlyExpenses * ((1 - (1 / Math.pow(1 + monthlyReturnRate, yearsInRetirement * 12))) / monthlyReturnRate);
 
         const futureAmountToSave = (totalNeeded - totalProjectedSavings)
@@ -183,7 +192,8 @@ const PensionFundForm = () => {
                                 background: "linear-gradient(135deg, #252E64 50%, #12174F 100%)"
                             }}
                         >
-                            <h3 className="text-3xl mb-6">Hasil Perhitungan Dana Pensiun</h3>
+                            <h3 className="text-3xl mb-1">Hasil Perhitungan Dana Pensiun</h3>
+                            <p className="text-sm mb-6">Perhitungan ini menggunakan asumsi angka harapan hidup sampai dengan <span className={"font-bold"}> 74 tahun </span></p>
 
                             {/* Input Summary Section */}
                             <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
