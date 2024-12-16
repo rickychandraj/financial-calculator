@@ -259,9 +259,9 @@ const FinancialAuditForm = () => {
 
         if (status == "single") {
             if (isSandwichGeneration) {
-                descriptionTemp = "Dana darurat kamu sekurang-kurangnya 3-6x pendapatan bulanan kamu"
+                descriptionTemp = "Saran Mama berUANG: Kamu setidaknya harus memiliki dana darurat 3-6x dari pendapatan bulanan kamu"
             } else {
-                descriptionTemp = "Dana darurat kamu sekurang-kurangnya 3x pengeluaran bulanan - 3x pendapatan bulanan kamu. "
+                descriptionTemp = "Saran Mama berUANG: Kamu setidaknya harus memiliki dana darurat 3x pengeluaran bulanan - 3x pendapatan bulanan kamu. "
                 if (monthlyIncome < monthlyExpense) {
                     additionalDescription = "Jumlah pemasukan per bulan kamu masih perlu ditingkatkan hingga sekurang-kurangnya sejumlah pengeluaran kamu per bulan."
                 }
@@ -269,16 +269,16 @@ const FinancialAuditForm = () => {
         } else {
             if (isHavingKids) {
                 if (isSandwichGeneration) {
-                    descriptionTemp = "Dana darurat kamu sekurang-kurangnya 9-12x pendapatan bulanan kamu"
+                    descriptionTemp = "Saran Mama berUANG: Kamu setidaknya harus memiliki dana darurat 9-12x dari pendapatan bulanan kamu"
                 } else {
-                    descriptionTemp = "Dana darurat kamu sekurang-kurangnya 6-9x pendapatan bulanan kamu"
+                    descriptionTemp = "Saran Mama berUANG: Kamu setidaknya harus memiliki dana darurat 6-9x dari pendapatan bulanan kamu"
                 }
             } else {
                 if (isSandwichGeneration) {
-                    descriptionTemp = "Dana darurat kamu sekurang-kurangnya 6x pengeluaran bulanan - 9x pendapatan bulanan kamu. "
+                    descriptionTemp = "Saran Mama berUANG: Kamu setidaknya harus memiliki dana darurat 6x pengeluaran bulanan - 9x pendapatan bulanan kamu. "
                     additionalDescription = "Jumlah pemasukan per bulan kamu masih perlu ditingkatkan hingga sekurang-kurangnya sejumlah pengeluaran kamu per bulan."
                 } else {
-                    descriptionTemp = "Dana darurat kamu sekurang-kurangnya 6x pengeluaran bulanan - 6x pendapatan bulanan kamu. "
+                    descriptionTemp = "Saran Mama berUANG: Kamu setidaknya harus memiliki dana darurat 6x pengeluaran bulanan - 6x pendapatan bulanan kamu. "
                     additionalDescription = "Jumlah pemasukan per bulan kamu masih perlu ditingkatkan hingga sekurang-kurangnya sejumlah pengeluaran kamu per bulan."
                 }
             }
@@ -356,6 +356,20 @@ const FinancialAuditForm = () => {
                                     </div>
                                 </div>
 
+                                <div className="bg-[#1E2432] rounded-lg p-4 mb-4 mt-8">
+                                    <h4 className="text-2xl mb-4">Deskripsi</h4>
+                                    <div className="space-y-2">
+                                        {isResultReady && (() => {
+                                            const results = calculateResults();
+                                            return (
+                                                <div className="flex justify-between">
+                                                    <span>{results.description}</span>
+                                                </div>
+                                            )
+                                        })()}
+                                    </div>
+                                </div>
+
                                 {/* Monthly Summary Preview */}
                                 <div className="bg-[#1E2432] rounded-lg p-4 mb-4 mt-8">
                                     <h4 className="text-2xl mb-4">Ringkasan Keuangan</h4>
@@ -380,20 +394,6 @@ const FinancialAuditForm = () => {
                                                 {answers[5] > minEmergencyFund ? "Dana Darurat Tercukupi" : `Kurang Rp${formatNumber(minEmergencyFund - answers[5])} lagi`}
                                             </span>
                                         </div>
-                                    </div>
-                                </div>
-
-                                <div className="bg-[#1E2432] rounded-lg p-4 mb-4 mt-8">
-                                    <h4 className="text-2xl mb-4">Deskripsi</h4>
-                                    <div className="space-y-2">
-                                        {isResultReady && (() => {
-                                            const results = calculateResults();
-                                            return (
-                                                <div className="flex justify-between">
-                                                    <span>{results.description}</span>
-                                                </div>
-                                            )
-                                        })()}
                                     </div>
                                 </div>
                             </div>
