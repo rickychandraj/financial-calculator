@@ -362,7 +362,7 @@ const FinancialAuditForm = () => {
                                     <div className="space-y-2">
                                         <div className="flex justify-between">
                                             <span>Total pemasukan per bulan</span>
-                                            <span>{`Rp${formatNumber(answers[1])}`}</span>
+                                            <span>{`Rp${formatNumber(Number(answers[1]) + Number(answers[101]))}`}</span>
                                         </div>
                                         <div className="flex justify-between">
                                             <span>Total pengeluaran per bulan</span>
