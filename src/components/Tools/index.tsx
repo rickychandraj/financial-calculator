@@ -84,7 +84,7 @@ const Tools = () => {
             icon: Heart,
             title: "Umroh",
             description: "Persiapkan ibadah",
-            href: "/forms/umrah",
+            href: "https://tribelio.page/semoga-segera-umroh",
         },
         {
             id: 5,
