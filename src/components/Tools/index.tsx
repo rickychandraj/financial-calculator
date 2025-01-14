@@ -41,14 +41,14 @@ const Tools = () => {
     ]
 
     const menuItems = [
-        {
-            id: 1,
-            icon: Wallet,
-            title: "Dana Darurat",
-            description: "Atur dana darurat",
-            href: "/forms/emergency-fund",
-            badge: "Hot",
-        },
+        // {
+        //     id: 1,
+        //     icon: Wallet,
+        //     title: "Dana Darurat",
+        //     description: "Atur dana darurat",
+        //     href: "/forms/emergency-fund",
+        //     badge: "Hot",
+        // },
         {
             id: 2,
             icon: Building2,
