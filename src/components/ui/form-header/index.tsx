@@ -2,6 +2,7 @@
 
 import React from "react";
 import {ArrowLeft} from "lucide-react";
+import {ArrowRight} from "lucide-react";
 import Link from "next/link";
 
 
@@ -17,9 +18,9 @@ const FormHeader = ({
                 background: "linear-gradient(135deg, #A51246 0%, #B71E54 50%, #12174F 100%)",
                 padding: "20px"
             }}>
-                <div className="flex items-center text-white mb-4">
+                <div className="flex items-center justify-between text-white mb-4">
                     <Link href={href}>
-                        <ArrowLeft className="w-6 h-6 mr-2 cursor-pointer" />
+                        <span className="cursor-pointer"><p>← Kembali ke Menu Utama</p></span>
                     </Link>
                     <h1 className="text-xl font-semibold">{title}</h1>
                 </div>

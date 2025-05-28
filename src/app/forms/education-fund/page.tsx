@@ -37,12 +37,26 @@ const EducationForm = () => {
         {value: "abroad", display: "Luar Negeri"},
     ]
 
+    const SCHOOL_REGION_MAPPING = {
+        jakarta: "Jakarta",
+        java: "Pulau Jawa (di luar Jakarta)",
+        non_java: "Luar Pulau Jawa",
+        abroad: "Luar Negeri",
+    }
+
     const SCHOOL_CATEGORY_OPTIONS = [
         {value: "negeri", display: "Negeri"},
         {value: "swasta", display: "Swasta"},
         {value: "national", display: "Nasional Plus"},
         {value: "international", display: "Internasional"},
     ]
+
+    const SCHOOL_CATEGORY_MAPPING = {
+        negeri: "Negeri",
+        swasta: "Swasta",
+        national: "Nasional Plus",
+        international: "Internasional",
+    }
 
     const UANG_PANGKAL_MAPPING = {
         sd: {
@@ -239,7 +253,7 @@ const EducationForm = () => {
         {
             id: 3,
             text: `Rencana pendidikan untuk ${kidName}`,
-            subtext: "Pilih jenjang pendidikan",
+            subtext: "Silakan pilih salah satu jenjang pendidikan yang ingin kamu ketahui estimasi biayanya.",
             type: "select",
             options: [
                 {value: "sd", display: "SD/MI"},
@@ -389,7 +403,7 @@ const EducationForm = () => {
             }
         }
 
-        if (educationRange) {
+        if (educationRange && schoolRegion && schoolCategory) {
             setIsResultReady(true);
         }
 
@@ -471,7 +485,26 @@ const EducationForm = () => {
                                     const results = calculateResults();
                                     return (
                                         <>
-                                            <h3 className="text-3xl">Rincian biaya pendidikan:</h3>
+                                            <b><h1 className="text-3xl text-bold">RINCIAN BIAYA PENDIDIKAN:</h1></b>
+                                            <br/>
+                                            <h5 className="text-2xl">Jenjang Pendidikan</h5>
+                                            <h3 className="text-md">{EDUCATION_RANGE_MAPPING[answers[3]]}</h3>
+                                            <br/>
+                                            <h3 className="text-2xl">Daerah Sekolah</h3>
+                                            <h3 className="text-md">{SCHOOL_REGION_MAPPING[answers[100]]}</h3>
+                                            <br/>
+                                            <h3 className="text-2xl">Jenis Sekolah</h3>
+                                            <h3 className="text-md">{SCHOOL_CATEGORY_MAPPING[answers[101]]}</h3>
+                                            <br/>
+                                            <h3 className="text-2xl">Perkiraan Uang Pangkal</h3>
+                                            <h3 className="text-md">{`Rp${formatNumber(answers[102])}`}</h3>
+                                            <br/>
+                                            <h3 className="text-2xl">Perkiraan Uang Sekolah</h3>
+                                            <h3 className="text-md">{`Rp${formatNumber(answers[103])}`}</h3>
+                                            <br/>
+                                            <h3 className="text-2xl">Perkiraan Biaya Lain-lain</h3>
+                                            <h3 className="text-md">{answers[104]}%</h3>
+                                            <br/>
                                             <div className="w-full max-w-2xl rounded-lg overflow-hidden mt-4">
                                                 {/* Header */}
                                                 <div className="bg-[#A51246] p-4 text-center">
@@ -509,7 +542,7 @@ const EducationForm = () => {
                                                 <h4 className="text-2xl mb-4">Strategi</h4>
                                                 <div className="space-y-2">
                                                     <div className="flex justify-between">
-                                                        <span>Jumlah uang yang harus ditabung sampai {answers[1]} masuk sekolah</span>
+                                                        <span>Jumlah uang yang harus ditabung sampai {answers[1]} <b>LULUS</b> sekolah</span>
                                                         <span>{`Rp${formatNumber(Math.round(results.futureAmountToSave))}`}</span>
                                                     </div>
                                                 </div>
@@ -583,7 +616,7 @@ const EducationForm = () => {
                                     />
                                 }
                             <h2 className="text-xl font-semibold my-2 mt-12" style={{ color: "#12174F" }}>Perkiraan uang pangkal</h2>
-                            <p className="text-sm mb-4" style={{ color: "#252E64" }}>Kamu dapat mengubah perkiraan uang pangkal di bawah ini sesuai perkiraan kamu.</p>
+                            <p className="text-sm mb-4" style={{ color: "#252E64" }}>Masukkan estimasi biaya masuk (uang pangkal) yang dibayarkan <b>saat pertama kali</b> mendaftarkan anak ke sekolah tersebut.</p>
                             <CurrencyInput
                                 prefix={"Rp"}
                                 placeholder={""}
@@ -591,7 +624,7 @@ const EducationForm = () => {
                                 onChange={(e) => handleInputChange(102, e.target.value)}
                             />
                             <h2 className="text-xl font-semibold my-2 mt-12" style={{ color: "#12174F" }}>Perkiraan uang sekolah</h2>
-                            <p className="text-sm mb-4" style={{ color: "#252E64" }}>Kamu dapat mengubah perkiraan uang pangkal di bawah ini sesuai perkiraan kamu.</p>
+                            <p className="text-sm mb-4" style={{ color: "#252E64" }}>Masukkan estimasi biaya sekolah bulanan (SPP) <b>yang dibayarkan secara rutin setiap bulan.</b></p>
                             <CurrencyInput
                                 prefix={"Rp"}
                                 suffix={"/ bulan"}
@@ -600,7 +633,7 @@ const EducationForm = () => {
                                 onChange={(e) => handleInputChange(103, e.target.value)}
                             />
                             <h2 className="text-xl font-semibold my-2 mt-12" style={{ color: "#12174F" }}>Perkiraan biaya lain-lain</h2>
-                            <p className="text-sm mb-4" style={{ color: "#252E64" }}>Kamu dapat mengubah perkiraan uang pangkal di bawah ini sesuai perkiraan kamu.</p>
+                            <p className="text-sm mb-4" style={{ color: "#252E64" }}>Masukkan estimasi <b>biaya tambahan</b> seperti buku, seragam, kegiatan ekstrakurikuler, transportasi, atau study tour. Masukkan dalam bentuk <b>persen</b>. <br/><br/><b><i>Berapa persen dari total biaya tahunan (uang sekolah + uang pangkal per tahun)?</i></b>. <br/><br/>Contoh: Jika total biaya tahunan = <b>Rp100.000.000</b> dan biaya tambahan <b>Rp20.000.000</b>, maka biaya tambahan adalah <b>20% dari total biaya tahunan</b> → masukkan angka <b>20.</b></p>
                             <NumberInput
                                 placeholder={""}
                                 suffix={"%"}

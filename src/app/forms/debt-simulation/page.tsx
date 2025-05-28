@@ -59,7 +59,7 @@ const DebtSimulation = () => {
             id: 3,
             text: "Berapa bunga per bulan?",
             type: "number",
-            placeholder: "Contoh: 5%",
+            placeholder: "Contoh: 5",
             suffix: "%",
         },
         {
@@ -67,6 +67,7 @@ const DebtSimulation = () => {
             text: "Berapa % pembayaran minimum perbulan?",
             subtext: "Biasanya ini merupakan ketentuan dari Bank / pihak peminjam. Ada minimal pembayaran yang perlu dipenuhi setiap bulannya",
             type: "number",
+            placeholder: "Contoh: 5",
             suffix: "%",
         },
         {

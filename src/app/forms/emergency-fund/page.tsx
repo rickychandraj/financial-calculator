@@ -26,9 +26,10 @@ const FinancialAuditForm = () => {
     const questions = [
         {
             id: 1,
-            text: "Berapa gaji / income kamu saat ini?",
+            text: "Berapa gaji / pendapatan kamu saat ini?",
             subtext: "Hitung besarnya total pemasukan bersih bulanan kamu",
             type: "currency",
+            suffix: "per bulan",
             placeholder: "Contoh: 50,000,000",
             prefix: "Rp"
         },
@@ -122,12 +123,12 @@ const FinancialAuditForm = () => {
         if (status === "single") {
             if (isSandwichGeneration) {
                 // Single, sandwich generation
-                setEmergencyFund(`Rp${formatNumber(monthlyIncome * 3)} - Rp${formatNumber(monthlyIncome * 6)}`)
-                setMinEmergencyFund(monthlyIncome * 3)
+                setEmergencyFund(`Rp${formatNumber(monthlyExpense * 6)} - Rp${formatNumber(monthlyExpense * 12)}`)
+                setMinEmergencyFund(monthlyExpense * 3)
             } else {
                 // Single, non-sandwich generation
-                setEmergencyFund(`Rp${formatNumber(monthlyExpense * 3)} - Rp${formatNumber(Math.max(monthlyExpense * 6, monthlyIncome * 3))}`)
-                setMinEmergencyFund(monthlyIncome * 3)
+                setEmergencyFund(`Rp${formatNumber(monthlyExpense * 3)} - Rp${formatNumber(monthlyExpense * 6)}`)
+                setMinEmergencyFund(monthlyExpense * 3)
             }
         }
 
@@ -135,24 +136,24 @@ const FinancialAuditForm = () => {
             if (isHavingKids) {
                 // Nikah, sudah punya anak, sandwich generation (9x gaji bulanan - 12x gaji bulanan)
                 if (isSandwichGeneration || isPartnerSandwichGeneration) {
-                    setEmergencyFund(`Rp${formatNumber(monthlyIncome * 9)} - Rp${formatNumber(monthlyIncome * 12)}`);
-                    setMinEmergencyFund(monthlyIncome * 9)
+                    setEmergencyFund(`Rp${formatNumber(monthlyExpense * 18)} - Rp${formatNumber(monthlyExpense * 36)}`);
+                    setMinEmergencyFund(monthlyExpense * 18)
                 }
                 // Nikah, sudah punya anak, non-sandwich generation (6x gaji bulanan - 9x gaji bulanan)
                 else {
-                    setEmergencyFund(`Rp${formatNumber(monthlyIncome * 6)} - Rp${formatNumber(monthlyIncome * 9)}`);
-                    setMinEmergencyFund(monthlyIncome * 6)
+                    setEmergencyFund(`Rp${formatNumber(monthlyExpense * 9)} - Rp${formatNumber(monthlyExpense * 12)}`);
+                    setMinEmergencyFund(monthlyExpense * 9)
                 }
             } else {
                 // Nikah, belum punya anak, sandwich generation (6x pengeluaran bulanan - 9x pengeluaran bulanan)
                 if (isSandwichGeneration || isPartnerSandwichGeneration) {
-                    setEmergencyFund(`Rp${formatNumber(monthlyExpense * 6)} - Rp${formatNumber(monthlyExpense * 9)}`);
-                    setMinEmergencyFund(monthlyIncome * 6)
+                    setEmergencyFund(`Rp${formatNumber(monthlyExpense * 12)} - Rp${formatNumber(monthlyExpense * 24)}`);
+                    setMinEmergencyFund(monthlyExpense * 12)
                 }
                 // Nikah, belum punya anak, non-sandwich generation (6x pengeluaran bulanan - 6x pengeluaran bulanan)
                 else {
-                    setEmergencyFund(`Rp${formatNumber(monthlyExpense * 6)} - Rp${formatNumber(monthlyExpense * 6)}`);
-                    setMinEmergencyFund(monthlyIncome * 6)
+                    setEmergencyFund(`Rp${formatNumber(monthlyExpense * 6)} - Rp${formatNumber(monthlyExpense * 9)}`);
+                    setMinEmergencyFund(monthlyExpense * 6)
                 }
             }
         }
@@ -261,7 +262,7 @@ const FinancialAuditForm = () => {
             if (isSandwichGeneration) {
                 descriptionTemp = "Saran Mama berUANG: Kamu setidaknya harus memiliki dana darurat 3-6x dari pendapatan bulanan kamu"
             } else {
-                descriptionTemp = "Saran Mama berUANG: Kamu setidaknya harus memiliki dana darurat 3x pengeluaran bulanan - 3x pendapatan bulanan kamu. "
+                descriptionTemp = "Saran Mama berUANG: Kamu setidaknya harus memiliki dana darurat 3x pengeluaran bulanan - 6x pengeluaran bulanan kamu. "
                 if (monthlyIncome < monthlyExpense) {
                     additionalDescription = "Jumlah pemasukan per bulan kamu masih perlu ditingkatkan hingga sekurang-kurangnya sejumlah pengeluaran kamu per bulan."
                 }
