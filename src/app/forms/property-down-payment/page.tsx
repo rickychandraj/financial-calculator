@@ -177,10 +177,16 @@ const DPPropertyForm = () => {
                                                     <span>Harga properti saat ini</span>
                                                     <span>{`Rp${formatNumber(answers[1])}`}</span>
                                                 </div>
+                                                <br/>
                                                 <div className="flex justify-between">
                                                     <span>Proyeksi harga properti {answers[2]} tahun lagi</span>
                                                     <span>{`Rp${formatNumber(Math.round(results.futurePrice))}`}</span>
                                                 </div>
+                                                <div className="flex justify-between">
+                                                    <span><b>(Asumsi: Tingkat Inflasi = 4% / tahun)</b></span>
+                                                    <span></span>
+                                                </div>
+                                                <br/>
                                                 <div className="flex justify-between">
                                                     <span>Proyeksi total DP yang dibutuhkan {answers[2]} tahun lagi</span>
                                                     <span>{`Rp${formatNumber(Math.round(results.dpNeeded))}`}</span>
@@ -195,10 +201,16 @@ const DPPropertyForm = () => {
                                                     <span>Dana yang sudah terkumpul</span>
                                                     <span>{`Rp${formatNumber(answers[4])}`}</span>
                                                 </div>
+                                                <br/>
                                                 <div className="flex justify-between">
-                                                    <span>Proyeksi nilai dana yang sudah terkumpul {answers[2]} tahun lagi</span>
+                                                    <span>Proyeksi nilai dana yang sudah terkumpul {answers[2]} tahun lagi </span>
                                                     <span>{`Rp${formatNumber(Math.round(results.totalProjectedSavings))}`}</span>
                                                 </div>
+                                                <div className="flex justify-between">
+                                                    <span><b>(Asumsi: Imbal Balik Investasi = 6% / tahun)</b></span>
+                                                    <span></span>
+                                                </div>
+                                                <br/>
                                                 <div className="flex justify-between">
                                                     <span>Gap dengan target</span>
                                                     <span className={results.isTargetMet ? "text-green-400" : "text-red-400"}>
@@ -219,9 +231,14 @@ const DPPropertyForm = () => {
                                                         <span>Total uang yang harus ditabung hingga {answers[2]} tahun lagi</span>
                                                         <span>{`Rp${formatNumber(Math.round(results.futureAmountToSave))}`}</span>
                                                     </div>
+                                                    <br/>
                                                     <div className="flex justify-between">
                                                         <span>Total uang yang harus ditabung setiap akhir bulan (per bulan ini)</span>
                                                         <span>{`Rp${formatNumber(Math.round(results.totalAmountToSaveMonthly))}`}</span>
+                                                    </div>
+                                                    <div className="flex justify-between">
+                                                        <span><b>(Asumsi: Imbal Balik Investasi = 6% / tahun)</b></span>
+                                                        <span></span>
                                                     </div>
                                                 </div>
                                             </div>

@@ -290,7 +290,7 @@ const EducationForm = () => {
 
     const calculateResults = () => {
         console.log("Calculate Results...")
-        const inflationRate = Number("10") / 100;
+        const inflationRate = Number("4") / 100;
 
         const educationLevel = answers[3];
         const childrenAge = Number(answers[2]);
@@ -312,12 +312,12 @@ const EducationForm = () => {
         console.log("childrenAge");
         console.log(childrenAge);
 
-        const uangPangkal = Number(answers[102]) * Math.pow(1 + inflationRate, yearsUntil);
-        const spp = Number(answers[103]) * Math.pow(1 + inflationRate, yearsUntil) * 12 * yearsUntil;
-        const biayaLainLain = inflationRate * (spp + uangPangkal);
+        const uangPangkal = Number(answers[102]) * Math.pow(1 + inflationRate, Math.max(6 - Number(answers[2]), 0));
+        const spp = Number(answers[103]) * Math.pow(1 + inflationRate, Math.max(6 - Number(answers[2]), 0)) * 12 * yearsUntil;
+        const biayaLainLain = (Number(answers[104]) / 100) * (spp + uangPangkal);
         const total = uangPangkal + spp + biayaLainLain;
 
-        const futureAmountToSave = total * ((1 - (1 / Math.pow(1 + inflationRate, yearsUntil))) / inflationRate);
+        const futureAmountToSave = total
         const totalAmountToSaveMonthly = (futureAmountToSave * inflationRate / 12) / ((Math.pow(1 + inflationRate/12, yearsUntil * 12) - 1))
 
         return {
@@ -538,21 +538,15 @@ const EducationForm = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="bg-[#1E2432] rounded-lg p-4 mt-8">
-                                                <h4 className="text-2xl mb-4">Strategi</h4>
-                                                <div className="space-y-2">
-                                                    <div className="flex justify-between">
-                                                        <span>Jumlah uang yang harus ditabung sampai {answers[1]} <b>LULUS</b> sekolah</span>
-                                                        <span>{`Rp${formatNumber(Math.round(results.futureAmountToSave))}`}</span>
-                                                    </div>
-                                                </div>
-                                                <div className="space-y-2">
-                                                    <div className="flex justify-between">
-                                                        <span>Jumlah uang yang ditabung setiap akhir bulan (per bulan ini) </span>
-                                                        <span>{`Rp${formatNumber(Math.round(results.totalAmountToSaveMonthly))}`}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            {/*<div className="bg-[#1E2432] rounded-lg p-4 mt-8">*/}
+                                            {/*    <h4 className="text-2xl mb-4">Kesimpulan</h4>*/}
+                                            {/*    <div className="space-y-2">*/}
+                                            {/*        <div className="flex justify-between">*/}
+                                            {/*            <span>Total uang yang harus ditabung untuk biaya {EDUCATION_RANGE_MAPPING[answers[3]]}-nya <b>{answers[1]}</b></span>*/}
+                                            {/*            <span>{`Rp${formatNumber(Math.round(results.futureAmountToSave))}`}</span>*/}
+                                            {/*        </div>*/}
+                                            {/*    </div>*/}
+                                            {/*</div>*/}
                                         </>
                                     )
                                 })()}
@@ -633,7 +627,7 @@ const EducationForm = () => {
                                 onChange={(e) => handleInputChange(103, e.target.value)}
                             />
                             <h2 className="text-xl font-semibold my-2 mt-12" style={{ color: "#12174F" }}>Perkiraan biaya lain-lain</h2>
-                            <p className="text-sm mb-4" style={{ color: "#252E64" }}>Masukkan estimasi <b>biaya tambahan</b> seperti buku, seragam, kegiatan ekstrakurikuler, transportasi, atau study tour. Masukkan dalam bentuk <b>persen</b>. <br/><br/><b><i>Berapa persen dari total biaya tahunan (uang sekolah + uang pangkal per tahun)?</i></b>. <br/><br/>Contoh: Jika total biaya tahunan = <b>Rp100.000.000</b> dan biaya tambahan <b>Rp20.000.000</b>, maka biaya tambahan adalah <b>20% dari total biaya tahunan</b> → masukkan angka <b>20.</b></p>
+                            <p className="text-sm mb-4" style={{ color: "#252E64" }}>Masukkan estimasi <b>biaya tambahan</b> seperti buku, seragam, kegiatan ekstrakurikuler, transportasi, atau study tour. Masukkan dalam bentuk <b>persen</b>. <br/><br/><b><i>Berapa persen dari total biaya tahunan (uang sekolah + uang pangkal)?</i></b>. <br/><br/>Contoh: Jika total biaya tahunan = <b>Rp100.000.000</b> dan biaya tambahan <b>Rp20.000.000</b>, maka biaya tambahan adalah <b>20% dari total biaya tahunan</b> → masukkan angka <b>20.</b></p>
                             <NumberInput
                                 placeholder={""}
                                 suffix={"%"}

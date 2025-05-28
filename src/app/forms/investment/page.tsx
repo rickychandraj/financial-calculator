@@ -116,7 +116,7 @@ const InvestmentForm = () => {
         const totalAmountNeedToChase = Math.max(targetAmount - totalProjectedSavings, 0)
 
         if (timing == "begin") {
-            amountToSave = totalAmountNeedToChase * periodicReturn / Math.pow((1 + periodicReturn), totalPeriods) - 1
+            amountToSave = Number(totalAmountNeedToChase) / Number((((Math.pow((1 + periodicReturn), totalPeriods)) - 1) * (1 + periodicReturn)) / periodicReturn)
         } else {
             amountToSave = (totalAmountNeedToChase * periodicReturn) / ((Math.pow(1 + periodicReturn, yearsToCollect * 12) - 1))
         }

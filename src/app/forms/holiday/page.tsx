@@ -194,17 +194,28 @@ const HolidayPlanningForm = () => {
                                                     <span>Biaya per orang (saat ini)</span>
                                                     <span>{`Rp${formatNumber(Math.round(results.currentCostPerPerson))}`}</span>
                                                 </div>
+                                                <br/>
                                                 <div className="flex justify-between">
                                                     <span>Proyeksi biaya per orang ({answers[1]} tahun lagi)</span>
                                                     <span>{`Rp${formatNumber(Math.round(results.futureCostPerPerson))}`}</span>
                                                 </div>
                                                 <div className="flex justify-between">
+                                                    <span><b>(Asumsi: Tingkat Inflasi = 4% / tahun)</b></span>
+                                                    <span></span>
+                                                </div>
+                                                <br/>
+                                                <div className="flex justify-between">
                                                     <span>Total biaya untuk {answers[3]} orang (saat ini)</span>
                                                     <span>{`Rp${formatNumber(Math.round(results.totalCurrentCost))}`}</span>
                                                 </div>
+                                                <br/>
                                                 <div className="flex justify-between">
                                                     <span>Proyeksi total biaya untuk {answers[3]} orang ({answers[1]} tahun lagi)</span>
                                                     <span>{`Rp${formatNumber(Math.round(results.totalFutureCost))}`}</span>
+                                                </div>
+                                                <div className="flex justify-between">
+                                                    <span><b>(Asumsi: Tingkat Inflasi = 4% / tahun)</b></span>
+                                                    <span></span>
                                                 </div>
                                             </>
                                         );
@@ -220,6 +231,7 @@ const HolidayPlanningForm = () => {
                                         <span>Dana yang sudah terkumpul</span>
                                         <span>{`Rp${formatNumber(answers[4])}`}</span>
                                     </div>
+                                    <br/>
                                     {isResultReady && (() => {
                                         const results = calculateResults();
                                         return (
@@ -228,6 +240,11 @@ const HolidayPlanningForm = () => {
                                                     <span>Proyeksi nilai dana terkumpul {answers[1]} tahun lagi</span>
                                                     <span>{`Rp${formatNumber(Math.round(results.totalProjectedSavings))}`}</span>
                                                 </div>
+                                                <div className="flex justify-between">
+                                                    <span><b>(Asumsi: Imbal Balik Investasi = 6% / tahun)</b></span>
+                                                    <span></span>
+                                                </div>
+                                                <br/>
                                                 <div className="flex justify-between">
                                                     <span>Gap dengan target</span>
                                                     <span className={results.isTargetMet ? "text-green-400" : "text-red-400"}>
@@ -253,10 +270,16 @@ const HolidayPlanningForm = () => {
                                                 <span>Total uang yang harus ditabung hingga {answers[1]} tahun lagi</span>
                                                 <span>{`Rp${formatNumber(Math.round(results.futureAmountToSave))}`}</span>
                                             </div>
+                                            <br/>
                                             <div className="flex justify-between">
                                                 <span>Total uang yang harus ditabung setiap akhir bulan (per bulan ini)</span>
                                                 <span>{`Rp${formatNumber(Math.round(results.totalAmountToSaveMonthly))}`}</span>
                                             </div>
+                                            <div className="flex justify-between">
+                                                <span><b>(Asumsi: Imbal Balik Investasi = 6% / tahun)</b></span>
+                                                <span></span>
+                                            </div>
+                                            <br/>
                                         </div>
                                     </div>
                                 );
