@@ -35,8 +35,8 @@ const FinancialAuditForm = () => {
         },
         {
             id: 2,
-            text: "Berapa jumlah tanggungan (selain pasangan) kamu setiap bulan?",
-            subtext: "Berapa banyak orang yang bergantung pada penghasilanmu? Contoh: orang tua, anak, dll. ⚠️ Perlu diperhatikan bahwa pasangan (suami / istri) tidak dianggap sebagai tanggungan yang dimaksud disini.",
+            text: "Berapa jumlah tanggungan (selain pasangan dan/atau anak) kamu setiap bulan?",
+            subtext: "Berapa banyak orang yang bergantung pada penghasilanmu? Contoh: orang tua, saudara, dll. ⚠️ Perlu diperhatikan bahwa pasangan (suami / istri) dan anak tidak dianggap sebagai tanggungan yang dimaksud disini.",
             type: "number",
             suffix: "orang",
             placeholder: "Contoh: 2",
