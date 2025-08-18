@@ -247,7 +247,7 @@ const EducationForm = () => {
         {
             id: 2,
             text: `Usia ${kidName} saat ini`,
-            subtext: "Catatan: informasi ini hanya akan digunakan untuk kebutuhan penamaan perhitungan",
+            subtext: "",
             type: "number",
             suffix: "tahun",
         },
