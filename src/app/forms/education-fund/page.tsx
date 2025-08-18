@@ -12,6 +12,7 @@ const EducationForm = () => {
     const [educationFundStrategy, setEducationFundStrategy] = useState(null);
     const [kidName, setKidName] = useState("");
     const [isResultReady, setIsResultReady] = useState(false);
+    const [isAnnouncementAcknowledged, setIsAnnouncementAcknowledged] = useState(false);
     const [answers, setAnswers] = useState({
         1: null, // nama anak
         2: null, // usia anak
@@ -288,6 +289,10 @@ const EducationForm = () => {
         setCurrentStep(prev => prev + 1);
     }
 
+    const handleSetIsAcknowledged = () => {
+        setIsAnnouncementAcknowledged(true);
+    }
+
     const calculateResults = () => {
         console.log("Calculate Results...")
         const inflationRate = Number("4") / 100;
@@ -295,15 +300,26 @@ const EducationForm = () => {
         const educationLevel = answers[3];
         const childrenAge = Number(answers[2]);
 
+        let finishedAt = 0;
+        let startedAt = 0;
+
         let yearsUntil = 0;
         if (educationLevel == "sd") {
             yearsUntil = 6;
+            startedAt = 6;
+            finishedAt = 12;
         } else if (educationLevel == "smp") {
             yearsUntil = 3;
+            startedAt = 12;
+            finishedAt = 15;
         } else if (educationLevel == "sma") {
             yearsUntil = 3;
+            startedAt = 15;
+            finishedAt = 18
         } else if (educationLevel == "s1") {
             yearsUntil = 4;
+            startedAt = 18;
+            finishedAt = 22
         }
 
         console.log(answers[102]);
@@ -312,13 +328,13 @@ const EducationForm = () => {
         console.log("childrenAge");
         console.log(childrenAge);
 
-        const uangPangkal = Number(answers[102]) * Math.pow(1 + inflationRate, Math.max(6 - Number(answers[2]), 0));
-        const spp = Number(answers[103]) * Math.pow(1 + inflationRate, Math.max(6 - Number(answers[2]), 0)) * 12 * yearsUntil;
+        const uangPangkal = Number(answers[102]) * Math.pow(1 + inflationRate, Math.max(startedAt - Number(answers[2]), 0));
+        const spp = Number(answers[103]) * Math.pow(1 + inflationRate, Math.max(finishedAt - Number(answers[2]), 0)) * 12 * yearsUntil;
         const biayaLainLain = (Number(answers[104]) / 100) * (spp + uangPangkal);
         const total = uangPangkal + spp + biayaLainLain;
 
         const futureAmountToSave = total
-        const totalAmountToSaveMonthly = (futureAmountToSave * inflationRate / 12) / ((Math.pow(1 + inflationRate/12, yearsUntil * 12) - 1))
+        const totalAmountToSaveMonthly = total / ((Number(startedAt) - Number(childrenAge)) * 12)
 
         return {
             uangPangkal,
@@ -435,7 +451,42 @@ const EducationForm = () => {
             }}
         >
             {
-                currentStep <= totalSteps &&
+                currentStep === 1 && !isAnnouncementAcknowledged &&
+                (
+                    <div>
+                        <FormHeader
+                          href={"/"}
+                          title={"Perhitungan Rencana Pendidikan Anak"}
+                          currentStep={currentStep}
+                          totalSteps={totalSteps}
+                        />
+                        <div className="p-6">
+                            <div className="bg-white rounded-xl p-6 shadow-lg">
+                                <h2 className="text-xl font-semibold mb-1" style={{ color: "#12174F" }}>
+                                    DISCLAIMER ⚠️
+                                </h2>
+                                <h4 className="text-md italic" style={{ color: "#000000" }}>
+                                    Gunakan kalkulator ini sebelum anak masuk jenjang pendidikan yang dituju agar hasil perhitungan lebih relevan untuk perencanaan ke depan.
+                                </h4>
+                                <div className="flex justify-between mt-8">
+                                    <button
+                                      onClick={() => handleSetIsAcknowledged()}
+                                      className="px-4 py-1 rounded-lg text-white"
+                                      style={{
+                                          background: "linear-gradient(135deg, #A51246, #B71E54)",
+                                          marginLeft: "auto",
+                                      }}
+                                    >
+                                        Baik, saya mengerti
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
+            {
+                currentStep <= totalSteps && isAnnouncementAcknowledged &&
                 (
                     <div>
                         <FormHeader
@@ -533,20 +584,24 @@ const EducationForm = () => {
 
                                                     {/* Total */}
                                                     <div className="bg-[#3A4356] p-4 flex justify-between items-center">
-                                                        <span className="text-white text-lg">Total</span>
+                                                        <span className="text-white text-lg">Total biaya pendidikan (setelah memperhitungkan inflasi)</span>
                                                         <span className="text-white text-lg font-semibold">{`Rp${formatNumber(Math.round(results.total))}`}</span>
                                                     </div>
                                                 </div>
                                             </div>
-                                            {/*<div className="bg-[#1E2432] rounded-lg p-4 mt-8">*/}
-                                            {/*    <h4 className="text-2xl mb-4">Kesimpulan</h4>*/}
-                                            {/*    <div className="space-y-2">*/}
-                                            {/*        <div className="flex justify-between">*/}
-                                            {/*            <span>Total uang yang harus ditabung untuk biaya {EDUCATION_RANGE_MAPPING[answers[3]]}-nya <b>{answers[1]}</b></span>*/}
-                                            {/*            <span>{`Rp${formatNumber(Math.round(results.futureAmountToSave))}`}</span>*/}
-                                            {/*        </div>*/}
-                                            {/*    </div>*/}
-                                            {/*</div>*/}
+                                            <div className="bg-[#1E2432] rounded-lg p-4 mt-8">
+                                                <h4 className="text-2xl mb-4 font-semibold">Strategi</h4>
+                                                <div className="space-y-2">
+                                                    <div className="flex justify-between">
+                                                        <span>Jumlah tabungan yang harus terkumpul sebelum anak masuk sekolah</span>
+                                                        <span>{`Rp${formatNumber(Math.round(results.total))}`}</span>
+                                                    </div>
+                                                    <div className="flex justify-between">
+                                                        <span>Jumlah uang yang harus ditabung setiap akhir bulan</span>
+                                                        <span>{`Rp${formatNumber(Math.round(results.totalAmountToSaveMonthly))}`}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </>
                                     )
                                 })()}
