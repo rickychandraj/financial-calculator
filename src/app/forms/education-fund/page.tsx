@@ -593,7 +593,7 @@ const EducationForm = () => {
                                                 <h4 className="text-2xl mb-4 font-semibold">Strategi</h4>
                                                 <div className="space-y-2">
                                                     <div className="flex justify-between">
-                                                        <span>Jumlah tabungan yang harus terkumpul sebelum anak masuk sekolah</span>
+                                                        <span>Jumlah tabungan yang harus terkumpul sebelum anak masuk {EDUCATION_RANGE_MAPPING[answers[3]]}</span>
                                                         <span>{`Rp${formatNumber(Math.round(results.total))}`}</span>
                                                     </div>
                                                     <div className="flex justify-between">
