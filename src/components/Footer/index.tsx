@@ -26,7 +26,7 @@ export const Footer = () => {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
                 <div>
                     <p className="text-sm text-gray-600">
-                        © 2021 - 2024 Ayu Sara Herlia. All Rights Reserved.
+                        © 2021 - 2025 Ayu Sara Herlia. All Rights Reserved.
                     </p>
                     <p className="text-sm text-gray-500 mt-1">
                         Your Online Money Mom
