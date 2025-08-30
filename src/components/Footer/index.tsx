@@ -1,4 +1,24 @@
-import { Youtube, Instagram, Music } from 'lucide-react';
+import Link from "next/link";
+import { Youtube, Instagram, Globe } from 'lucide-react';
+
+const footerItems = [
+    {
+        id: 1,
+        icon: <Youtube className="w-6 h-6 text-gray-600 transform transition-all duration-300 group-hover:scale-110 group-hover:text-gray-900"/>,
+        href: "https://www.youtube.com/@MamaBerUANG.",
+    },
+    {
+        id: 2,
+        icon: <Instagram className="w-6 h-6 text-gray-600 transform transition-all duration-300 group-hover:scale-110 group-hover:text-gray-900"/>,
+        href: "https://www.instagram.com/mamaber.uang",
+    },
+    {
+        id: 3,
+        icon: <Globe className="w-6 h-6 text-gray-600 transform transition-all duration-300 group-hover:scale-110 group-hover:text-gray-900"/>,
+        href: "https://www.mamaberuang.com",
+    },
+
+]
 
 export const Footer = () => {
     return (
@@ -13,10 +33,15 @@ export const Footer = () => {
                     </p>
                 </div>
                 <div className="flex gap-8">
-                    {[Youtube, Instagram, Music].map((Icon, idx) => (
+                    {footerItems.map((item, idx) => (
                         <div key={idx} className="group cursor-pointer">
                             <div className="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors duration-300">
-                                <Icon className="w-6 h-6 text-gray-600 transform transition-all duration-300 group-hover:scale-110 group-hover:text-gray-900" />
+                                <Link
+                                  key={item.id}
+                                  href={item.href}
+                                >
+                                    {item.icon}
+                                </Link>
                             </div>
                         </div>
                     ))}

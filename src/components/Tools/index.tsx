@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+
 import React from "react";
 import Link from "next/link";
 import {
@@ -18,6 +20,22 @@ import {
 } from "lucide-react";
 
 const Tools = () => {
+    const baseUsers = 1899; // starting point: 1.8K users
+    const dailyGrowth = 0.1; // 2% per day
+    const startDate = new Date("2025-08-30"); // adjust to your launch date
+
+    const [users, setUsers] = useState(baseUsers);
+
+    useEffect(() => {
+        const today = new Date();
+        const daysPassed = Math.floor(
+          (today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
+        );
+
+        const grownUsers = Math.round(baseUsers * Math.pow(1 + dailyGrowth, daysPassed));
+        setUsers(grownUsers);
+    }, []);
+
     const highlightedMenuItems = [
         {
             id: 1,
@@ -28,56 +46,46 @@ const Tools = () => {
         },
         {
             id: 2,
-            icon: PiggyBank,
-            title: "Cek Kondisi Keuangan",
-            href: "/forms/financial-audit",
+            icon: Wallet,
+            title: "Hitung Dana Darurat",
+            description: "Atur dana darurat",
+            href: "/forms/emergency-fund",
         },
         {
             id: 3,
-            icon: CreditCard,
-            title: "Pelunasan Utang",
-            href: "/forms/debt-simulation",
+            icon: Building2,
+            title: "Hitung Dana Pensiun",
+            description: "Persiapkan masa depan",
+            href: "/forms/pension-fund",
         },
     ]
 
     const menuItems = [
+
         {
             id: 1,
-            icon: Wallet,
-            title: "Dana Darurat",
-            description: "Atur dana darurat",
-            href: "/forms/emergency-fund",
-            badge: "Hot",
-        },
-        {
-            id: 2,
-            icon: Building2,
-            title: "Dana Pensiun",
-            description: "Persiapkan masa depan",
-            href: "/forms/pension-fund",
-            badge: "Hot",
-        },
-        {
-            id: 3,
             icon: GraduationCap,
             title: "Pendidikan Anak",
             description: "Investasi pendidikan",
             href: "/forms/education-fund",
             badge: "Hot",
+            disabled: false,
         },
         {
-            id: 10,
+            id: 2,
             icon: LineChart,
             title: "Investasi",
             description: "Mulai investasi",
             href: "/forms/investment",
+            disabled: false,
         },
         {
-            id: 7,
+            id: 3,
             icon: Home,
             title: "DP Properti",
             description: "Rencana DP rumah",
-            href: "/forms/property-down-payment"
+            href: "/forms/property-down-payment",
+            disabled: false,
         },
         {
             id: 4,
@@ -85,6 +93,7 @@ const Tools = () => {
             title: "Umroh",
             description: "Persiapkan ibadah",
             href: "https://tribelio.page/semoga-segera-umroh",
+            disabled: false,
         },
         {
             id: 5,
@@ -92,6 +101,7 @@ const Tools = () => {
             title: "Liburan",
             description: "Rencanakan liburan",
             href: "/forms/holiday",
+            disabled: false,
         },
         {
             id: 6,
@@ -99,13 +109,31 @@ const Tools = () => {
             title: "Barang",
             description: "Daftar pembelian",
             href: "/forms/item",
+            disabled: false,
         },
         {
-            id: 8,
+            id: 7,
             icon: Car,
             title: "Kendaraan",
             description: "Rencana kendaraan",
-            href: "/forms/transportation"
+            href: "/forms/transportation",
+            disabled: false,
+        },
+        {
+            id: 8,
+            icon: PiggyBank,
+            title: "Cek Kondisi Keuangan",
+            href: "/forms/financial-audit",
+            badge: "Coming Soon",
+            disabled: true,
+        },
+        {
+            id: 9,
+            icon: CreditCard,
+            title: "Pelunasan Utang",
+            href: "/forms/debt-simulation",
+            badge: "Coming Soon",
+            disabled: true,
         },
     ]
 
@@ -173,7 +201,7 @@ const Tools = () => {
                 <div className="mt-6 flex items-center justify-between text-white/80">
                     <div className="flex items-center space-x-2">
                         <BarChart className="w-4 h-4" />
-                        <span>1.8K Active Users</span>
+                        <span>{Intl.NumberFormat("en-US", { notation: "compact" }).format(users)} Active Users</span>
                     </div>
                 </div>
             </div>
@@ -182,17 +210,28 @@ const Tools = () => {
                 {menuItems.map((item, index) => (
                     <Link
                         key={index}
-                        href={item.href}
+                        href={item.disabled ? "#" : item.href}
                         className="block"
                     >
                         <div className="flex flex-col items-center justify-center cursor-pointer group my-2">
+
                             <div
                                 className="w-16 h-16 rounded-full mb-3 flex items-center justify-center transform transition-all duration-300 group-hover:-translate-y-2"
                                 style={{
-                                    background: "linear-gradient(135deg, #A51246, #B71E54)",
+                                    background: `${item.disabled ? "#D3A8B7" : "linear-gradient(135deg, #A51246, #B71E54)"}`
                                 }}
                             >
                                 <item.icon className="w-8 h-8" style={{ color: "white" }} />
+                                {/* Badge (only when disabled) */}
+                                {item.disabled && (
+                                  <span
+                                    className="absolute -top-1 -right-8 px-2 py-0.5 text-[8px] w-[72px] font-semibold
+                                     rounded-full bg-[#12174F] text-white shadow ring-2 ring-white
+                                     pointer-events-none"
+                                  >
+                                  Coming Soon
+                                </span>
+                                )}
                             </div>
                             <span
                                 className="text-center font-medium text-sm"

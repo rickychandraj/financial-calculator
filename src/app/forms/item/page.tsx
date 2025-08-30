@@ -171,6 +171,7 @@ const ItemPurchaseForm = () => {
                                         <span>Harga barang saat ini</span>
                                         <span>{`Rp${formatNumber(answers[2])}`}</span>
                                     </div>
+                                    <br/>
                                     {isResultReady && (() => {
                                         const results = calculateResults();
                                         return (
@@ -178,6 +179,10 @@ const ItemPurchaseForm = () => {
                                                 <div className="flex justify-between">
                                                     <span>Proyeksi harga barang {answers[1]} tahun lagi</span>
                                                     <span>{`Rp${formatNumber(Math.round(results.futurePrice))}`}</span>
+                                                </div>
+                                                <div className="flex justify-between ">
+                                                    <span className="italic"><b>(Asumsi: Tingkat Inflasi = 4% / tahun)</b></span>
+                                                    <span></span>
                                                 </div>
                                             </>
                                         );
@@ -197,9 +202,14 @@ const ItemPurchaseForm = () => {
                                                     <span>Dana yang sudah terkumpul</span>
                                                     <span>{`Rp${formatNumber(answers[3])}`}</span>
                                                 </div>
+                                                <br/>
                                                 <div className="flex justify-between">
                                                     <span>Proyeksi nilai dana yang sudah terkumpul {answers[1]} tahun lagi</span>
                                                     <span>{`Rp${formatNumber(Math.round(results.totalProjectedSavings))}`}</span>
+                                                </div>
+                                                <div className="flex justify-between">
+                                                    <span className="italic"><b>(Asumsi: Imbal Balik Investasi = 6% / tahun)</b></span>
+                                                    <span></span>
                                                 </div>
                                             </>
                                         );
@@ -218,9 +228,14 @@ const ItemPurchaseForm = () => {
                                                 <span>Total uang yang harus ditabung hingga {answers[1]} tahun lagi</span>
                                                 <span>{`Rp${formatNumber(Math.round(results.futureAmountToSave))}`}</span>
                                             </div>
+                                            <br/>
                                             <div className="flex justify-between">
                                                 <span>Total uang yang harus ditabung setiap akhir bulan (per bulan ini)</span>
                                                 <span>{`Rp${formatNumber(Math.round(results.totalAmountToSaveMonthly))}`}</span>
+                                            </div>
+                                            <div className="flex justify-between">
+                                                <span className="italic"><b>(Asumsi: Imbal Balik Investasi = 6% / tahun)</b></span>
+                                                <span></span>
                                             </div>
                                         </div>
                                     </div>

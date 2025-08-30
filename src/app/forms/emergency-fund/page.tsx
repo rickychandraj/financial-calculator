@@ -124,12 +124,12 @@ const FinancialAuditForm = () => {
             if (isSandwichGeneration) {
                 // Single, sandwich generation
                 // setEmergencyFund(`Rp${formatNumber(monthlyExpense * 6)} - Rp${formatNumber(monthlyExpense * 12)}`)
-                setEmergencyFund(`Rp${formatNumber(monthlyIncome * 3)} - Rp${formatNumber(monthlyIncome * 6)}`)
-                setMinEmergencyFund(monthlyIncome * 3)
+                setEmergencyFund(`Rp${formatNumber((Number(answers[1]) + Number(answers[101])) * 3)} - Rp${formatNumber((Number(answers[1]) + Number(answers[101])) * 6)}`)
+                setMinEmergencyFund((Number(answers[1]) + Number(answers[101])) * 3)
             } else {
                 // Single, non-sandwich generation
                 // setEmergencyFund(`Rp${formatNumber(monthlyExpense * 3)} - Rp${formatNumber(monthlyExpense * 6)}`)
-                setEmergencyFund(`Rp${formatNumber(monthlyExpense * 3)} - Rp${formatNumber(monthlyIncome * 3)}`)
+                setEmergencyFund(`Rp${formatNumber(monthlyExpense * 3)} - Rp${formatNumber((Number(answers[1]) + Number(answers[101])) * 3)}`)
                 setMinEmergencyFund(monthlyExpense * 3)
             }
         }
@@ -139,26 +139,26 @@ const FinancialAuditForm = () => {
                 // Nikah, sudah punya anak, sandwich generation (9x gaji bulanan - 12x gaji bulanan)
                 if (isSandwichGeneration || isPartnerSandwichGeneration) {
                     // setEmergencyFund(`Rp${formatNumber(monthlyExpense * 18)} - Rp${formatNumber(monthlyExpense * 36)}`);
-                    setEmergencyFund(`Rp${formatNumber(monthlyIncome * 9)} - Rp${formatNumber(monthlyIncome * 12)}`);
-                    setMinEmergencyFund(monthlyIncome * 9)
+                    setEmergencyFund(`Rp${formatNumber((Number(answers[1]) + Number(answers[101])) * 9)} - Rp${formatNumber((Number(answers[1]) + Number(answers[101])) * 12)}`);
+                    setMinEmergencyFund((Number(answers[1]) + Number(answers[101])) * 9)
                 }
                 // Nikah, sudah punya anak, non-sandwich generation (6x gaji bulanan - 9x gaji bulanan)
                 else {
                     // setEmergencyFund(`Rp${formatNumber(monthlyExpense * 9)} - Rp${formatNumber(monthlyExpense * 12)}`);
-                    setEmergencyFund(`Rp${formatNumber(monthlyIncome * 6)} - Rp${formatNumber(monthlyIncome * 9)}`);
-                    setMinEmergencyFund(monthlyIncome * 6)
+                    setEmergencyFund(`Rp${formatNumber((Number(answers[1]) + Number(answers[101])) * 6)} - Rp${formatNumber((Number(answers[1]) + Number(answers[101])) * 9)}`);
+                    setMinEmergencyFund((Number(answers[1]) + Number(answers[101])) * 6)
                 }
             } else {
                 // Nikah, belum punya anak, sandwich generation (6x pengeluaran bulanan - 9x gaji bulanan)
                 if (isSandwichGeneration || isPartnerSandwichGeneration) {
-                    setEmergencyFund(`Rp${formatNumber(monthlyExpense * 6)} - Rp${formatNumber(monthlyIncome * 9)}`);
+                    setEmergencyFund(`Rp${formatNumber(monthlyExpense * 6)} - Rp${formatNumber((Number(answers[1]) + Number(answers[101])) * 9)}`);
                     // setEmergencyFund(`Rp${formatNumber(monthlyExpense * 12)} - Rp${formatNumber(monthlyExpense * 24)}`);
                     setMinEmergencyFund(monthlyExpense * 6)
                 }
                 // Nikah, belum punya anak, non-sandwich generation (6x pengeluaran bulanan - 6x gaji bulanan)
                 else {
                     // setEmergencyFund(`Rp${formatNumber(monthlyExpense * 6)} - Rp${formatNumber(monthlyExpense * 9)}`);
-                    setEmergencyFund(`Rp${formatNumber(monthlyExpense * 6)} - Rp${formatNumber(monthlyIncome * 6)}`);
+                    setEmergencyFund(`Rp${formatNumber(monthlyExpense * 6)} - Rp${formatNumber((Number(answers[1]) + Number(answers[101])) * 6)}`);
                     setMinEmergencyFund(monthlyExpense * 6)
                 }
             }

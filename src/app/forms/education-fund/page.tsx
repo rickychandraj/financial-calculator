@@ -133,14 +133,20 @@ const EducationForm = () => {
             jakarta: {
                 negeri: "15000000",
                 swasta: "40000000",
+                national: "0",
+                international: "0",
             },
             java: {
                 negeri: "20000000",
                 swasta: "35000000",
+                national: "0",
+                international: "0",
             },
             non_java: {
                 negeri: "20000000",
                 swasta: "35000000",
+                national: "0",
+                international: "0",
             },
             abroad: {
                 general: "1000000000",
@@ -222,14 +228,20 @@ const EducationForm = () => {
             jakarta: {
                 negeri: "2000000",
                 swasta: "22000000",
+                national: "0",
+                international: "0",
             },
             java: {
                 negeri: "1200000",
                 swasta: "2000000",
+                national: "0",
+                international: "0",
             },
             non_java: {
                 negeri: "1300000",
                 swasta: "4000000",
+                national: "0",
+                international: "0",
             },
             abroad: {
                 general: "250000000",
@@ -370,10 +382,9 @@ const EducationForm = () => {
         return (
             !(answers[questionId]) ||
             // Sudah menikah, tapi belum jawab pertanyaan tambahannya
-            questionId === 3
-            && answers[questionId]
-            && !(
-                answers[questionId]
+            (
+                questionId === 3
+                && answers[questionId]
                 && answers[100]
                 && answers[101]
                 && answers[102]
