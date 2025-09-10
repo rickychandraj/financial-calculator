@@ -607,9 +607,14 @@ const EducationForm = () => {
                                                         <span>Jumlah tabungan yang harus terkumpul sebelum anak masuk {EDUCATION_RANGE_MAPPING[answers[3]]}</span>
                                                         <span>{`Rp${formatNumber(Math.round(results.total))}`}</span>
                                                     </div>
+                                                    <br/>
                                                     <div className="flex justify-between">
                                                         <span>Jumlah uang yang harus ditabung setiap akhir bulan</span>
                                                         <span>{`Rp${formatNumber(Math.round(results.totalAmountToSaveMonthly))}`}</span>
+                                                    </div>
+                                                    <div className="flex justify-between">
+                                                        <span className="italic"><b>(Asumsi: Tidak ada imbal balik investasi)</b></span>
+                                                        <span></span>
                                                     </div>
                                                 </div>
                                             </div>

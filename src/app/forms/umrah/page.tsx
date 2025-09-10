@@ -148,7 +148,7 @@ const UmrahPlanningForm = () => {
                 <div>
                     <FormHeader
                         href={"/"}
-                        title={"Dana Umroh by @_SEMOGASEGERAUMROH_"}
+                        title={"Perhitungan Rencana Umroh"}
                         currentStep={currentStep}
                         totalSteps={totalSteps}
                     />
@@ -170,7 +170,7 @@ const UmrahPlanningForm = () => {
                 <div>
                     <FormHeader
                         href={"/"}
-                        title={"Dana Umroh by @_SEMOGASEGERAUMROH_"}
+                        title={"Perhitungan Rencana Umroh"}
                         currentStep={totalSteps}
                         totalSteps={totalSteps}
                     />
