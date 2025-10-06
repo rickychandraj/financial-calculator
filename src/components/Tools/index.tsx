@@ -20,9 +20,9 @@ import {
 } from "lucide-react";
 
 const Tools = () => {
-    const baseUsers = 1899; // starting point: 1.8K users
+    const baseUsers = 899; // starting point: 1.8K users
     const dailyGrowth = 0.1; // 2% per day
-    const startDate = new Date("2025-08-30"); // adjust to your launch date
+    const startDate = new Date("2025-10-6"); // adjust to your launch date
 
     const [users, setUsers] = useState(baseUsers);
 

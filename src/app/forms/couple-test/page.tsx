@@ -720,7 +720,7 @@ const CoupleTestForm = () => {
                                             Kamu harus mengisi beberapa data terlebih dahulu untuk melihat hasil lengkap tes ini
                                         </p>
                                         <a
-                                            href={`https://tribelio.page/couple-test-${REVERSE_MAPPINGS[results.financePersona]}/`}
+                                            href={`https://mamaberuang.myr.id/lp/couple-test-${REVERSE_MAPPINGS[results.financePersona]}/`}
                                             className="bg-[#A51246] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#8A0F3D] transition-colors"
                                         >
                                             Lihat Hasil Lengkap
