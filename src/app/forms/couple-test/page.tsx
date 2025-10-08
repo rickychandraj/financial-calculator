@@ -14,13 +14,15 @@ import {
     MOST_MATCH_MAPPINGS,
 } from "@/app/forms/couple-test/constants";
 import {ArrowLeft} from "lucide-react";
+import Link from "next/link";
 
 
 const CoupleTestForm = () => {
     const searchParams = useSearchParams();
     const resultParam = searchParams.get("code");
+    const cleanedResultParam = resultParam?.replace(/\?+$/, ''); // Remove trailing "?" characters
     const [isCheckingMatchScore, setIsCheckingMatchScore] = useState(false);
-    const [resultQueryParam, _] = useState(resultParam);
+    const [resultQueryParam, _] = useState(cleanedResultParam);
 
     const [partnerPersonality, setPartnerPersonality] = useState(null);
     const partnerPersonalityOptions = [
@@ -663,6 +665,15 @@ const CoupleTestForm = () => {
         setIsResultReady(allFieldsFilled);
     }, [answers]);
 
+    // Clean up URL if it has trailing "?" from Mayar redirect
+    useEffect(() => {
+        if (typeof window !== 'undefined' && window.location.search.endsWith('?')) {
+            const url = new URL(window.location);
+            url.search = url.search.replace(/\?+$/, '');
+            window.history.replaceState({}, '', url.toString());
+        }
+    }, []);
+
     const handleIsNextButtonDisabled = (questionId) => {
         return !answers[questionId];
     };
@@ -776,8 +787,8 @@ const CoupleTestForm = () => {
                                     </div>
                                 </div>
                                 <h2 className="text-xl font-semibold my-2 mt-12" style={{ color: "#12174F" }}>Apa kepribadian pasangan kamu?</h2>
-                                <p className="text-center text-white text-md mb-6 px-4">
-                                    Pasangan kamu harus mengambil tes kepribadian keuangan ini secara terpisah, yuk bagikan link ini: https://calculator.mamaberuang.com/forms/couple-test ke pasangan kamu. Kemudian, masukkan hasil tes kepribadian keuangan pasangan kamu dibawah ini
+                                <p className="text-left text-black text-md mb-6 px-4">
+                                    Pasangan kamu harus mengambil tes kepribadian keuangan ini secara terpisah, yuk bagikan link ini: <Link href={"https://calculator.mamaberuang.com/forms/couple-test"} className="text-blue-600 underline hover:text-blue-800">https://calculator.mamaberuang.com/forms/couple-test</Link> ke pasangan kamu. Kemudian, masukkan hasil tes kepribadian keuangan pasangan kamu dibawah ini
                                 </p>
                                 {partnerPersonalityOptions.map((option, optIndex) => (
                                     <div
