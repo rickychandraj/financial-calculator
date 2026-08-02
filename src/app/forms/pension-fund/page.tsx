@@ -154,7 +154,7 @@ const PensionFundForm = () => {
                 <div>
                     <FormHeader
                         href={"/"}
-                        title={"Perencanaan Dana Pensiun"}
+                        title={"Financial Freedom/Dana Pensiun"}
                         currentStep={currentStep}
                         totalSteps={totalSteps}
                     />
@@ -176,7 +176,7 @@ const PensionFundForm = () => {
                 <div>
                     <FormHeader
                         href={"/"}
-                        title={"Perencanaan Dana Pensiun"}
+                        title={"Financial Freedom/Dana Pensiun"}
                         currentStep={totalSteps}
                         totalSteps={totalSteps}
                     />

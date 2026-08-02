@@ -6,7 +6,7 @@ const CurrencyInput = ({
     placeholder,
     value,
     onChange,
-    className = "w-full p-3 pl-12 rounded-lg border",
+    className = "w-full p-3 pl-10 md:pl-12 text-sm md:text-base rounded-lg border",
     style = {
        color: '#12174F',
        borderColor: 'rgba(165, 18, 70, 0.2)',
@@ -55,7 +55,7 @@ const CurrencyInput = ({
             />
             {suffix && (
                 <span
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-xs md:text-sm pointer-events-none"
                     style={{color: "#A51246"}}
                 >
                 {suffix}

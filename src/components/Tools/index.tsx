@@ -21,7 +21,7 @@ import {
 
 const Tools = () => {
     const baseUsers = 899; // starting point: 1.8K users
-    const dailyGrowth = 0.1; // 2% per day
+    const dailyGrowth = 0.01; // 2% per day
     const startDate = new Date("2025-10-6"); // adjust to your launch date
 
     const [users, setUsers] = useState(baseUsers);
@@ -29,7 +29,7 @@ const Tools = () => {
     useEffect(() => {
         const today = new Date();
         const daysPassed = Math.floor(
-          (today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
+            (today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
         );
 
         const grownUsers = Math.round(baseUsers * Math.pow(1 + dailyGrowth, daysPassed));
@@ -54,7 +54,7 @@ const Tools = () => {
         {
             id: 3,
             icon: Building2,
-            title: "Hitung Dana Pensiun",
+            title: "Financial Freedom/Dana Pensiun",
             description: "Persiapkan masa depan",
             href: "/forms/pension-fund",
         },
@@ -139,35 +139,33 @@ const Tools = () => {
     ]
 
     return (
-        <div className="p-4 w-full max-w-3xl mx-auto">
+        <div className="p-3 md:p-4 w-full max-w-3xl mx-auto">
             <div
                 className={`
-                    p-8 rounded-2xl bg-gradient-to-br
+                    p-4 md:p-8 rounded-2xl bg-gradient-to-br
                     transform transition-all duration-500
-                    hover:scale-[1.02] hover:shadow-2xl
+                    md:hover:scale-[1.02] hover:shadow-2xl
                     text-white relative overflow-hidden
-                    mb-8
+                    mb-6 md:mb-8
                 `}
                 style={{
                     background: "linear-gradient(135deg, #252E64 30%, #12174F 70%)"
                 }}
             >
-                <h3 className="text-2xl font-bold">Cek Finansial Kamu</h3>
-                <p className="text-white/80 mb-4">Pahami kondisi finansial kamu terlebih dahulu</p>
+                <h3 className="text-xl md:text-2xl font-bold">Cek Finansial Kamu</h3>
+                <p className="text-white/80 mb-3 md:mb-4 text-sm md:text-base">Pahami kondisi finansial kamu terlebih dahulu</p>
                 {highlightedMenuItems.map((item) => (
                     <Link
                         key={item.id}
                         href={item.href}
                         className="block"
                     >
-                        {/*// eslint-disable-next-line react/jsx-key*/}
                         <div className="grid grid-cols-1">
                             <div
-                                className="flex items-center bg-white/10 rounded-xl p-4 my-2
+                                className="relative flex items-center bg-white/10 rounded-xl p-3 md:p-4 my-2
                             backdrop-blur-sm transform transition-all duration-300
-                            hover:translate-x-2 cursor-pointer group/tool"
+                            md:hover:translate-x-2 cursor-pointer group/tool"
                             >
-                                {/* New Badge */}
                                 {item.badge && (
                                     <span
                                         className="absolute -top-2 -right-2 px-2 py-0.5 rounded-full text-xs font-medium z-10"
@@ -179,17 +177,10 @@ const Tools = () => {
                                         {item.badge}
                                     </span>
                                 )}
-                                <div
-                                    className="w-5 h-5 mr-3 transform "
-                                    style={{
-                                        background: "none",
-                                        borderRadius: "10px",
-                                        marginRight: "8px"
-                                    }}
-                                >
+                                <div className="mr-3">
                                     <item.icon className="w-5 h-5" style={{ color: "white" }} />
                                 </div>
-                                <span className="font-medium">{item.title}</span>
+                                <span className="font-medium text-sm md:text-base">{item.title}</span>
                                 <ArrowRight className="w-5 h-5 ml-auto opacity-0
                                     group-hover/tool:opacity-100 transform
                                     group-hover/tool:translate-x-1 transition-all duration-300"
@@ -206,39 +197,39 @@ const Tools = () => {
                     </div>
                 </div>
             </div>
-            <h3 className="text-2xl font-bold mb-8 mt-8" style={{ color: "#A51246"}}>Kalkulator Mimpi ↓</h3>
-            <div className="grid grid-cols-3 gap-6">
+            <h3 className="text-xl md:text-2xl font-bold mb-6 md:mb-8 mt-8" style={{ color: "#A51246" }}>Kalkulator Mimpi ↓</h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
                 {menuItems.map((item, index) => (
                     <Link
                         key={index}
                         href={item.disabled ? "#" : item.href}
                         className="block"
                     >
-                        <div className="flex flex-col items-center justify-center cursor-pointer group my-2">
+                        <div className="flex flex-col items-center justify-center cursor-pointer group my-2 relative">
 
                             <div
-                                className="w-16 h-16 rounded-full mb-3 flex items-center justify-center transform transition-all duration-300 group-hover:-translate-y-2"
+                                className="w-14 h-14 md:w-16 md:h-16 rounded-full mb-3 flex items-center justify-center transform transition-all duration-300 md:group-hover:-translate-y-2 relative"
                                 style={{
                                     background: `${item.disabled ? "#D3A8B7" : "linear-gradient(135deg, #A51246, #B71E54)"}`
                                 }}
                             >
-                                <item.icon className="w-8 h-8" style={{ color: "white" }} />
+                                <item.icon className="w-7 h-7 md:w-8 md:h-8" style={{ color: "white" }} />
                                 {/* Badge (only when disabled) */}
                                 {item.disabled && (
-                                  <span
-                                    className="absolute -top-1 -right-8 px-2 py-0.5 text-[8px] w-[72px] font-semibold
+                                    <span
+                                        className="absolute -top-1 -right-1 md:-right-8 px-1 md:px-2 py-0.5 text-[8px] md:text-[8px] w-auto md:w-[72px] font-semibold
                                      rounded-full bg-[#12174F] text-white shadow ring-2 ring-white
-                                     pointer-events-none"
-                                  >
-                                  Coming Soon
-                                </span>
+                                     pointer-events-none whitespace-nowrap"
+                                    >
+                                        Coming Soon
+                                    </span>
                                 )}
                             </div>
                             <span
-                                className="text-center font-medium text-sm"
+                                className="text-center font-medium text-xs md:text-sm px-1 leading-tight"
                                 style={{ color: "#12174F" }}
                             >
-                              {item.title}
+                                {item.title}
                             </span>
                         </div>
                     </Link>

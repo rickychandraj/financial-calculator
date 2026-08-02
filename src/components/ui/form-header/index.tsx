@@ -14,15 +14,15 @@ const FormHeader = ({
 }) => {
     return (
         <div>
-            <div style={{
+            <div className="px-4 py-5 md:p-5" style={{
                 background: "linear-gradient(135deg, #A51246 0%, #B71E54 50%, #12174F 100%)",
-                padding: "20px"
             }}>
-                <div className="flex items-center justify-between text-white mb-4">
-                    <Link href={href}>
-                        <span className="cursor-pointer"><p>← Kembali ke Menu Utama</p></span>
+                <div className="relative flex items-center justify-center text-white mb-4">
+                    <Link href={href} className="absolute left-0 flex items-center gap-1 text-sm">
+                        <ArrowLeft className="w-4 h-4" />
+                        <span className="hidden sm:inline">Kembali</span>
                     </Link>
-                    <h1 className="text-xl font-semibold">{title}</h1>
+                    <h1 className="text-base md:text-lg font-semibold text-center px-8">{title}</h1>
                 </div>
 
                 {/* Progress Bar */}

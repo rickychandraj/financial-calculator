@@ -19,14 +19,14 @@ const FormQuestionCards = ({
     handleIsNextButtonDisabled,
 }) => {
     return (
-        <div className="p-6">
-            <div className="bg-white rounded-xl p-6 shadow-lg">
+        <div className="p-4 md:p-6">
+            <div className="bg-white rounded-xl p-4 md:p-6 shadow-lg">
                 {questions.map((question) => (
                     <div
                         key={question.id}
                         style={{ display: currentStep === question.id ? "block" : "none" }}
                     >
-                        <h2 className="text-xl font-semibold mb-1" style={{ color: "#12174F" }}>{question.text}</h2>
+                        <h2 className="text-lg md:text-xl font-semibold mb-1" style={{ color: "#12174F" }}>{question.text}</h2>
                         {
                             question.subtext
                             && <p className="text-sm mb-4" style={{ color: "#252E64" }}>{question.subtext}</p>
@@ -94,7 +94,7 @@ const FormQuestionCards = ({
                         }
 
                         {/* Navigation Buttons */}
-                        <div className="flex justify-between mt-8">
+                        <div className="flex justify-between mt-6 md:mt-8">
                             <button
                                 onClick={() => handleSetCurrentStep(prev => Math.max(prev - 1, 1))}
                                 className="rounded-lg"
