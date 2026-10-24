@@ -9,7 +9,15 @@ routes = sorted(p.name for p in (Path(__file__).resolve().parents[1] / "src/app/
 results = []
 with sync_playwright() as p:
     browser = p.chromium.launch(headless=True, executable_path=os.environ.get("CHROMIUM_PATH"))
-    page = browser.new_page()
+    context = browser.new_context()
+    # Keep visual checks deterministic when third-party analytics is unavailable.
+    context.route('**/*', lambda route: route.continue_() if route.request.url.startswith(base + '/') else route.abort())
+    page = context.new_page()
+    page.goto(base, wait_until="domcontentloaded")
+    material_style = "el => { const s = getComputedStyle(el); return [s.backgroundImage, s.backdropFilter, s.borderTopColor, s.boxShadow]; }"
+    template = page.locator('.glass-surface').first.evaluate(material_style)
+    page.close()
+    page = context.new_page()
 
     def check(route, width, state):
         page.evaluate("document.fonts.ready")
@@ -23,12 +31,20 @@ with sync_playwright() as p:
         }""")
         assert abs(sizes["left"]) < 1 and abs(sizes["right"]) < 1, (route, width, state, sizes)
         assert sizes["scrollWidth"] <= width, (route, width, state, sizes)
+        material = page.locator('.calculator-form-layout .bg-white.rounded-xl').first.evaluate(material_style)
+        assert material[1:] == template[1:], (route, width, state, material, template)
+        assert '0.68' in material[0] and '0.32' in material[0], material
+        assert 'blur(20px)' in material[1], material
+        atmosphere = page.locator('.calculator-form-layout').evaluate('el => getComputedStyle(el).backgroundImage')
+        assert 'radial-gradient' in atmosphere and 'linear-gradient' in atmosphere, atmosphere
         results.append({"route": route, "width": width, "state": state, **sizes})
 
     for route in routes:
         for width in (1440, 920, 390, 320):
+            page.close()
+            page = context.new_page()
             page.set_viewport_size({"width": width, "height": 1000})
-            response = page.goto(f"{base}/forms/{route}", wait_until="networkidle")
+            response = page.goto(f"{base}/forms/{route}", wait_until="domcontentloaded")
             assert response is not None
             assert response.status == 200, (route, response.status)
             page.locator('.calculator-form-header').wait_for()
