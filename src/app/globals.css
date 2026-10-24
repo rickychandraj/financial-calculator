@@ -183,6 +183,7 @@ body {
 .calculator-form-header-surface { padding: 28px 32px; }
 .calculator-form-header h1 { padding-inline: 105px; font-size: 24px; line-height: 1.35; }
 .calculator-form-header a { min-height: 44px; }
+.calculator-form-layout .calculator-form-header + :is(.p-4, .p-5, .p-6) { padding-inline: 0; }
 .calculator-form-layout .bg-white.rounded-xl {
   background: linear-gradient(135deg, rgba(255,255,255,.9), rgba(255,255,255,.7));
   border: 1px solid rgba(255,255,255,.95);
@@ -206,6 +207,7 @@ body {
 @media (max-width: 600px) {
   .calculator-form-layout { padding: 14px 0 36px; }
   .calculator-form-header { margin-inline: 14px; border-radius: 22px; }
+  .calculator-form-layout .calculator-form-header + :is(.p-4, .p-5, .p-6) { padding-inline: 14px; }
   .calculator-form-header-surface { padding: 20px 16px; }
   .calculator-form-header h1 { padding-inline: 28px; font-size: 17px; }
   .calculator-form-layout .bg-white.rounded-xl { border-radius: 20px; }
