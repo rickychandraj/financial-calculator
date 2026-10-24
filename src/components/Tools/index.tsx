@@ -139,105 +139,47 @@ const Tools = () => {
     ]
 
     return (
-        <div className="p-3 md:p-4 w-full max-w-3xl mx-auto">
-            <div
-                className={`
-                    p-4 md:p-8 rounded-2xl bg-gradient-to-br
-                    transform transition-all duration-500
-                    md:hover:scale-[1.02] hover:shadow-2xl
-                    text-white relative overflow-hidden
-                    mb-6 md:mb-8
-                `}
-                style={{
-                    background: "linear-gradient(135deg, #252E64 30%, #12174F 70%)"
-                }}
-            >
-                <h3 className="text-xl md:text-2xl font-bold">Cek Finansial Kamu</h3>
-                <p className="text-white/80 mb-3 md:mb-4 text-sm md:text-base">Pahami kondisi finansial kamu terlebih dahulu</p>
-                {highlightedMenuItems.map((item) => (
-                    <Link
-                        key={item.id}
-                        href={item.href}
-                        className="block"
-                    >
-                        <div className="grid grid-cols-1">
-                            <div
-                                className="relative flex items-center bg-white/10 rounded-xl p-3 md:p-4 my-2
-                            backdrop-blur-sm transform transition-all duration-300
-                            md:hover:translate-x-2 cursor-pointer group/tool"
-                            >
-                                {item.badge && (
-                                    <span
-                                        className="absolute -top-2 -right-2 px-2 py-0.5 rounded-full text-xs font-medium z-10"
-                                        style={{
-                                            background: '#A51246',
-                                            color: 'white'
-                                        }}
-                                    >
-                                        {item.badge}
-                                    </span>
-                                )}
-                                <div className="mr-3">
-                                    <item.icon className="w-5 h-5" style={{ color: "white" }} />
-                                </div>
-                                <span className="font-medium text-sm md:text-base">{item.title}</span>
-                                <ArrowRight className="w-5 h-5 ml-auto opacity-0
-                                    group-hover/tool:opacity-100 transform
-                                    group-hover/tool:translate-x-1 transition-all duration-300"
-                                />
-
-                            </div>
-                        </div>
-                    </Link>
-                ))}
-                <div className="mt-6 flex items-center justify-between text-white/80">
-                    <div className="flex items-center space-x-2">
-                        <BarChart className="w-4 h-4" />
-                        <span>{Intl.NumberFormat("en-US", { notation: "compact" }).format(users)} Active Users</span>
-                    </div>
+        <div className="calculator-tools">
+            <section className="calculator-feature" aria-labelledby="financial-heading">
+                <h2 id="financial-heading">Cek Finansial Kamu</h2>
+                <p>Pahami kondisi finansial kamu terlebih dahulu</p>
+                <div className="calculator-feature-list">
+                    {highlightedMenuItems.map((item) => (
+                        <Link key={item.id} href={item.href} className="calculator-feature-link">
+                            <item.icon aria-hidden="true" className="calculator-feature-icon" />
+                            <span>{item.title}</span>
+                            {item.badge && <span className="calculator-hot">{item.badge}</span>}
+                            <ArrowRight aria-hidden="true" className="calculator-feature-arrow" />
+                        </Link>
+                    ))}
                 </div>
-            </div>
-            <h3 className="text-xl md:text-2xl font-bold mb-6 md:mb-8 mt-8" style={{ color: "#A51246" }}>Kalkulator Mimpi ↓</h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
-                {menuItems.map((item, index) => (
-                    <Link
-                        key={index}
-                        href={item.disabled ? "#" : item.href}
-                        className="block"
-                    >
-                        <div className="flex flex-col items-center justify-center cursor-pointer group my-2 relative">
-
-                            <div
-                                className="w-14 h-14 md:w-16 md:h-16 rounded-full mb-3 flex items-center justify-center transform transition-all duration-300 md:group-hover:-translate-y-2 relative"
-                                style={{
-                                    background: `${item.disabled ? "#D3A8B7" : "linear-gradient(135deg, #A51246, #B71E54)"}`
-                                }}
-                            >
-                                <item.icon className="w-7 h-7 md:w-8 md:h-8" style={{ color: "white" }} />
-                                {/* Badge (only when disabled) */}
-                                {item.disabled && (
-                                    <span
-                                        className="absolute -top-1 -right-1 md:-right-8 px-1 md:px-2 py-0.5 text-[8px] md:text-[8px] w-auto md:w-[72px] font-semibold
-                                     rounded-full bg-[#12174F] text-white shadow ring-2 ring-white
-                                     pointer-events-none whitespace-nowrap"
-                                    >
-                                        Coming Soon
-                                    </span>
-                                )}
-                            </div>
-                            <span
-                                className="text-center font-medium text-xs md:text-sm px-1 leading-tight"
-                                style={{ color: "#12174F" }}
-                            >
-                                {item.title}
+                <div className="calculator-users">
+                    <BarChart aria-hidden="true" className="w-4 h-4" />
+                    <span>{Intl.NumberFormat("en-US", { notation: "compact" }).format(users)} Active Users</span>
+                </div>
+            </section>
+            <section className="calculator-dream" aria-labelledby="dream-heading">
+                <h2 id="dream-heading">Kalkulator Mimpi ↓</h2>
+                <div className="calculator-grid">
+                    {menuItems.map((item) => (
+                        <Link
+                            key={item.id}
+                            href={item.disabled ? "#" : item.href}
+                            aria-disabled={item.disabled || undefined}
+                            tabIndex={item.disabled ? -1 : undefined}
+                            className={`calculator-tile glass-surface${item.disabled ? " calculator-tile-disabled" : ""}`}
+                        >
+                            <span className="calculator-tile-icon">
+                                <item.icon aria-hidden="true" />
                             </span>
-                        </div>
-                    </Link>
-                ))}
-            </div>
-            <div className="mt-8"></div>
+                            <span className="calculator-tile-title">{item.title}</span>
+                            {item.disabled && <span className="calculator-soon">Coming Soon</span>}
+                        </Link>
+                    ))}
+                </div>
+            </section>
         </div>
-    )
-}
+    );
+};
 
 export default Tools;
