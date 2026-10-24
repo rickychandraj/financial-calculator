@@ -29,7 +29,7 @@ body {
     radial-gradient(ellipse at 9% 5%, rgba(183, 30, 84, .13), transparent 32%),
     radial-gradient(ellipse at 92% 19%, rgba(72, 91, 151, .14), transparent 36%),
     radial-gradient(ellipse at 55% 86%, rgba(219, 195, 207, .2), transparent 42%);
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: var(--font-inter), Arial, sans-serif;
 }
 
 .calculator-shell { max-width: 1160px; margin: auto; padding: 36px 24px 64px; }
