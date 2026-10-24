@@ -15,7 +15,7 @@ const footerItems = [
     {
         id: 3,
         icon: <Globe className="w-6 h-6 text-gray-600 transform transition-all duration-300 group-hover:scale-110 group-hover:text-gray-900"/>,
-        href: "https://www.mamaberuang.com",
+        href: "https://beruang-global.com",
     },
 
 ]
