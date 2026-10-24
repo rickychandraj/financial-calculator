@@ -6,12 +6,8 @@ import Tools from "@/components/Tools";
 
 export default function Home() {
   return (
-      <div className="w-full min-h-screen">
-          <main className="flÏex flex-col" style={{
-              fontFamily: "system-ui, sans-serif",
-              backgroundColor: "#F9FAFB",
-
-          }}>
+      <div className="calculator-home">
+          <main className="calculator-shell">
               <Header/>
               <Tools/>
               <Footer/>

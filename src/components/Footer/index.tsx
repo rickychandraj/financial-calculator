@@ -22,7 +22,7 @@ const footerItems = [
 
 export const Footer = () => {
     return (
-        <footer className="w-full max-w-3xl mx-auto px-8 py-12 border-t border-gray-200">
+        <footer className="calculator-footer glass-surface">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
                 <div>
                     <p className="text-sm text-gray-600">
