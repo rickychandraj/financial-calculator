@@ -169,6 +169,48 @@ body {
   .calculator-footer { margin-top: 26px; padding: 23px 19px; border-radius: 20px; }
   .calculator-footer > div { gap: 18px; }
 }
+/* Shared by every calculator route; keep legacy page styles scoped here. */
+.calculator-form-layout { padding: 36px 24px 64px; }
+.calculator-form-layout .max-w-3xl {
+  max-width: 1112px;
+  min-width: 0;
+  min-height: 0;
+  /* Page roots still set these two properties inline. */
+  background-color: transparent !important;
+  font-family: inherit !important;
+}
+.calculator-form-header { overflow: hidden; border-radius: 28px; box-shadow: 0 14px 30px rgba(35,35,65,.1); }
+.calculator-form-header-surface { padding: 28px 32px; }
+.calculator-form-header h1 { padding-inline: 105px; font-size: 24px; line-height: 1.35; }
+.calculator-form-header a { min-height: 44px; }
+.calculator-form-layout .bg-white.rounded-xl {
+  background: linear-gradient(135deg, rgba(255,255,255,.9), rgba(255,255,255,.7));
+  border: 1px solid rgba(255,255,255,.95);
+  border-radius: 24px;
+  box-shadow: 0 14px 30px rgba(35,35,65,.075);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+.calculator-form-layout button { min-height: 44px; }
+.calculator-form-layout :is(button, input, select, a):focus-visible { outline: 3px solid #b71e54; outline-offset: 3px; }
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .calculator-form-layout .bg-white.rounded-xl { background: #fff; }
+}
+@media (min-width: 901px) {
+  .calculator-form-layout .bg-white.rounded-xl { padding: 32px; }
+}
+@media (max-width: 900px) {
+  .calculator-form-layout { padding: 24px 20px 48px; }
+  .calculator-form-header h1 { font-size: 20px; }
+}
+@media (max-width: 600px) {
+  .calculator-form-layout { padding: 14px 0 36px; }
+  .calculator-form-header { margin-inline: 14px; border-radius: 22px; }
+  .calculator-form-header-surface { padding: 20px 16px; }
+  .calculator-form-header h1 { padding-inline: 28px; font-size: 17px; }
+  .calculator-form-layout .bg-white.rounded-xl { border-radius: 20px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .calculator-home a { transition: none; }
 }

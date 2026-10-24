@@ -13,8 +13,8 @@ const FormHeader = ({
     totalSteps,
 }) => {
     return (
-        <div>
-            <div className="px-4 py-5 md:p-5" style={{
+        <div className="calculator-form-header">
+            <div className="calculator-form-header-surface px-4 py-5 md:p-5" style={{
                 background: "linear-gradient(135deg, #A51246 0%, #B71E54 50%, #12174F 100%)",
             }}>
                 <div className="relative flex items-center justify-center text-white mb-4">
