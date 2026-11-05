@@ -1,17 +1,22 @@
-"use client";
-
 import {Header} from "@/components/Header";
-import {Footer} from "@/components/Footer";
+import {Hero} from "@/components/Hero";
 import Tools from "@/components/Tools";
+import RiskProfile from "@/components/RiskProfile";
+import {Footer} from "@/components/Footer";
+import {LanguageProvider} from "@/lib/i18n";
 
 export default function Home() {
   return (
-      <div className="calculator-home">
-          <main className="calculator-shell">
+      <LanguageProvider>
+          <div className="home-page">
               <Header/>
-              <Tools/>
+              <main>
+                  <Hero/>
+                  <Tools/>
+                  <RiskProfile/>
+              </main>
               <Footer/>
-          </main>
-      </div>
+          </div>
+      </LanguageProvider>
   );
 }
