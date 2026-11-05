@@ -50,8 +50,6 @@ body {
   transition: background .2s ease, transform .2s ease;
 }
 .home-btn:hover { background: var(--brand); transform: translateY(-1px); }
-.home-btn-nav { height: 45px; padding: 0 22px; font-size: 15px; margin-left: 14px; }
-.home-cta-short { display: none; }
 .home-btn-lg { height: 54px; padding: 0 30px; font-size: 16px; margin-top: 8px; }
 
 /* Nav */
@@ -66,7 +64,20 @@ body {
 .home-brand-logo { width: 40px; height: 36px; object-fit: contain; }
 .home-brand-name { font-size: 17px; font-weight: 700; color: var(--ink); white-space: nowrap; }
 .home-brand-sub { font-size: 15px; color: var(--muted); }
+.home-nav-right { display: flex; align-items: center; gap: 20px; }
 .home-nav-links { display: flex; align-items: center; gap: 6px; }
+.home-lang {
+  display: inline-flex; align-items: center; gap: 2px; padding: 3px; border-radius: 9999px;
+  background: #f1f2f5; box-shadow: inset 0 1px 2px rgba(13,27,62,.08), 0 0 0 1px rgba(13,27,62,.04);
+}
+.home-lang-btn {
+  min-width: 40px; height: 32px; padding: 0 12px; border-radius: 9999px;
+  font-size: 14px; font-weight: 600; color: var(--muted); background: transparent; cursor: pointer;
+  transition: background .2s ease, color .2s ease;
+}
+.home-lang-btn:hover { color: var(--ink); }
+.home-lang-btn.is-active { background: var(--ink); color: #fff; box-shadow: 0 4px 10px -4px rgba(13,27,62,.5); }
+.home-lang-btn:focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; }
 .home-nav-link { padding: 9px 16px; border-radius: 9999px; font-size: 15px; color: var(--ink); transition: background .2s ease; }
 .home-nav-link:hover { background: rgba(13,27,62,.05); }
 
@@ -74,7 +85,7 @@ body {
 .home-hero-section { padding: 56px 0 28px; }
 .home-hero {
   position: relative; display: flex; align-items: center;
-  height: 460px; padding: 56px; border-radius: 32px; overflow: hidden;
+  min-height: 460px; padding: 56px; border-radius: 32px; overflow: hidden;
   background: var(--blush);
 }
 .home-hero-copy { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 14px; max-width: 600px; }
@@ -87,12 +98,13 @@ body {
   box-shadow: 0 0 0 1px rgba(13,27,62,.08), 0 8px 20px -14px rgba(13,27,62,.25), inset 0 1px 0 #fff;
   font-size: 13px; color: var(--muted);
 }
-.home-byline img { width: 30px; height: 30px; border-radius: 9999px; object-fit: cover; }
+.home-byline-photo { position: relative; flex: none; width: 30px; height: 30px; border-radius: 9999px; overflow: hidden; background: #b71e54; }
+.home-byline-photo img { position: absolute; left: -14px; top: 1px; width: 58px; height: auto; max-width: none; }
 .home-byline b { color: var(--ink); }
-.home-hero-visual { position: absolute; top: 0; right: 0; width: 435px; height: 460px; }
+.home-hero-visual { position: absolute; top: 50%; right: 0; width: 435px; height: 460px; margin-top: -230px; }
 .home-hero-phone { position: absolute; left: 159px; top: 19px; width: 204px; height: 422px; }
 .home-hero-phone .phone-frame { transform: scale(.68); transform-origin: top left; }
-.home-hero-card { left: 0; top: 101px; width: 173px; }
+.home-hero-card { right: calc(100% - 173px); top: 101px; min-width: 173px; }
 .home-hero-icon-list { left: 135px; top: 304px; }
 .home-hero-icon-shield { left: 349px; top: 55px; }
 
@@ -265,7 +277,7 @@ body {
 @media (max-width: 1100px) {
   .home-nav-link { display: none; }
   .home-hero { flex-direction: column; align-items: flex-start; height: auto; }
-  .home-hero-visual { position: relative; align-self: center; margin-top: 24px; }
+  .home-hero-visual { position: relative; top: auto; align-self: center; margin-top: 24px; }
   .home-grid-4 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .home-risk { flex-direction: column; align-items: flex-start; min-height: 0; }
   .home-risk-visual { flex: none; width: 100%; }
@@ -283,9 +295,7 @@ body {
   .home-container { padding: 0 16px; }
   .home-nav-inner { padding-top: 12px; padding-bottom: 12px; }
   .home-brand-sub { display: none; }
-  .home-btn-nav { height: 40px; padding: 0 16px; font-size: 14px; margin-left: 0; }
-  .home-cta-long { display: none; }
-  .home-cta-short { display: inline; }
+  .home-lang-btn { min-width: 36px; height: 30px; padding: 0 10px; font-size: 13px; }
   .home-hero-section { padding-top: 20px; }
   .home-hero, .home-risk { padding: 32px 20px; border-radius: 24px; }
   .home-hero-title { font-size: 38px; line-height: 42px; }

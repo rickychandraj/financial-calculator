@@ -1,55 +1,57 @@
+"use client";
+
 import Link from "next/link";
 import { PhoneFrame } from "@/components/PhoneFrame";
+import { useLanguage } from "@/lib/i18n";
 
-const options = [
-    { key: "A", text: "IDR 98M → I’d panic right away" },
-    { key: "B", text: "IDR 90M → I’d start to feel uneasy" },
-    { key: "C", text: "IDR 80M → I can still hold on", selected: true },
-    { key: "D", text: "IDR 60M → I stay calm for the long run" },
-];
+const OPTION_KEYS = ["A", "B", "C", "D"];
+const SELECTED = 2;
 
-const RiskQuizScreen = () => (
-    <div className="phone-screen rq-screen">
-        <div className="rq-head">
-            <span className="rq-logo">
-                <img src="/home/risk-logo.png" alt="" width={18.5} height={18} />
-            </span>
-            <span className="rq-count">1 / 15</span>
-        </div>
-        <div className="rq-progress"><div /></div>
-        <div className="rq-dots">
-            {Array.from({ length: 15 }, (_, i) => <span key={i} className={i === 0 ? "is-active" : undefined} />)}
-        </div>
-        <p className="rq-question">If your total investment is IDR 100 million and in 6 months it drops to:</p>
-        {options.map((option) => (
-            <div key={option.key} className={`rq-option${option.selected ? " is-selected" : ""}`}>
-                <span className="rq-key">{option.selected ? "✓" : option.key}</span>
-                <span>{option.text}</span>
+const RiskQuizScreen = () => {
+    const { t } = useLanguage();
+    const r = t.risk;
+    return (
+        <div className="phone-screen rq-screen">
+            <div className="rq-head">
+                <span className="rq-logo">
+                    <img src="/home/risk-logo.png" alt="" width={18.5} height={18} />
+                </span>
+                <span className="rq-count">1 / 15</span>
             </div>
-        ))}
-        <div className="rq-nav">
-            <span>← Previous</span>
-            <span>Next →</span>
+            <div className="rq-progress"><div /></div>
+            <div className="rq-dots">
+                {Array.from({ length: 15 }, (_, i) => <span key={i} className={i === 0 ? "is-active" : undefined} />)}
+            </div>
+            <p className="rq-question">{r.question}</p>
+            {r.options.map((text, i) => (
+                <div key={OPTION_KEYS[i]} className={`rq-option${i === SELECTED ? " is-selected" : ""}`}>
+                    <span className="rq-key">{i === SELECTED ? "✓" : OPTION_KEYS[i]}</span>
+                    <span>{text}</span>
+                </div>
+            ))}
+            <div className="rq-nav">
+                <span>{r.previous}</span>
+                <span>{r.next}</span>
+            </div>
         </div>
-    </div>
-);
+    );
+};
 
 const RiskProfile = () => {
+    const { t } = useLanguage();
+    const r = t.risk;
     return (
         <section id="risk-profile" className="home-section home-risk-section">
             <div className="home-container home-risk-wrap">
-                <p className="home-eyebrow">Ready to invest? Know your risk profile first</p>
+                <p className="home-eyebrow">{r.eyebrow}</p>
                 <div className="home-risk">
                     <div className="home-risk-copy">
-                        <span className="home-pill">15 questions</span>
+                        <span className="home-pill">{r.pill}</span>
                         <h2 className="home-serif home-risk-title">
-                            Risk Profile <em>Test</em>
+                            {r.titleStart}<em>{r.titleEm}</em>
                         </h2>
-                        <p className="home-risk-text">
-                            Find out how much investment risk you can take, without disrupting your finances or peace of
-                            mind, before choosing an instrument.
-                        </p>
-                        <Link href="#" className="home-btn home-btn-lg">Start the Test →</Link>
+                        <p className="home-risk-text">{r.text}</p>
+                        <Link href="#" className="home-btn home-btn-lg">{r.cta}</Link>
                     </div>
                     <div className="home-risk-visual" aria-hidden="true">
                         <div className="home-risk-phone">
@@ -58,15 +60,15 @@ const RiskProfile = () => {
                             </PhoneFrame>
                         </div>
                         <div className="home-float-card home-risk-profile-card">
-                            <span>Your profile</span>
-                            <b className="is-accent">Moderate</b>
+                            <span>{r.profileLabel}</span>
+                            <b className="is-accent">{r.profileValue}</b>
                         </div>
                         <div className="home-float-icon home-risk-icon-gauge">
                             <img src="/home/float-3.svg" alt="" width={21} height={18} />
                         </div>
                         <div className="home-float-card home-risk-time-card">
-                            <span>Estimated time</span>
-                            <b>3–5 minutes</b>
+                            <span>{r.timeLabel}</span>
+                            <b>{r.timeValue}</b>
                         </div>
                         <div className="home-float-icon home-risk-icon-clock">
                             <img src="/home/float-4.svg" alt="" width={22} height={22} />
