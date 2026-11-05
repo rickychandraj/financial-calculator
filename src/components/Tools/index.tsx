@@ -1,38 +1,23 @@
+"use client";
+
 import Link from "next/link";
+import { useLanguage } from "@/lib/i18n";
 
 const checkItems = [
-    {
-        icon: "/home/icon-emergency.svg",
-        title: "Emergency Fund",
-        description: "How many months of expenses you should set aside",
-        href: "/forms/emergency-fund",
-    },
-    {
-        icon: "/home/icon-retirement.svg",
-        title: "Financial Freedom & Retirement",
-        description: "Your retirement target and how much to save each month",
-        href: "/forms/pension-fund",
-    },
-    {
-        icon: "/home/icon-couple.svg",
-        title: "Couple Money Match",
-        description: "How aligned the two of you are on managing money",
-        href: "/forms/couple-test",
-        badge: "Popular",
-    },
-];
+    { key: "emergency", icon: "/home/icon-emergency.svg", href: "/forms/emergency-fund" },
+    { key: "retirement", icon: "/home/icon-retirement.svg", href: "/forms/pension-fund" },
+    { key: "couple", icon: "/home/icon-couple.svg", href: "/forms/couple-test", popular: true },
+] as const;
 
 const dreamItems = [
-    { icon: "/home/icon-education.svg", title: "Children’s Education", description: "School and university fees", href: "/forms/education-fund" },
-    { icon: "/home/icon-investing.svg", title: "Investing", description: "Reach a target amount", href: "/forms/investment" },
-    { icon: "/home/icon-property.svg", title: "Property Down Payment", description: "Your first home", href: "/forms/property-down-payment" },
-    { icon: "/home/icon-umrah.svg", title: "Umrah", description: "The trip and what to save", href: "/forms/umrah" },
-    { icon: "/home/icon-holiday.svg", title: "Holiday", description: "Your next trip", href: "/forms/holiday" },
-    { icon: "/home/icon-purchase.svg", title: "Big Purchase", description: "Gadgets, furniture and more", href: "/forms/item" },
-    { icon: "/home/icon-vehicle.svg", title: "Vehicle", description: "A car or motorbike", href: "/forms/transportation" },
-];
-
-const comingSoon = ["Financial Health Check", "Debt Payoff"];
+    { key: "education", icon: "/home/icon-education.svg", href: "/forms/education-fund" },
+    { key: "investing", icon: "/home/icon-investing.svg", href: "/forms/investment" },
+    { key: "property", icon: "/home/icon-property.svg", href: "/forms/property-down-payment" },
+    { key: "umrah", icon: "/home/icon-umrah.svg", href: "/forms/umrah" },
+    { key: "holiday", icon: "/home/icon-holiday.svg", href: "/forms/holiday" },
+    { key: "purchase", icon: "/home/icon-purchase.svg", href: "/forms/item" },
+    { key: "vehicle", icon: "/home/icon-vehicle.svg", href: "/forms/transportation" },
+] as const;
 
 const ToolIcon = ({ src }: { src: string }) => (
     <span className="home-tool-icon">
@@ -41,44 +26,52 @@ const ToolIcon = ({ src }: { src: string }) => (
 );
 
 const Tools = () => {
+    const { t } = useLanguage();
+    const tt = t.tools;
     return (
         <section id="calculators" className="home-section home-tools-section">
             <div className="home-container home-tools">
                 <div className="home-group">
-                    <p className="home-eyebrow">Check your finances</p>
+                    <p className="home-eyebrow">{tt.checkEyebrow}</p>
                     <div className="home-grid-3">
-                        {checkItems.map((item) => (
-                            <Link key={item.href} href={item.href} className="home-card home-check-card">
-                                <ToolIcon src={item.icon} />
-                                <span className="home-check-title">
-                                    {item.title}
-                                    {item.badge && <span className="home-badge">{item.badge}</span>}
-                                </span>
-                                <span className="home-check-desc">{item.description}</span>
-                                <span className="home-start">Start <span aria-hidden="true">→</span></span>
-                            </Link>
-                        ))}
+                        {checkItems.map((item) => {
+                            const [title, description] = tt.check[item.key];
+                            return (
+                                <Link key={item.href} href={item.href} className="home-card home-check-card">
+                                    <ToolIcon src={item.icon} />
+                                    <span className="home-check-title">
+                                        {title}
+                                        {"popular" in item && <span className="home-badge">{tt.popular}</span>}
+                                    </span>
+                                    <span className="home-check-desc">{description}</span>
+                                    <span className="home-start">{tt.start} <span aria-hidden="true">→</span></span>
+                                </Link>
+                            );
+                        })}
                     </div>
                 </div>
                 <div className="home-group">
-                    <p className="home-eyebrow">Dream goals</p>
+                    <p className="home-eyebrow">{tt.dreamEyebrow}</p>
                     <div className="home-grid-4">
-                        {dreamItems.map((item) => (
-                            <Link key={item.href} href={item.href} className="home-card home-dream-card">
-                                <ToolIcon src={item.icon} />
-                                <span className="home-dream-bottom">
-                                    <span className="home-dream-text">
-                                        <b>{item.title}</b>
-                                        <span>{item.description}</span>
+                        {dreamItems.map((item) => {
+                            const [title, description] = tt.dream[item.key];
+                            return (
+                                <Link key={item.href} href={item.href} className="home-card home-dream-card">
+                                    <ToolIcon src={item.icon} />
+                                    <span className="home-dream-bottom">
+                                        <span className="home-dream-text">
+                                            <b>{title}</b>
+                                            <span>{description}</span>
+                                        </span>
+                                        <span className="home-dream-arrow" aria-hidden="true">→</span>
                                     </span>
-                                    <span className="home-dream-arrow" aria-hidden="true">→</span>
-                                </span>
-                            </Link>
-                        ))}
+                                </Link>
+                            );
+                        })}
                         <div className="home-soon-card">
-                            <p className="home-eyebrow">Coming soon</p>
+                            <p className="home-eyebrow">{tt.comingSoon}</p>
                             <ul>
-                                {comingSoon.map((label) => <li key={label}>{label}</li>)}
+                                {tt.soon.map((label) => <li key={label}>{label}</li>)}
                             </ul>
                         </div>
                     </div>
