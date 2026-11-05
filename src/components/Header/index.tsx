@@ -1,19 +1,37 @@
+import Link from "next/link";
+
+const navItems = [
+    { label: "Calculators", href: "#calculators" },
+    { label: "Risk Profile Test", href: "#risk-profile" },
+    { label: "Online Course", href: "#" },
+    { label: "BerUANG Global", href: "https://beruang-global.com" },
+];
+
 export const Header = () => {
     return (
-        <header className="calculator-hero">
-            <div className="calculator-hero-art" role="img" aria-label="Kalkulator Keuangan Mama BerUANG" />
-            <div className="calculator-hero-content glass-surface">
-                <div className="calculator-portrait" role="img" aria-label="Ayu Sara" />
-                <div className="calculator-hero-copy">
-                    <h1>Brought to You by Ayu Sara Herlia-Hinch, SE, MBA, QWP™, CFP®, WMI</h1>
-                    <p className="calculator-hero-subtitle">Your Online Money Mom</p>
-                    <p className="calculator-hero-description">Simplifying Money &amp; Investments for Busy Lives 💅</p>
-                    <div className="calculator-badges">
-                        {['CFP®', 'MBA', 'QWP™', 'WMI', '10+ yrs financial practitioner'].map((badge) => (
-                            <span key={badge}>{badge}</span>
-                        ))}
-                    </div>
-                </div>
+        <header className="home-nav">
+            <div className="home-container home-nav-inner">
+                <Link href="/" className="home-brand">
+                    <img src="/home/logo.png" alt="Mama BerUANG logo" width={40} height={36} className="home-brand-logo" />
+                    <span className="home-brand-name">Mama BerUANG</span>
+                    <span className="home-brand-sub">Calculator</span>
+                </Link>
+                <nav className="home-nav-links" aria-label="Main menu">
+                    {navItems.map((item) => (
+                        <Link key={item.label} href={item.href} className="home-nav-link">
+                            {item.label}
+                        </Link>
+                    ))}
+                    <a
+                        href="https://wa.me/6287777489515"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="home-btn home-btn-nav"
+                    >
+                        <span className="home-cta-long">Book a Consultation →</span>
+                        <span className="home-cta-short">Consult →</span>
+                    </a>
+                </nav>
             </div>
         </header>
     );
