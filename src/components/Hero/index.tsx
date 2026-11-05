@@ -75,7 +75,7 @@ export const Hero = () => {
                         <p className="home-hero-text">{h.text}</p>
                         <div className="home-byline">
                             <span className="home-byline-photo">
-                                <img src="/home/ayu.png" alt="Ayu Sara Herlia-Hinch" width={58} height={83} />
+                                <img src="/home/ayu.png" alt="Ayu Sara Herlia-Hinch" width={30} height={30} />
                             </span>
                             <span>
                                 {h.builtBy} <b>Ayu Sara Herlia-Hinch</b> · SE, MBA, QWP™, CFP®, WMI
