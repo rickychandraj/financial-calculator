@@ -34,7 +34,7 @@ const DebtSimulation = () => {
 
     const [totalMinimumPaymentMonthly, setTotalMinimumPaymentMonthly] = useState(0);
     const [isResultReady, setIsResultReady] = useState(false);
-    const [answers, setAnswers] = useState({
+    const [answers, setAnswers] = useState<Record<number, any>>({
         1: null, // debt name
         2: null, // total debt
         3: null, // % interest rate per month
@@ -82,7 +82,7 @@ const DebtSimulation = () => {
     useEffect(() => {
         if (isResultReady) {
             let sisaUtang = Number(answers[2]);
-            let updatedSimulationTable = [];
+            let updatedSimulationTable: any[] = [];
 
             let periodTemp = 1
 

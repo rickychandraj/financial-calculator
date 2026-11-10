@@ -7,7 +7,7 @@ import FormQuestionCards from "@/components/ui/form-question-card";
 const ItemPurchaseForm = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [isResultReady, setIsResultReady] = useState(false);
-    const [answers, setAnswers] = useState({
+    const [answers, setAnswers] = useState<Record<number, any>>({
         1: null, // years until purchase
         2: null, // current item price
         3: null, // current savings

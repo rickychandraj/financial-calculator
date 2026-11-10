@@ -9,7 +9,7 @@ import FormQuestionCards from "@/components/ui/form-question-card";
 const DPPropertyForm = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [isResultReady, setIsResultReady] = useState(false);
-    const [answers, setAnswers] = useState({
+    const [answers, setAnswers] = useState<Record<number, any>>({
         1: null, // property price
         2: null, // years to collect
         3: "20", // default DP percentage

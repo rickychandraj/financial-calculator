@@ -8,7 +8,7 @@ import FormQuestionCards from "@/components/ui/form-question-card";
 const HolidayPlanningForm = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [isResultReady, setIsResultReady] = useState(false);
-    const [answers, setAnswers] = useState({
+    const [answers, setAnswers] = useState<Record<number, any>>({
         1: null, // years until holiday
         2: null, // current trip cost
         3: null, // number of people

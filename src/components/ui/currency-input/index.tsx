@@ -1,8 +1,8 @@
 import React from 'react';
 
 const CurrencyInput = ({
-    prefix,
-    suffix,
+    prefix = undefined as React.ReactNode,
+    suffix = undefined as React.ReactNode,
     placeholder,
     value,
     onChange,
