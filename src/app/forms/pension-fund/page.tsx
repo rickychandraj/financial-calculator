@@ -8,7 +8,7 @@ import FormQuestionCards from "@/components/ui/form-question-card";
 const PensionFundForm = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [isResultReady, setIsResultReady] = useState(false);
-    const [answers, setAnswers] = useState({
+    const [answers, setAnswers] = useState<Record<number, any>>({
         1: null, // monthly expenses
         2: null, // current age
         3: null, // retirement age
@@ -100,14 +100,6 @@ const PensionFundForm = () => {
         // Calculate total needed at retirement
         const monthsInRetirement = yearsInRetirement * 12;
 
-        console.log("futureMonthlyExpenses")
-        console.log(futureMonthlyExpenses)
-        console.log("yearlyExpenses")
-        console.log(monthlyExpenses * 12 * Math.pow(1 + inflationRate, yearsToRetirement))
-        console.log("monthlyReturnRate")
-        console.log(monthlyReturnRate)
-        console.log("yearsInRetirement")
-        console.log(yearsInRetirement * 12)
         const totalNeeded = futureMonthlyExpenses * ((1 - (1 / Math.pow(1 + monthlyReturnRate, yearsInRetirement * 12))) / monthlyReturnRate);
 
         const futureAmountToSave = (totalNeeded - totalProjectedSavings)

@@ -21,10 +21,15 @@ const CoupleTestForm = () => {
     const searchParams = useSearchParams();
     const resultParam = searchParams.get("code");
     const cleanedResultParam = resultParam?.replace(/\?+$/, ''); // Remove trailing "?" characters
+    // Only accept codes we actually issue; anything else (typos, "__proto__", …) falls back to the test itself.
+    const validResultParam =
+        cleanedResultParam && Object.prototype.hasOwnProperty.call(MAPPINGS, cleanedResultParam)
+            ? cleanedResultParam
+            : null;
     const [isCheckingMatchScore, setIsCheckingMatchScore] = useState(false);
-    const [resultQueryParam, _] = useState(cleanedResultParam);
+    const [resultQueryParam, _] = useState(validResultParam);
 
-    const [partnerPersonality, setPartnerPersonality] = useState(null);
+    const [partnerPersonality, setPartnerPersonality] = useState<string | null>(null);
     const partnerPersonalityOptions = [
         {value: "Economizer", display: "Economizer"},
         {value: "Diligent", display: "Diligent"},
@@ -36,9 +41,9 @@ const CoupleTestForm = () => {
     ]
 
     const [currentStep, setCurrentStep] = useState(1);
-    const [resultPersona, setResultPersona] = useState(null);
+    const [resultPersona, setResultPersona] = useState<any>(null);
     const [isResultReady, setIsResultReady] = useState(false);
-    const [answers, setAnswers] = useState({
+    const [answers, setAnswers] = useState<Record<number, any>>({
         1: null,
         2: null,
         3: null,
@@ -658,9 +663,6 @@ const CoupleTestForm = () => {
     }
 
     useEffect(() => {
-        console.log(answers);
-        console.log(resultQueryParam);
-        console.log(MAPPINGS["mbr1291"]);
         const allFieldsFilled = Object.values(answers).every(value => value !== null);
         setIsResultReady(allFieldsFilled);
     }, [answers]);
@@ -668,7 +670,7 @@ const CoupleTestForm = () => {
     // Clean up URL if it has trailing "?" from Mayar redirect
     useEffect(() => {
         if (typeof window !== 'undefined' && window.location.search.endsWith('?')) {
-            const url = new URL(window.location);
+            const url = new URL(window.location.href);
             url.search = url.search.replace(/\?+$/, '');
             window.history.replaceState({}, '', url.toString());
         }
@@ -872,10 +874,10 @@ const CoupleTestForm = () => {
                                     <div className="bg-[#3A4356] rounded-lg p-4 mb-4">
                                         <div className="space-y-2">
                                             <div className="flex">
-                                                <span className="font-semibold"><span className={"text-green-300 font-semibold"}>{MAPPINGS[resultQueryParam]}</span> x <span className={"text-green-300 font-semibold"}>{partnerPersonality}</span></span>
+                                                <span className="font-semibold"><span className={"text-green-300 font-semibold"}>{MAPPINGS[resultQueryParam as string]}</span> x <span className={"text-green-300 font-semibold"}>{partnerPersonality}</span></span>
                                             </div>
                                             <div className="flex">
-                                                <span>Berikut simulasi dan analisis kecocokan <span className={"text-green-300 font-semibold"}>{MAPPINGS[resultQueryParam]}</span> jika berpasangan dengan <span className={"text-green-300 font-semibold"}>{partnerPersonality}</span>:</span>
+                                                <span>Berikut simulasi dan analisis kecocokan <span className={"text-green-300 font-semibold"}>{MAPPINGS[resultQueryParam as string]}</span> jika berpasangan dengan <span className={"text-green-300 font-semibold"}>{partnerPersonality}</span>:</span>
                                             </div>
                                         </div>
                                     </div>
@@ -887,19 +889,19 @@ const CoupleTestForm = () => {
                                                 <span className="text-gray-300 font-bold">Ekonomi dan Gaya Hidup</span>
                                             </div>
                                             <div className="flex">
-                                                <span className="text-white-400 font-semibold">{SIMULATION_RESULT[`${MAPPINGS[resultQueryParam]} x ${partnerPersonality}`]["lifestyle"]}</span>
+                                                <span className="text-white-400 font-semibold">{SIMULATION_RESULT[`${MAPPINGS[resultQueryParam as string]} x ${partnerPersonality}`]["lifestyle"]}</span>
                                             </div>
                                             <div className="flex pt-8">
                                                 <span className="text-gray-300 font-bold">Pengelolaan Keuangan</span>
                                             </div>
                                             <div className="flex">
-                                                <span className="text-white-400 font-semibold">{SIMULATION_RESULT[`${MAPPINGS[resultQueryParam]} x ${partnerPersonality}`]["moneyManagement"]}</span>
+                                                <span className="text-white-400 font-semibold">{SIMULATION_RESULT[`${MAPPINGS[resultQueryParam as string]} x ${partnerPersonality}`]["moneyManagement"]}</span>
                                             </div>
                                             <div className="flex pt-8">
                                                 <span className="text-gray-300 font-bold">Target Masa Depan</span>
                                             </div>
                                             <div className="flex">
-                                                <span className="text-white-400 font-semibold">{SIMULATION_RESULT[`${MAPPINGS[resultQueryParam]} x ${partnerPersonality}`]["futureTarget"]}</span>
+                                                <span className="text-white-400 font-semibold">{SIMULATION_RESULT[`${MAPPINGS[resultQueryParam as string]} x ${partnerPersonality}`]["futureTarget"]}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -908,22 +910,22 @@ const CoupleTestForm = () => {
                                     <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
                                         <div className="space-y-2">
                                             <div className="flex">
-                                                <span className="text-gray-300 font-bold">{CONFLICT_RESULT[`${MAPPINGS[resultQueryParam]} x ${partnerPersonality}`]["firstConflictTitle"]}</span>
+                                                <span className="text-gray-300 font-bold">{CONFLICT_RESULT[`${MAPPINGS[resultQueryParam as string]} x ${partnerPersonality}`]["firstConflictTitle"]}</span>
                                             </div>
                                             <div className="flex">
-                                                <span className="text-white-400 font-semibold">{CONFLICT_RESULT[`${MAPPINGS[resultQueryParam]} x ${partnerPersonality}`]["firstConflictDescription"]}</span>
+                                                <span className="text-white-400 font-semibold">{CONFLICT_RESULT[`${MAPPINGS[resultQueryParam as string]} x ${partnerPersonality}`]["firstConflictDescription"]}</span>
                                             </div>
                                             <div className="flex pt-8">
-                                                <span className="text-gray-300 font-bold">{CONFLICT_RESULT[`${MAPPINGS[resultQueryParam]} x ${partnerPersonality}`]["secondConflictTitle"]}</span>
+                                                <span className="text-gray-300 font-bold">{CONFLICT_RESULT[`${MAPPINGS[resultQueryParam as string]} x ${partnerPersonality}`]["secondConflictTitle"]}</span>
                                             </div>
                                             <div className="flex">
-                                                <span className="text-white-400 font-semibold">{CONFLICT_RESULT[`${MAPPINGS[resultQueryParam]} x ${partnerPersonality}`]["secondConflictDescription"]}</span>
+                                                <span className="text-white-400 font-semibold">{CONFLICT_RESULT[`${MAPPINGS[resultQueryParam as string]} x ${partnerPersonality}`]["secondConflictDescription"]}</span>
                                             </div>
                                             <div className="flex pt-8">
-                                                <span className="text-gray-300 font-bold">{CONFLICT_RESULT[`${MAPPINGS[resultQueryParam]} x ${partnerPersonality}`]["thirdConflictTitle"]}</span>
+                                                <span className="text-gray-300 font-bold">{CONFLICT_RESULT[`${MAPPINGS[resultQueryParam as string]} x ${partnerPersonality}`]["thirdConflictTitle"]}</span>
                                             </div>
                                             <div className="flex">
-                                                <span className="text-white-400 font-semibold">{CONFLICT_RESULT[`${MAPPINGS[resultQueryParam]} x ${partnerPersonality}`]["thirdConflictDescription"]}</span>
+                                                <span className="text-white-400 font-semibold">{CONFLICT_RESULT[`${MAPPINGS[resultQueryParam as string]} x ${partnerPersonality}`]["thirdConflictDescription"]}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -931,7 +933,7 @@ const CoupleTestForm = () => {
                                     <h1 className="text-xl font-semibold mb-4 mt-8">Saran</h1>
                                     <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
                                         <div className="space-y-2">
-                                            {SUGGESTION_RESULT[`${MAPPINGS[resultQueryParam]} x ${partnerPersonality}`].map((item, index) => (
+                                            {SUGGESTION_RESULT[`${MAPPINGS[resultQueryParam as string]} x ${partnerPersonality}`].map((item, index) => (
                                                 <div key={index}>
                                                     <div className="flex">
                                                         <span className="text-gray-300 font-bold">{item.title}</span>
