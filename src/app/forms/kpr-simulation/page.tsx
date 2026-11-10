@@ -8,7 +8,7 @@ import FormQuestionCards from "@/components/ui/form-question-card";
 const KPRSimulationForm = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [isResultReady, setIsResultReady] = useState(false);
-    const [answers, setAnswers] = useState({
+    const [answers, setAnswers] = useState<Record<number, any>>({
         1: null, // property price
         2: null, // down payment percentage
         3: null, // tenor
@@ -92,7 +92,7 @@ const KPRSimulationForm = () => {
         const totalYearsTenor = Number(answers[3]);
         const kprInterestRate = Number(answers[4]) / 100;
         const monthlyIncome = Number(answers[5]);
-        const monthlyExpense = Number[answers[6]];
+        const monthlyExpense = Number(answers[6]);
         const monthlySavings = Math.max(0, monthlyIncome - monthlyExpense);
 
         const inflationRate = Number("4") / 100;

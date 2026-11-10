@@ -8,7 +8,7 @@ import FormQuestionCards from "@/components/ui/form-question-card";
 const InvestmentForm = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [isResultReady, setIsResultReady] = useState(false);
-    const [answers, setAnswers] = useState({
+    const [answers, setAnswers] = useState<Record<number, any>>({
         1: null, // target amount
         2: null, // time period
         3: null, // current savings

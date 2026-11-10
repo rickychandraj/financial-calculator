@@ -8,7 +8,7 @@ import FormQuestionCards from "@/components/ui/form-question-card";
 const UmrahPlanningForm = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [isResultReady, setIsResultReady] = useState(false);
-    const [answers, setAnswers] = useState({
+    const [answers, setAnswers] = useState<Record<number, any>>({
         1: null, // years until umroh
         2: null, // current package cost
         3: null, // number of people

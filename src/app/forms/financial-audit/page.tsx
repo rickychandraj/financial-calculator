@@ -8,7 +8,7 @@ import FormQuestionCards from "@/components/ui/form-question-card";
 const FinancialHealthForm = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [isResultReady, setIsResultReady] = useState(false);
-    const [answers, setAnswers] = useState({
+    const [answers, setAnswers] = useState<Record<number, any>>({
         1: null, // total income
         2: null, // total expense
         3: null, // total asset
