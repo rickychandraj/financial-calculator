@@ -9,11 +9,11 @@ import SelectOption from "@/components/ui/select-option";
 
 const EducationForm = () => {
     const [currentStep, setCurrentStep] = useState(1);
-    const [educationFundStrategy, setEducationFundStrategy] = useState(null);
+    const [educationFundStrategy, setEducationFundStrategy] = useState<any>(null);
     const [kidName, setKidName] = useState("");
     const [isResultReady, setIsResultReady] = useState(false);
     const [isAnnouncementAcknowledged, setIsAnnouncementAcknowledged] = useState(false);
-    const [answers, setAnswers] = useState({
+    const [answers, setAnswers] = useState<Record<number, any>>({
         1: null, // nama anak
         2: null, // usia anak
         3: null, // jenjang pendidikan
@@ -306,7 +306,6 @@ const EducationForm = () => {
     }
 
     const calculateResults = () => {
-        console.log("Calculate Results...")
         const inflationRate = Number("4") / 100;
 
         const educationLevel = answers[3];
@@ -334,11 +333,6 @@ const EducationForm = () => {
             finishedAt = 22
         }
 
-        console.log(answers[102]);
-        console.log(answers[103]);
-        console.log(answers[104]);
-        console.log("childrenAge");
-        console.log(childrenAge);
 
         const uangPangkal = Number(answers[102]) * Math.pow(1 + inflationRate, Math.max(startedAt - Number(answers[2]), 0));
         const spp = Number(answers[103]) * Math.pow(1 + inflationRate, Math.max(finishedAt - Number(answers[2]), 0)) * 12 * yearsUntil;
@@ -359,7 +353,6 @@ const EducationForm = () => {
     };
 
     useEffect(() => {
-        console.log("Updated answers:", answers);
         setEducationFundStrategy(null);
 
         const educationRange = answers[3] ?? null;
@@ -374,7 +367,6 @@ const EducationForm = () => {
             setIsResultReady(true);
         }
 
-        console.log("Updated educationFundStrategy:", educationFundStrategy);
 
     }, [answers[102], answers[103], answers[104]])
 
@@ -395,7 +387,6 @@ const EducationForm = () => {
     }
 
     useEffect(() => {
-        console.log("Updated answers:", answers);
         setEducationFundStrategy(null);
         setKidName(answers[1]);
 
@@ -434,7 +425,6 @@ const EducationForm = () => {
             setIsResultReady(true);
         }
 
-        console.log("Updated educationFundStrategy:", educationFundStrategy);
     }, [answers[1], answers[3], answers[4], answers[100], answers[101]]) // Only depend on the input values
 
     const formatNumber = (num) => {

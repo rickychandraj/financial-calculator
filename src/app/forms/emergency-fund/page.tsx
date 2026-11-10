@@ -12,7 +12,7 @@ const FinancialAuditForm = () => {
     const [emergencyFund, setEmergencyFund] = useState("");
     const [minEmergencyFund, setMinEmergencyFund] = useState(0);
     const [isResultReady, setIsResultReady] = useState(false);
-    const [answers, setAnswers] = useState({
+    const [answers, setAnswers] = useState<Record<number, any>>({
         1: null, // total income
         2: null, // dependents
         3: null, // status
@@ -89,13 +89,12 @@ const FinancialAuditForm = () => {
     };
 
     useEffect(() => {
-        console.log("Updated answers:", answers);
         setEmergencyFund("");
 
-        const monthlyIncome = answers[1] ? Number(answers[1]) : null;
+        const monthlyIncome: any = answers[1] ? Number(answers[1]) : null;
         const totalDependents = answers[2] ? Number(answers[2]) : null;
         const status = answers[3] ? answers[3] : null;
-        const monthlyExpense = answers[4] ? Number(answers[4]) : null;
+        const monthlyExpense: any = answers[4] ? Number(answers[4]) : null;
         const currentEmergencyFund = answers[5] ? Number(answers[5]) : null;
 
         const isSandwichGeneration = totalDependents ? Number(totalDependents) > 0 : null;
@@ -116,7 +115,6 @@ const FinancialAuditForm = () => {
             || monthlyExpense === null
             || currentEmergencyFund === null
         ) {
-            console.log("Updated emergencyFund:", emergencyFund);
             return;
         }
 
@@ -165,7 +163,6 @@ const FinancialAuditForm = () => {
         }
 
         setIsResultReady(true);
-        console.log("Updated emergencyFund:", emergencyFund);
     }, [answers, emergencyFund]);
 
     const handleInputChange = (questionId, value) => {
@@ -244,10 +241,10 @@ const FinancialAuditForm = () => {
     }
 
     const calculateResults = () => {
-        const monthlyIncome = answers[1] ? Number(answers[1]) : null;
+        const monthlyIncome: any = answers[1] ? Number(answers[1]) : null;
         const totalDependents = answers[2] ? Number(answers[2]) : null;
         const status = answers[3] ? answers[3] : null;
-        const monthlyExpense = answers[4] ? Number(answers[4]) : null;
+        const monthlyExpense: any = answers[4] ? Number(answers[4]) : null;
         const currentEmergencyFund = answers[5] ? Number(answers[5]) : null;
 
         const isSandwichGeneration = totalDependents ? Number(totalDependents) > 0 : null;
