@@ -2,8 +2,7 @@
 
 import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { DEFAULT_LANG, dictionaries, type Dictionary, type Lang } from "./dictionary";
-
-const STORAGE_KEY = "mb-lang";
+import { LANG_PENDING_ATTR, STORAGE_KEY } from "./boot";
 
 type LanguageContextValue = { lang: Lang; t: Dictionary; setLang: (lang: Lang) => void };
 
@@ -12,6 +11,7 @@ const LanguageContext = createContext<LanguageContextValue | null>(null);
 /** Indonesian by default; a visitor's choice is remembered in their browser. */
 export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
     const [lang, setLangState] = useState<Lang>(DEFAULT_LANG);
+    const [restored, setRestored] = useState(false);
 
     useEffect(() => {
         try {
@@ -20,11 +20,14 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
         } catch {
             // Storage unavailable (private mode etc.) — stay on the default.
         }
+        setRestored(true);
     }, []);
 
     useEffect(() => {
         document.documentElement.lang = lang;
-    }, [lang]);
+        // Reveal the page only after the saved language has been rendered.
+        if (restored) document.documentElement.removeAttribute(LANG_PENDING_ATTR);
+    }, [lang, restored]);
 
     const setLang = useCallback((next: Lang) => {
         setLangState(next);
