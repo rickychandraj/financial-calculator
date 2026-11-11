@@ -3,6 +3,7 @@
 import React, {useEffect, useState} from "react";
 import FormHeader from "@/components/ui/form-header";
 import FormQuestionCards from "@/components/ui/form-question-card";
+import { contributionNeeded, formatNumber } from "@/lib/calc/finance";
 import NumberInput from "@/components/ui/number-input";
 import CurrencyInput from "@/components/ui/currency-input";
 import SelectOption from "@/components/ui/select-option";
@@ -340,7 +341,7 @@ const EducationForm = () => {
         const total = uangPangkal + spp + biayaLainLain;
 
         const futureAmountToSave = total
-        const totalAmountToSaveMonthly = total / ((Number(startedAt) - Number(childrenAge)) * 12)
+        const totalAmountToSaveMonthly = contributionNeeded(total, 0, (startedAt - childrenAge) * 12);
 
         return {
             uangPangkal,
@@ -427,21 +428,6 @@ const EducationForm = () => {
 
     }, [answers[1], answers[3], answers[4], answers[100], answers[101]]) // Only depend on the input values
 
-    const formatNumber = (num) => {
-        // Remove any non-digit characters except decimal point
-        const cleanNum = num.toString().replace(/[^\d.]/g, '');
-
-        // Split into integer and decimal parts
-        const [integerPart, decimalPart] = cleanNum.split('.');
-
-        // Add thousand separators to integer part
-        const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-        // Return formatted number with decimal part if it exists
-        return decimalPart !== undefined
-            ? `${formattedInteger}.${decimalPart}`
-            : formattedInteger;
-    };
 
     return (
         <div

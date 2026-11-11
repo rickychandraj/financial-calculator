@@ -63,6 +63,11 @@ const FormQuestionCards = ({
                         }
 
                         {
+                            question.error
+                            && <p role="alert" className="text-sm mt-2" style={{ color: "#B91C1C" }}>{question.error}</p>
+                        }
+
+                        {
                             question.type === "select"
                             && (
                                 <div className="space-y-3 mt-4">

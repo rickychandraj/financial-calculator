@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from "react";
 import FormHeader from "@/components/ui/form-header";
 import FormQuestionCards from "@/components/ui/form-question-card";
+import { formatNumber, monthlySavingNeeded } from "@/lib/calc/finance";
 
 
 const DPPropertyForm = () => {
@@ -67,7 +68,6 @@ const DPPropertyForm = () => {
 
         const inflationRate = Number("4") / 100;
         const returnRate = Number("6") / 100;
-        const monthlyReturnRate = returnRate / 12;
 
         // Calculate future vehicle price with inflation
         const futurePrice = propertyPrice * Math.pow(1 + inflationRate, yearsToCollect);
@@ -81,8 +81,8 @@ const DPPropertyForm = () => {
         // Calculate future value of monthly savings
         const gapToTarget = totalDPNeeded - totalProjectedSavings;
 
-        const futureAmountToSave = (totalDPNeeded - totalProjectedSavings)
-        const totalAmountToSaveMonthly = (futureAmountToSave * monthlyReturnRate) / ((Math.pow(1 + monthlyReturnRate, yearsToCollect * 12) - 1))
+        const futureAmountToSave = Math.max(0, totalDPNeeded - totalProjectedSavings);
+        const totalAmountToSaveMonthly = monthlySavingNeeded(futureAmountToSave, returnRate, yearsToCollect);
 
 
         return {
@@ -109,14 +109,6 @@ const DPPropertyForm = () => {
         return !answers[questionId];
     };
 
-    const formatNumber = (num) => {
-        const cleanNum = num.toString().replace(/[^\d.]/g, '');
-        const [integerPart, decimalPart] = cleanNum.split('.');
-        const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        return decimalPart !== undefined
-            ? `${formattedInteger}.${decimalPart}`
-            : formattedInteger;
-    };
 
     return (
         <div
