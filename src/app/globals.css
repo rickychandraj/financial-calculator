@@ -34,6 +34,7 @@ body {
   background: #fff;
   font-family: var(--font-inter), Arial, sans-serif;
 }
+html[data-lang-pending] .home-page { visibility: hidden; }
 .home-page a:focus-visible { outline: 3px solid var(--brand); outline-offset: 3px; }
 .home-serif { font-family: "Times New Roman", Tinos, Times, Georgia, serif; font-weight: 400; }
 .home-container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
@@ -89,6 +90,7 @@ body {
   background: var(--blush);
 }
 .home-hero-copy { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 14px; max-width: 600px; }
+.home-hero-title, .home-hero-text { white-space: pre-line; }
 .home-hero-title { font-size: 60px; line-height: 62.4px; letter-spacing: -.6px; color: var(--ink); }
 .home-hero-text { font-size: 17px; line-height: 27.2px; color: var(--muted); }
 .home-byline {

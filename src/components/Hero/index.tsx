@@ -70,13 +70,9 @@ export const Hero = () => {
                     <div className="home-hero-copy">
                         <p className="home-eyebrow">{h.eyebrow}</p>
                         <h1 className="home-serif home-hero-title">
-                            {h.titleStart}{h.titleBreak && <br />}<em>{h.titleEm}</em>
+                            {h.titleStart}<em>{h.titleEm}</em>
                         </h1>
-                        <p className="home-hero-text">
-                            {h.text.map((line, i) => (
-                                <span key={line}>{i > 0 && <br />}{line}</span>
-                            ))}
-                        </p>
+                        <p className="home-hero-text">{h.text}</p>
                         <div className="home-byline">
                             <span className="home-byline-photo">
                                 <img src="/home/ayu.png" alt="Ayu Sara Herlia-Hinch" width={30} height={30} />

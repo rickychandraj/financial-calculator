@@ -4,8 +4,8 @@ const NumberInput = ({
     placeholder,
     value,
     onChange,
-    prefix,
-    suffix,
+    prefix = undefined as React.ReactNode,
+    suffix = undefined as React.ReactNode,
     className="w-full p-3 rounded-lg border",
     style= {
         color: "#12174F",
@@ -15,7 +15,7 @@ const NumberInput = ({
         WebkitAppearance: "none",
         MozAppearance: "textfield",
         margin: 0
-    }
+    } as React.CSSProperties
 }) => {
     return (
         <div className="relative mt-4">
