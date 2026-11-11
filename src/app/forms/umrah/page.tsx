@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import FormHeader from "@/components/ui/form-header";
 import FormQuestionCards from "@/components/ui/form-question-card";
+import { formatNumber, monthlySavingNeeded } from "@/lib/calc/finance";
 
 
 const UmrahPlanningForm = () => {
@@ -87,7 +88,6 @@ const UmrahPlanningForm = () => {
 
         const inflationRate = Number("5.7") / 100;
         const returnRate = Number(answers[5]) / 100;
-        const monthlyReturnRate = returnRate / 12;
 
         // Calculate future package cost with inflation
         const futurePackageCost = currentPackageCost * Math.pow(1 + inflationRate, yearsUntilUmrah);
@@ -102,8 +102,8 @@ const UmrahPlanningForm = () => {
         // Calculate if savings will meet the target
         const isTargetMet = totalProjectedSavings >= totalFutureCost;
 
-        const futureAmountToSave = (totalFutureCost - totalProjectedSavings)
-        const totalAmountToSaveMonthly = (futureAmountToSave * monthlyReturnRate) / ((Math.pow(1 + monthlyReturnRate, yearsUntilUmrah * 12) - 1))
+        const futureAmountToSave = Math.max(0, totalFutureCost - totalProjectedSavings);
+        const totalAmountToSaveMonthly = monthlySavingNeeded(futureAmountToSave, returnRate, yearsUntilUmrah);
 
         return {
             currentCostPerPerson: currentPackageCost,
@@ -127,14 +127,6 @@ const UmrahPlanningForm = () => {
         return !answers[questionId];
     };
 
-    const formatNumber = (num) => {
-        const cleanNum = num.toString().replace(/[^\d.]/g, '');
-        const [integerPart, decimalPart] = cleanNum.split('.');
-        const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        return decimalPart !== undefined
-            ? `${formattedInteger}.${decimalPart}`
-            : formattedInteger;
-    };
 
     return (
         <div

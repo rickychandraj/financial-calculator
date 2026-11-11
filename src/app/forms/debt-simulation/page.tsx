@@ -3,23 +3,9 @@
 import React, {useEffect, useState} from "react";
 import FormHeader from "@/components/ui/form-header";
 import FormQuestionCards from "@/components/ui/form-question-card";
+import { formatNumber } from "@/lib/calc/finance";
 
 const DebtSimulation = () => {
-    const formatNumber = (num) => {
-        // Remove any non-digit characters except decimal point
-        const cleanNum = num.toString().replace(/[^\d.]/g, '');
-
-        // Split into integer and decimal parts
-        const [integerPart, decimalPart] = cleanNum.split('.');
-
-        // Add thousand separators to integer part
-        const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-        // Return formatted number with decimal part if it exists
-        return decimalPart !== undefined
-            ? `${formattedInteger}.${decimalPart}`
-            : formattedInteger;
-    };
 
     const [currentStep, setCurrentStep] = useState(1);
     const [simulationTable, setSimulationTable] = useState([
