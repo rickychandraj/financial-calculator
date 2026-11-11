@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import FormHeader from "@/components/ui/form-header";
 import FormQuestionCards from "@/components/ui/form-question-card";
+import { formatNumber, monthlySavingNeeded } from "@/lib/calc/finance";
 
 const ItemPurchaseForm = () => {
     const [currentStep, setCurrentStep] = useState(1);
@@ -69,7 +70,6 @@ const ItemPurchaseForm = () => {
 
         const inflationRate = Number("4") / 100;
         const returnRate = Number("6") / 100;
-        const monthlyReturnRate = returnRate / 12;
 
         // Calculate future vehicle price with inflation
         const futurePrice = currentPrice * Math.pow(1 + inflationRate, yearsUntilPurchase);
@@ -81,8 +81,8 @@ const ItemPurchaseForm = () => {
         const totalProjectedSavings = currentSavings * Math.pow(1 + returnRate, yearsUntilPurchase);
 
         // Calculate total amount you need to save each month to be able to purchase
-        const futureAmountToSave = (futurePrice - totalProjectedSavings)
-        const totalAmountToSaveMonthly = (futureAmountToSave * monthlyReturnRate) / ((Math.pow(1 + monthlyReturnRate, yearsUntilPurchase * 12) - 1))
+        const futureAmountToSave = Math.max(0, futurePrice - totalProjectedSavings);
+        const totalAmountToSaveMonthly = monthlySavingNeeded(futureAmountToSave, returnRate, yearsUntilPurchase);
 
         return {
             futurePrice,
@@ -102,14 +102,6 @@ const ItemPurchaseForm = () => {
         return !answers[questionId];
     };
 
-    const formatNumber = (num) => {
-        const cleanNum = num.toString().replace(/[^\d.]/g, '');
-        const [integerPart, decimalPart] = cleanNum.split('.');
-        const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        return decimalPart !== undefined
-            ? `${formattedInteger}.${decimalPart}`
-            : formattedInteger;
-    };
 
     return (
         <div
