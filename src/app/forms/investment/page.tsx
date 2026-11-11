@@ -3,6 +3,7 @@
 import React, {useEffect, useState} from "react";
 import FormHeader from "@/components/ui/form-header";
 import FormQuestionCards from "@/components/ui/form-question-card";
+import { contributionNeeded, formatNumber } from "@/lib/calc/finance";
 
 
 const InvestmentForm = () => {
@@ -103,8 +104,6 @@ const InvestmentForm = () => {
         const frequency = answers[4];
         const timing = answers[5];
 
-        let amountToSave = 0;
-
         const returnRate = Number(answers[6]) / 100;
 
         const periodsPerYear = frequency == "monthly" ? 12 : 1;
@@ -115,11 +114,12 @@ const InvestmentForm = () => {
         const totalProjectedSavings = initialAmount * Math.pow(1 + returnRate, yearsToCollect)
         const totalAmountNeedToChase = Math.max(targetAmount - totalProjectedSavings, 0)
 
-        if (timing == "begin") {
-            amountToSave = Number(totalAmountNeedToChase) / Number((((Math.pow((1 + periodicReturn), totalPeriods)) - 1) * (1 + periodicReturn)) / periodicReturn)
-        } else {
-            amountToSave = (totalAmountNeedToChase * periodicReturn) / ((Math.pow(1 + periodicReturn, yearsToCollect * 12) - 1))
-        }
+        const amountToSave = contributionNeeded(
+            totalAmountNeedToChase,
+            periodicReturn,
+            totalPeriods,
+            timing == "begin" ? "begin" : "end",
+        );
 
         return {
             totalProjectedSavings,
@@ -139,14 +139,6 @@ const InvestmentForm = () => {
         return !answers[questionId];
     };
 
-    const formatNumber = (num) => {
-        const cleanNum = num.toString().replace(/[^\d.]/g, '');
-        const [integerPart, decimalPart] = cleanNum.split('.');
-        const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        return decimalPart !== undefined
-            ? `${formattedInteger}.${decimalPart}`
-            : formattedInteger;
-    };
 
     return (
         <div

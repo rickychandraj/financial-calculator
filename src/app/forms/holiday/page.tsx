@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import FormHeader from "@/components/ui/form-header";
 import FormQuestionCards from "@/components/ui/form-question-card";
+import { formatNumber, monthlySavingNeeded } from "@/lib/calc/finance";
 
 
 const HolidayPlanningForm = () => {
@@ -90,14 +91,11 @@ const HolidayPlanningForm = () => {
         // Calculate future value of current savings
         const totalProjectedSavings = currentSavings * Math.pow(1 + returnRate, yearsUntilHoliday);
 
-        // Calculate future value of monthly savings
-        const monthlyReturnRate = returnRate / 12;
-
         // Calculate if savings will meet the target
         const isTargetMet = totalProjectedSavings >= totalFutureCost;
 
-        const futureAmountToSave = (totalFutureCost - totalProjectedSavings)
-        const totalAmountToSaveMonthly = (futureAmountToSave * monthlyReturnRate) / ((Math.pow(1 + monthlyReturnRate, yearsUntilHoliday * 12) - 1))
+        const futureAmountToSave = Math.max(0, totalFutureCost - totalProjectedSavings);
+        const totalAmountToSaveMonthly = monthlySavingNeeded(futureAmountToSave, returnRate, yearsUntilHoliday);
 
         return {
             currentCostPerPerson: currentTripCost,
@@ -121,14 +119,6 @@ const HolidayPlanningForm = () => {
         return !answers[questionId];
     };
 
-    const formatNumber = (num) => {
-        const cleanNum = num.toString().replace(/[^\d.]/g, '');
-        const [integerPart, decimalPart] = cleanNum.split('.');
-        const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        return decimalPart !== undefined
-            ? `${formattedInteger}.${decimalPart}`
-            : formattedInteger;
-    };
 
     return (
         <div
