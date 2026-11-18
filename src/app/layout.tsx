@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { siteName, siteDescription as description } from "@/lib/seo";
 
 const inter = localFont({
   src: "./fonts/InterVariable.woff2",
@@ -21,8 +22,26 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Kalkulator Mama berUANG by Ayu Sara",
-  description: "Your Online Money Mom",
+  metadataBase: new URL("https://calculator.mamaberuang.com"),
+  title: {
+    default: "Kalkulator Mama berUANG by Ayu Sara",
+    template: `%s | ${siteName}`,
+  },
+  description,
+  openGraph: {
+    type: "website",
+    locale: "id_ID",
+    siteName,
+    url: "/",
+    title: "Kalkulator Mama berUANG by Ayu Sara",
+    description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kalkulator Mama berUANG by Ayu Sara",
+    description,
+  },
+  alternates: { canonical: "/" },
 };
 
 export default function RootLayout({
