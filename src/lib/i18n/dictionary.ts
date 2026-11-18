@@ -51,7 +51,7 @@ const id = {
         comingSoon: "Segera hadir",
         check: {
             emergency: ["Dana Darurat", "Berapa bulan pengeluaran yang perlu kamu siapkan"],
-            retirement: ["Financial Freedom & Dana Pensiun", "Target pensiunmu dan berapa yang perlu ditabung tiap bulan"],
+            retirement: ["Financial Freedom atau Dana Pensiun", "Target pensiunmu dan berapa yang perlu ditabung tiap bulan"],
             couple: ["Tes Kecocokan Pasangan", "Seberapa sejalan kalian berdua dalam mengatur uang"],
         },
         dream: {
