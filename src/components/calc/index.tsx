@@ -132,23 +132,6 @@ export const CalcOptions = ({
     </div>
 );
 
-export type SummaryRow = { label: string; value: string; state?: "current" | "later" };
-
-export const CalcSummary = ({ rows }: { rows: SummaryRow[] }) => {
-    const { t } = useLanguage();
-    return (
-        <aside className="calc-glass calc-summary">
-            <span className="home-eyebrow">{t.calc.yourAnswers}</span>
-            {rows.map((row) => (
-                <div key={row.label} className={`calc-sumrow${row.state ? ` is-${row.state}` : ""}`}>
-                    <span>{row.label}</span>
-                    <b>{row.value}</b>
-                </div>
-            ))}
-        </aside>
-    );
-};
-
 /** Progress ring: share of a target that is already saved. */
 export const CalcRing = ({ ratio, title, caption, note }: { ratio: number; title: string; caption: string; note: string }) => {
     const r = 78;

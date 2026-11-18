@@ -1,14 +1,25 @@
 "use client";
 
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {LanguageProvider, useLanguage} from "@/lib/i18n";
-import {CalcHeader, CalcProgress, CalcField, CalcOptions, CalcSummary, CalcRing, type SummaryRow} from "@/components/calc";
+import {CalcHeader, CalcProgress, CalcField, CalcOptions, CalcRing} from "@/components/calc";
 
+type CalcQuestion = {
+    id: number;
+    text: string;
+    subtext?: string;
+    type: string;
+    suffix?: string;
+    placeholder?: string;
+    prefix?: string;
+    options?: { value: string; display: string }[];
+};
 
 const EmergencyFundForm = () => {
     const {t} = useLanguage();
     const ef = t.emergencyFund;
-    const [currentStep, setCurrentStep] = useState(1);
+    const [stepIndex, setStepIndex] = useState(0);
+    const advanceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
     const [emergencyFund, setEmergencyFund] = useState("");
     const [minEmergencyFund, setMinEmergencyFund] = useState(0);
     const [isResultReady, setIsResultReady] = useState(false);
@@ -70,7 +81,29 @@ const EmergencyFundForm = () => {
         },
     ];
 
-    const totalSteps = questions.length;
+    // Follow-up questions for status 3, each shown on its own page.
+    const kidsQuestion = {
+        id: 100,
+        text: ef.q3.kids.text,
+        type: "number",
+        suffix: ef.q3.kids.suffix,
+        placeholder: ef.q3.kids.placeholder,
+    };
+    const partnerIncomeQuestion = {
+        id: 101,
+        text: ef.q3.partnerIncome.text,
+        type: "currency",
+        placeholder: ef.q3.partnerIncome.placeholder,
+        prefix: "Rp",
+    };
+    const partnerDependentsQuestion = {
+        id: 102,
+        text: ef.q3.partnerDependents.text,
+        subtext: ef.q3.partnerDependents.subtext,
+        type: "number",
+        suffix: ef.q3.partnerDependents.suffix,
+        placeholder: ef.q3.partnerDependents.placeholder,
+    };
 
     const formatNumber = (num) => {
         // Remove any non-digit characters except decimal point
@@ -210,34 +243,7 @@ const EmergencyFundForm = () => {
     };
 
     const handleGetResult = () => {
-        setCurrentStep(prev => prev + 1);
-    }
-
-    const handleIsNextButtonDisabled = (questionId) => {
-        return (
-            !(answers[questionId]) ||
-            // Sudah menikah, tapi belum jawab pertanyaan tambahannya
-            questionId === 3
-            && (
-                (
-                    answers[questionId] === "married"
-                    && !(
-                        answers[questionId]
-                        && answers[100]
-                        && answers[101]
-                        && answers[102]
-                    )
-                )
-                || (
-                    answers[questionId] === "divorced"
-                    && !(answers[questionId] && answers[100])
-                )
-                || (
-                    answers[questionId] === "widowed"
-                    && !(answers[questionId] && answers[100])
-                )
-            )
-        )
+        setStepIndex(totalSteps);
     }
 
     const calculateResults = () => {
@@ -313,32 +319,41 @@ const EmergencyFundForm = () => {
         }
     }
 
-    const question = questions.find((q) => q.id === currentStep);
-    const isDone = currentStep > totalSteps;
     const status = answers[3];
     const hasKidsField = status === "married" || status === "divorced" || status === "widowed";
-
-    const show = (value, kind, suffix = "") => {
-        if (value === null || value === undefined || value === "") return "—";
-        if (kind === "currency") return `Rp${formatNumber(value)}`;
-        if (kind === "status") return ef.q3.options[value] || "—";
-        return `${value} ${suffix}`.trim();
-    };
-    const rowState = (step): SummaryRow["state"] => (
-        isDone ? undefined : step === currentStep ? "current" : step > currentStep ? "later" : undefined
-    );
-    const summaryRows: SummaryRow[] = [
-        {label: ef.q1.short, value: show(answers[1], "currency"), state: rowState(1)},
-        {label: ef.q2.short, value: show(answers[2], "number", ef.q2.suffix), state: rowState(2)},
-        {label: ef.q3.short, value: show(answers[3], "status"), state: rowState(3)},
-        ...(hasKidsField ? [{label: ef.q3.kids.short, value: show(answers[100], "number", ef.q3.kids.suffix), state: rowState(3)}] : []),
-        ...(status === "married" ? [
-            {label: ef.q3.partnerIncome.short, value: show(answers[101], "currency"), state: rowState(3)},
-            {label: ef.q3.partnerDependents.short, value: show(answers[102], "number", ef.q3.partnerDependents.suffix), state: rowState(3)},
-        ] : []),
-        {label: ef.q4.short, value: show(answers[4], "currency"), state: rowState(4)},
-        {label: ef.q5.short, value: show(answers[5], "currency"), state: rowState(5)},
+    const steps: CalcQuestion[] = [
+        questions[0],
+        questions[1],
+        questions[2],
+        ...(hasKidsField ? [kidsQuestion] : []),
+        ...(status === "married" ? [partnerIncomeQuestion, partnerDependentsQuestion] : []),
+        questions[3],
+        questions[4],
     ];
+    const totalSteps = steps.length;
+    const isDone = stepIndex >= totalSteps;
+    const question = isDone ? null : steps[stepIndex];
+    const isLastStep = stepIndex === totalSteps - 1;
+    const canGoNext = !!question && !!answers[question.id];
+
+    const goNext = () => {
+        if (!canGoNext) return;
+        if (isLastStep) {
+            if (isResultReady) handleGetResult();
+            return;
+        }
+        setStepIndex(prev => prev + 1);
+    };
+    const goPrevious = () => {
+        if (advanceTimer.current) clearTimeout(advanceTimer.current);
+        setStepIndex(prev => Math.max(prev - 1, 0));
+    };
+    // Picking an option moves straight on to the next question.
+    const handleSelect = (questionId, value) => {
+        handleInputChange(questionId, value);
+        if (advanceTimer.current) clearTimeout(advanceTimer.current);
+        advanceTimer.current = setTimeout(() => setStepIndex(prev => prev + 1), 300);
+    };
 
     const savedNow = Number(answers[5]) || 0;
     const isCovered = answers[5] > minEmergencyFund;
@@ -346,13 +361,22 @@ const EmergencyFundForm = () => {
     return (
         <div className="home-page calc-page">
             <CalcHeader backHref={"/"}/>
-            <main className="calc-main">
-                <CalcProgress title={ef.title} step={isDone ? totalSteps : currentStep} total={totalSteps} done={isDone}/>
+            <main className={`calc-main${isDone ? "" : " is-question"}`}>
+                <CalcProgress title={ef.title} step={isDone ? totalSteps : stepIndex + 1} total={totalSteps} done={isDone}/>
 
                 {!isDone && question && (
                     <div className="calc-qgrid">
-                        <section className="calc-glass calc-qcard">
-                            <span className="home-eyebrow">{t.calc.question} {currentStep}</span>
+                        <section
+                            key={question.id}
+                            className="calc-glass calc-qcard"
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    e.preventDefault();
+                                    goNext();
+                                }
+                            }}
+                        >
+                            <span className="home-eyebrow">{t.calc.question} {stepIndex + 1}</span>
                             <div className="calc-qhead">
                                 <h1 className="home-serif calc-qtitle">{question.text}</h1>
                                 {question.subtext && <p className="calc-qsub">{question.subtext}</p>}
@@ -383,83 +407,31 @@ const EmergencyFundForm = () => {
                                     label={question.text}
                                     options={question.options ?? []}
                                     value={answers[question.id]}
-                                    onSelect={(value) => handleInputChange(question.id, value)}
+                                    onSelect={(value) => handleSelect(question.id, value)}
                                 />
                             )}
 
-                            {currentStep === 3 && hasKidsField && (
-                                <div className="calc-subfield">
-                                    <h3>{ef.q3.kids.text}</h3>
-                                    <CalcField
-                                        compact
-                                        label={ef.q3.kids.text}
-                                        placeholder={ef.q3.kids.placeholder}
-                                        suffix={ef.q3.kids.suffix}
-                                        value={answers[100] || ""}
-                                        onChange={(e) => handleInputChange(100, e.target.value)}
-                                    />
-                                </div>
-                            )}
-                            {currentStep === 3 && status === "married" && (
-                                <>
-                                    <div className="calc-subfield">
-                                        <h3>{ef.q3.partnerIncome.text}</h3>
-                                        <CalcField
-                                            compact
-                                            currency
-                                            label={ef.q3.partnerIncome.text}
-                                            prefix={"Rp"}
-                                            placeholder={ef.q3.partnerIncome.placeholder}
-                                            value={answers[101] || ""}
-                                            onChange={(e) => handleInputChange(101, e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="calc-subfield">
-                                        <h3>{ef.q3.partnerDependents.text}</h3>
-                                        <p>{ef.q3.partnerDependents.subtext}</p>
-                                        <CalcField
-                                            compact
-                                            label={ef.q3.partnerDependents.text}
-                                            placeholder={ef.q3.partnerDependents.placeholder}
-                                            suffix={ef.q3.partnerDependents.suffix}
-                                            value={answers[102] || ""}
-                                            onChange={(e) => handleInputChange(102, e.target.value)}
-                                        />
-                                    </div>
-                                </>
-                            )}
-
-                            <div className="calc-nav">
+                        </section>
+                        <div className="calc-nav">
+                            <button
+                                type="button"
+                                className="calc-btn-glass"
+                                disabled={stepIndex === 0}
+                                onClick={goPrevious}
+                            >
+                                ← {t.calc.previous}
+                            </button>
+                            {question.type !== "select" && (
                                 <button
                                     type="button"
-                                    className={`calc-btn-glass${currentStep === 1 ? " calc-hidden" : ""}`}
-                                    onClick={() => setCurrentStep(prev => Math.max(prev - 1, 1))}
+                                    className="calc-btn"
+                                    disabled={!canGoNext || (isLastStep && !isResultReady)}
+                                    onClick={goNext}
                                 >
-                                    ← {t.calc.previous}
+                                    {isLastStep ? t.calc.finish : `${t.calc.next} →`}
                                 </button>
-                                {currentStep < totalSteps && (
-                                    <button
-                                        type="button"
-                                        className="calc-btn"
-                                        disabled={handleIsNextButtonDisabled(question.id)}
-                                        onClick={() => setCurrentStep(prev => Math.min(prev + 1, totalSteps))}
-                                    >
-                                        {t.calc.next} →
-                                    </button>
-                                )}
-                                {currentStep === totalSteps && (
-                                    <button
-                                        type="button"
-                                        className="calc-btn"
-                                        disabled={!isResultReady}
-                                        onClick={() => handleGetResult()}
-                                    >
-                                        {t.calc.finish}
-                                    </button>
-                                )}
-                            </div>
-                        </section>
-                        <CalcSummary rows={summaryRows}/>
+                            )}
+                        </div>
                     </div>
                 )}
 
@@ -515,7 +487,7 @@ const EmergencyFundForm = () => {
                             <button
                                 type="button"
                                 className="calc-btn-glass"
-                                onClick={() => setCurrentStep(prev => Math.max(prev - 1, 1))}
+                                onClick={() => setStepIndex(totalSteps - 1)}
                             >
                                 ← {t.calc.backToPrevious}
                             </button>
