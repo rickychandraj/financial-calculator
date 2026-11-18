@@ -381,7 +381,7 @@ const EmergencyFundForm = () => {
                             {question.type === "select" && (
                                 <CalcOptions
                                     label={question.text}
-                                    options={question.options}
+                                    options={question.options ?? []}
                                     value={answers[question.id]}
                                     onSelect={(value) => handleInputChange(question.id, value)}
                                 />
