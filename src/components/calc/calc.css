@@ -95,7 +95,7 @@
 .calc-summary .home-eyebrow { margin-bottom: 6px; }
 .calc-sumrow { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid #eef0f5; font-size: 14px; color: var(--muted); }
 .calc-sumrow:last-child { border-bottom: 0; }
-.calc-sumrow b { color: var(--ink); font-weight: 600; text-align: right; }
+.calc-sumrow b { flex: none; color: var(--ink); font-weight: 600; text-align: right; white-space: nowrap; }
 .calc-sumrow.is-current, .calc-sumrow.is-current b { color: var(--brand); }
 .calc-sumrow.is-later { opacity: .45; }
 
