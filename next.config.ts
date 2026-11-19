@@ -3,7 +3,9 @@ import type { NextConfig } from "next";
 const isDev = process.env.NODE_ENV !== "production";
 
 // Everything the site loads is served from its own origin; external domains
-// only appear as plain links, so a strict same-origin policy is enough.
+// only appear as plain links. The one exception is the calculator submission
+// endpoint on Supabase, which the page posts answers to.
+const SUPABASE_ORIGIN = "https://zynzbcbaobhrhmeckjrx.supabase.co";
 const contentSecurityPolicy = [
     "default-src 'self'",
     // Next.js inlines its bootstrap scripts; dev mode also needs eval for fast refresh.
@@ -11,7 +13,7 @@ const contentSecurityPolicy = [
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob:",
     "font-src 'self' data:",
-    `connect-src 'self'${isDev ? " ws:" : ""}`,
+    `connect-src 'self' ${SUPABASE_ORIGIN}${isDev ? " ws:" : ""}`,
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self'",

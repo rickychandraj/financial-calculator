@@ -43,14 +43,14 @@ export const CalcHeader = ({ backHref = "/" }: { backHref?: string }) => {
     );
 };
 
-export const CalcProgress = ({ title, step, total, done = false }: { title: string; step: number; total: number; done?: boolean }) => {
+export const CalcProgress = ({ title, step, total, done = false, label }: { title: string; step: number; total: number; done?: boolean; label?: string }) => {
     const { t } = useLanguage();
     const pct = done ? 100 : Math.round(((step - 1) / total) * 100);
     return (
         <div className="calc-progress">
             <div className="calc-progress-row">
                 <span>
-                    <strong>{title}</strong> · {t.calc.question} {Math.min(step, total)} {t.calc.of} {total}
+                    <strong>{title}</strong> · {label ?? `${t.calc.question} ${Math.min(step, total)} ${t.calc.of} ${total}`}
                 </span>
                 <span>{pct}%</span>
             </div>
