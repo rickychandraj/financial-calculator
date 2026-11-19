@@ -3,6 +3,8 @@
 import React, {useEffect, useRef, useState} from "react";
 import {LanguageProvider, useLanguage} from "@/lib/i18n";
 import {CalcHeader, CalcProgress, CalcField, CalcOptions, CalcRing} from "@/components/calc";
+import {CalcBiodata, EMPTY_BIODATA} from "@/components/calc/biodata";
+import {emergencyAnswers, leadPayload, statsPayload, submit, type Biodata} from "@/lib/calc/submission";
 
 type CalcQuestion = {
     id: number;
@@ -16,9 +18,16 @@ type CalcQuestion = {
 };
 
 const EmergencyFundForm = () => {
-    const {t} = useLanguage();
+    const {t, lang} = useLanguage();
     const ef = t.emergencyFund;
     const [stepIndex, setStepIndex] = useState(0);
+    // Biodata is asked once, after the last question and before the result.
+    const [biodata, setBiodata] = useState<Biodata>(EMPTY_BIODATA);
+    const [biodataDone, setBiodataDone] = useState(false);
+    const lastStats = useRef("");
+    const resultRef = useRef<HTMLDivElement | null>(null);
+    const [pdfBusy, setPdfBusy] = useState(false);
+    const [pdfError, setPdfError] = useState(false);
     const advanceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
     const [emergencyFund, setEmergencyFund] = useState("");
     const [minEmergencyFund, setMinEmergencyFund] = useState(0);
@@ -331,7 +340,9 @@ const EmergencyFundForm = () => {
         questions[4],
     ];
     const totalSteps = steps.length;
-    const isDone = stepIndex >= totalSteps;
+    const atEnd = stepIndex >= totalSteps;
+    const showBiodata = atEnd && !biodataDone;
+    const isDone = atEnd && biodataDone;
     const question = isDone ? null : steps[stepIndex];
     const isLastStep = stepIndex === totalSteps - 1;
     const canGoNext = !!question && !!answers[question.id];
@@ -358,13 +369,91 @@ const EmergencyFundForm = () => {
     const savedNow = Number(answers[5]) || 0;
     const isCovered = answers[5] > minEmergencyFund;
 
+    // Anonymous statistics: sent once per set of answers when the questions are finished.
+    useEffect(() => {
+        if (!showBiodata) return;
+        const payload = statsPayload(emergencyAnswers(answers), lang);
+        const key = JSON.stringify(payload.answers);
+        if (key === lastStats.current) return;
+        lastStats.current = key;
+        void submit(payload);
+    }, [showBiodata, answers, lang]);
+
+    useEffect(() => {
+        if (atEnd) window.scrollTo({top: 0});
+    }, [atEnd, biodataDone]);
+
+    // The result is shown even if saving fails or takes too long.
+    const handleBiodataSubmit = async (form: Biodata, website: string) => {
+        setBiodata(form);
+        await submit(leadPayload(emergencyAnswers(answers), lang, form, website));
+        setBiodataDone(true);
+    };
+
+    const downloadPdf = async () => {
+        const el = resultRef.current;
+        if (!el || pdfBusy) return;
+        setPdfBusy(true);
+        setPdfError(false);
+        try {
+            const [{default: html2canvas}, {jsPDF}] = await Promise.all([import("html2canvas"), import("jspdf")]);
+            // Draw the result at desktop width so the PDF looks the same on every device.
+            const canvas = await html2canvas(el, {scale: 2, backgroundColor: "#f7f7f9", windowWidth: 1200, logging: false});
+            const pdf = new jsPDF({unit: "mm", format: "a4"});
+            const pageW = pdf.internal.pageSize.getWidth();
+            const pageH = pdf.internal.pageSize.getHeight();
+            const margin = 12;
+            const top = 32;
+            const date = new Date().toLocaleDateString(lang === "id" ? "id-ID" : "en-GB", {day: "numeric", month: "long", year: "numeric"});
+
+            pdf.setFont("helvetica", "bold");
+            pdf.setFontSize(15);
+            pdf.setTextColor(13, 27, 62);
+            pdf.text("Mama BerUANG", margin, 17);
+            pdf.setFont("helvetica", "normal");
+            pdf.setFontSize(10);
+            pdf.setTextColor(91, 97, 120);
+            pdf.text(`${ef.title} · ${biodata.name.trim()} · ${date}`, margin, 24);
+
+            let w = pageW - margin * 2;
+            let h = (canvas.height * w) / canvas.width;
+            const maxH = pageH - top - 16;
+            if (h > maxH) {
+                w = (w * maxH) / h;
+                h = maxH;
+            }
+            pdf.addImage(canvas.toDataURL("image/jpeg", 0.92), "JPEG", (pageW - w) / 2, top, w, h);
+            pdf.setFontSize(9);
+            pdf.text("calculator.mamaberuang.com", margin, pageH - 8);
+            pdf.save(lang === "id" ? "dana-darurat-mama-beruang.pdf" : "emergency-fund-mama-beruang.pdf");
+        } catch {
+            setPdfError(true);
+        } finally {
+            setPdfBusy(false);
+        }
+    };
+
     return (
         <div className="home-page calc-page">
             <CalcHeader backHref={"/"}/>
             <main className={`calc-main${isDone ? "" : " is-question"}`}>
-                <CalcProgress title={ef.title} step={isDone ? totalSteps : stepIndex + 1} total={totalSteps} done={isDone}/>
+                <CalcProgress
+                    title={ef.title}
+                    step={atEnd ? totalSteps : stepIndex + 1}
+                    total={totalSteps}
+                    done={atEnd}
+                    label={showBiodata ? t.calc.done : undefined}
+                />
 
-                {!isDone && question && (
+                {showBiodata && (
+                    <CalcBiodata
+                        initial={biodata}
+                        onSubmit={handleBiodataSubmit}
+                        onBack={() => setStepIndex(totalSteps - 1)}
+                    />
+                )}
+
+                {!atEnd && question && (
                     <div className="calc-qgrid">
                         <section
                             key={question.id}
@@ -437,6 +526,7 @@ const EmergencyFundForm = () => {
 
                 {isDone && (
                     <>
+                        <div ref={resultRef} className="calc-result-capture">
                         <section className="calc-hero">
                             <div className="calc-hero-copy">
                                 <span className="home-eyebrow">{ef.title}</span>
@@ -482,8 +572,17 @@ const EmergencyFundForm = () => {
                                 </div>
                             </section>
                         </div>
+                        </div>
 
                         <div className="calc-result-actions">
+                            <button
+                                type="button"
+                                className="calc-btn"
+                                disabled={pdfBusy}
+                                onClick={downloadPdf}
+                            >
+                                {pdfBusy ? t.calc.creatingPdf : t.calc.downloadPdf}
+                            </button>
                             <button
                                 type="button"
                                 className="calc-btn-glass"
@@ -491,6 +590,7 @@ const EmergencyFundForm = () => {
                             >
                                 ← {t.calc.backToPrevious}
                             </button>
+                            {pdfError && <p className="calc-pdf-error" role="alert">{t.calc.pdfFailed}</p>}
                         </div>
                     </>
                 )}
