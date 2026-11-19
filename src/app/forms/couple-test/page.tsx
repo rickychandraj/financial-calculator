@@ -1,8 +1,7 @@
 "use client";
 
 import React, { Suspense, useEffect, useState } from "react";
-import FormHeader from "@/components/ui/form-header";
-import FormQuestionCards from "@/components/ui/form-question-card";
+import CalcQuestionFlow, { CalcResultShell } from "@/components/calc/question-flow";
 import { useSearchParams } from "next/navigation";
 import {
     DESCRIPTION,
@@ -13,7 +12,6 @@ import {
     SUGGESTION_RESULT,
     MOST_MATCH_MAPPINGS,
 } from "@/app/forms/couple-test/constants";
-import {ArrowLeft} from "lucide-react";
 import Link from "next/link";
 
 
@@ -684,44 +682,27 @@ const CoupleTestForm = () => {
         setPartnerPersonality(value);
     }
 
+
     return (
-        <div
-            className="w-full max-w-3xl mx-auto min-h-screen"
-            style={{
-                fontFamily: "system-ui, sans-serif",
-                backgroundColor: "#F9FAFB",
-            }}
-        >
+        <div>
             {currentStep <= totalSteps && !resultQueryParam && (
-                <div>
-                    <FormHeader
-                        href={"/"}
-                        title={"Tes Kecocokkan Pasangan"}
-                        currentStep={currentStep}
-                        totalSteps={totalSteps}
-                    />
-                    <FormQuestionCards
-                        questions={questions}
-                        answers={answers}
-                        currentStep={currentStep}
-                        totalSteps={totalSteps}
-                        handleInputChange={handleInputChange}
-                        handleSetCurrentStep={setCurrentStep}
-                        handleGetResult={handleGetResult}
-                        handleIsNextButtonDisabled={handleIsNextButtonDisabled}
-                        isResultReady={isResultReady}
-                    />
-                </div>
+                <CalcQuestionFlow
+                    href={"/"}
+                    title={"Tes Kecocokkan Pasangan"}
+                    questions={questions}
+                    answers={answers}
+                    currentStep={currentStep}
+                    totalSteps={totalSteps}
+                    handleInputChange={handleInputChange}
+                    handleSetCurrentStep={setCurrentStep}
+                    handleGetResult={handleGetResult}
+                    handleIsNextButtonDisabled={handleIsNextButtonDisabled}
+                    isResultReady={isResultReady}
+                />
             )}
 
             {currentStep > totalSteps && (
-                <div>
-                    <FormHeader
-                        href={"/"}
-                        title={"Tes Kecocokkan Pasangan"}
-                        currentStep={totalSteps}
-                        totalSteps={totalSteps}
-                    />
+                <CalcResultShell href={"/"} title={"Tes Kecocokkan Pasangan"} totalSteps={totalSteps}>
                     <div className="p-5">
                         {isResultReady && (() => {
                             const results = calculateResults();
@@ -743,19 +724,13 @@ const CoupleTestForm = () => {
                             )
                         })()}
                     </div>
-                </div>
+                </CalcResultShell>
             )}
 
             {
                 resultQueryParam && !isCheckingMatchScore && (
                     <>
-                        <div>
-                            <FormHeader
-                                href={"/"}
-                                title={"Hasil Tes"}
-                                currentStep={null}
-                                totalSteps={null}
-                            />
+                        <CalcResultShell href={"/"} title={"Hasil Tes"} totalSteps={null}>
                             <div className="p-5">
                                 <div
                                     className={`
@@ -823,7 +798,7 @@ const CoupleTestForm = () => {
                                     Submit
                                 </button>
                             </div>
-                        </div>
+                        </CalcResultShell>
                     </>
                 )
             }
@@ -831,34 +806,7 @@ const CoupleTestForm = () => {
             {
                 isCheckingMatchScore && (
                     <>
-                        <div>
-                            <div style={{
-                                background: "linear-gradient(135deg, #A51246 0%, #B71E54 50%, #12174F 100%)",
-                                padding: "20px"
-                            }}>
-                                <div className="flex items-center text-white mb-4">
-                                    <div onClick={() => setIsCheckingMatchScore(false)}>
-                                        <ArrowLeft className="w-6 h-6 mr-2 cursor-pointer"/>
-                                    </div>
-                                    <h1 className="text-xl font-semibold">Hasil Tes Kecocokkan</h1>
-                                </div>
-
-                                {/* Progress Bar */}
-                                {currentStep && totalSteps && (
-                                    <>
-                                        <div className="w-full bg-white/20 rounded-full h-2">
-                                            <div
-                                                className="h-full rounded-full"
-                                                style={{
-                                                    width: `${(totalSteps/totalSteps) * 100}%`,
-                                                    background: "linear-gradient(to right, #fff, rgba(255,255,255,0.8))"
-                                                }}
-                                            />
-                                        </div>
-                                        <p className="text-white/90 text-sm mt-2">Pertanyaan {totalSteps} dari {totalSteps}</p>
-                                    </>
-                                )}
-                            </div>
+                        <CalcResultShell href={"/"} title={"Hasil Tes Kecocokkan"} totalSteps={totalSteps} onBack={() => setIsCheckingMatchScore(false)}>
                             <div className="p-5">
                                 <div
                                     className={`
@@ -947,7 +895,7 @@ const CoupleTestForm = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </CalcResultShell>
                     </>
                 )
             }
