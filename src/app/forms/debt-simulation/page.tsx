@@ -1,8 +1,7 @@
 "use client";
 
 import React, {useEffect, useState} from "react";
-import FormHeader from "@/components/ui/form-header";
-import FormQuestionCards from "@/components/ui/form-question-card";
+import CalcQuestionFlow, { CalcResultShell } from "@/components/calc/question-flow";
 import { formatNumber } from "@/lib/calc/finance";
 
 const DebtSimulation = () => {
@@ -142,49 +141,33 @@ const DebtSimulation = () => {
         setCurrentStep(prev => prev + 1);
     };
 
+
     return (
         <div
-            className="w-full max-w-3xl mx-auto min-h-screen"
-            style={{
-                fontFamily: "system-ui, sans-serif",
-                backgroundColor: "#F9FAFB",
-            }}
         >
             {
                 currentStep <= totalSteps &&
                 (
-                    <div>
-                        <FormHeader
-                            href={"/"}
-                            title={"Simulasi Pelunasan Utang"}
-                            currentStep={currentStep}
-                            totalSteps={totalSteps}
-                        />
-                        <FormQuestionCards
-                            questions={questions}
-                            answers={answers}
-                            currentStep={currentStep}
-                            totalSteps={totalSteps}
-                            handleInputChange={(questionId, questionValue) => handleInputChange(questionId, questionValue)}
-                            handleSetCurrentStep={(step) => setCurrentStep(step)}
-                            handleGetResult={() => handleGetResult()}
-                            isResultReady={isResultReady}
-                            handleIsNextButtonDisabled={(questionId) => handleIsNextButtonDisabled(questionId)}
-                        />
-                    </div>
+                    <CalcQuestionFlow
+                        href={"/"}
+                        title={"Simulasi Pelunasan Utang"}
+                        questions={questions}
+                        answers={answers}
+                        currentStep={currentStep}
+                        totalSteps={totalSteps}
+                        handleInputChange={(questionId, questionValue) => handleInputChange(questionId, questionValue)}
+                        handleSetCurrentStep={(step) => setCurrentStep(step)}
+                        handleGetResult={() => handleGetResult()}
+                        isResultReady={isResultReady}
+                        handleIsNextButtonDisabled={(questionId) => handleIsNextButtonDisabled(questionId)}
+                    />
                 )
             }
 
             {
                 currentStep > totalSteps &&
                 (
-                    <div>
-                        <FormHeader
-                            href={"/"}
-                            title={"Simulasi Pelunasan Utang"}
-                            currentStep={totalSteps}
-                            totalSteps={totalSteps}
-                        />
+                    <CalcResultShell href={"/"} title={"Simulasi Pelunasan Utang"} totalSteps={totalSteps}>
                         <div className="p-5">
                             <div
                                 className={`
@@ -241,7 +224,7 @@ const DebtSimulation = () => {
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </CalcResultShell>
                 )
             }
         </div>

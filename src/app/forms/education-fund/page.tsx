@@ -1,12 +1,9 @@
 "use client";
 
 import React, {useEffect, useState} from "react";
-import FormHeader from "@/components/ui/form-header";
-import FormQuestionCards from "@/components/ui/form-question-card";
+import CalcQuestionFlow, { CalcResultShell, CalcNotice } from "@/components/calc/question-flow";
 import { contributionNeeded, formatNumber } from "@/lib/calc/finance";
-import NumberInput from "@/components/ui/number-input";
-import CurrencyInput from "@/components/ui/currency-input";
-import SelectOption from "@/components/ui/select-option";
+import { CalcField, CalcOptions } from "@/components/calc";
 
 const EducationForm = () => {
     const [currentStep, setCurrentStep] = useState(1);
@@ -429,170 +426,147 @@ const EducationForm = () => {
     }, [answers[1], answers[3], answers[4], answers[100], answers[101]]) // Only depend on the input values
 
 
+
     return (
         <div
-            className="w-full max-w-3xl mx-auto min-h-screen"
-            style={{
-                fontFamily: "system-ui, sans-serif",
-                backgroundColor: "#F9FAFB",
-            }}
         >
             {
                 currentStep === 1 && !isAnnouncementAcknowledged &&
                 (
-                    <div>
-                        <FormHeader
-                          href={"/"}
-                          title={"Perhitungan Rencana Pendidikan Anak"}
-                          currentStep={currentStep}
-                          totalSteps={totalSteps}
-                        />
-                        <div className="p-6">
-                            <div className="bg-white rounded-xl p-6 shadow-lg">
-                                <h2 className="text-xl font-semibold mb-1" style={{ color: "#12174F" }}>
-                                    DISCLAIMER ⚠️
-                                </h2>
-                                <h4 className="text-md italic" style={{ color: "#000000" }}>
-                                    Gunakan kalkulator ini sebelum anak masuk jenjang pendidikan yang dituju agar hasil perhitungan lebih relevan untuk perencanaan ke depan.
-                                </h4>
-                                <div className="flex justify-between mt-8">
-                                    <button
-                                      onClick={() => handleSetIsAcknowledged()}
-                                      className="px-4 py-1 rounded-lg text-white"
-                                      style={{
-                                          background: "linear-gradient(135deg, #A51246, #B71E54)",
-                                          marginLeft: "auto",
-                                      }}
-                                    >
-                                        Baik, saya mengerti
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <CalcNotice
+                        href={"/"}
+                        title={"Perhitungan Rencana Pendidikan Anak"}
+                        totalSteps={totalSteps}
+                        heading={"DISCLAIMER ⚠️"}
+                        text={"Gunakan kalkulator ini sebelum anak masuk jenjang pendidikan yang dituju agar hasil perhitungan lebih relevan untuk perencanaan ke depan."}
+                        buttonLabel={"Baik, saya mengerti"}
+                        onContinue={() => handleSetIsAcknowledged()}
+                    />
                 )
             }
             {
                 currentStep <= totalSteps && isAnnouncementAcknowledged &&
                 (
-                    <div>
-                        <FormHeader
-                            href={"/"}
-                            title={"Perhitungan Rencana Pendidikan Anak"}
-                            currentStep={currentStep}
-                            totalSteps={totalSteps}
-                        />
-                        <FormQuestionCards
-                            questions={questions}
-                            answers={answers}
-                            currentStep={currentStep}
-                            totalSteps={totalSteps}
-                            handleInputChange={(questionId, questionValue) => handleInputChange(questionId, questionValue)}
-                            handleSetCurrentStep={(step) => setCurrentStep(step)}
-                            handleGetResult={() => handleGetResult()}
-                            handleIsNextButtonDisabled={(questionId) => handleIsNextButtonDisabled(questionId)}
-                            isResultReady={isResultReady}
-                        />
-                    </div>
+                    <CalcQuestionFlow
+                        href={"/"}
+                        title={"Perhitungan Rencana Pendidikan Anak"}
+                        questions={questions}
+                        answers={answers}
+                        currentStep={currentStep}
+                        totalSteps={totalSteps}
+                        handleInputChange={(questionId, questionValue) => handleInputChange(questionId, questionValue)}
+                        handleSetCurrentStep={(step) => setCurrentStep(step)}
+                        handleGetResult={() => handleGetResult()}
+                        handleIsNextButtonDisabled={(questionId) => handleIsNextButtonDisabled(questionId)}
+                        isResultReady={isResultReady}
+                        extra={currentStep === 3 && answers[currentStep] ? (
+                            <>
+                                <div className="calc-qextra-item">
+                                    <h2 className="home-serif calc-qextra-title">Jenjang sekolah</h2>
+                                    <p className="calc-qextra-chosen">{EDUCATION_RANGE_MAPPING[answers[3]]}</p>
+                                </div>
+                                <div className="calc-qextra-item">
+                                    <h2 className="home-serif calc-qextra-title">Daerah sekolah</h2>
+                                    <CalcOptions
+                                        label={"Daerah sekolah"}
+                                        options={SCHOOL_REGION_OPTIONS}
+                                        value={answers[100]}
+                                        onSelect={(value) => handleInputChange(100, value)}
+                                    />
+                                </div>
+                                <div className="calc-qextra-item">
+                                    <h2 className="home-serif calc-qextra-title">Jenis sekolah</h2>
+                                    <CalcOptions
+                                        label={"Jenis sekolah"}
+                                        options={answers[100] === "abroad" ? [{value: "general", display: "General"}] : SCHOOL_CATEGORY_OPTIONS}
+                                        value={answers[101]}
+                                        onSelect={(value) => handleInputChange(101, value)}
+                                    />
+                                </div>
+                                <div className="calc-qextra-item">
+                                    <h2 className="home-serif calc-qextra-title">Perkiraan uang pangkal</h2>
+                                    <p className="calc-qsub">Masukkan estimasi biaya masuk (uang pangkal) yang dibayarkan <b>saat pertama kali</b> mendaftarkan anak ke sekolah tersebut.</p>
+                                    <CalcField
+                                        currency
+                                        compact
+                                        label={"Perkiraan uang pangkal"}
+                                        prefix={"Rp"}
+                                        placeholder={""}
+                                        value={answers[102] || ""}
+                                        onChange={(e) => handleInputChange(102, e.target.value)}
+                                    />
+                                </div>
+                                <div className="calc-qextra-item">
+                                    <h2 className="home-serif calc-qextra-title">Perkiraan uang sekolah</h2>
+                                    <p className="calc-qsub">Masukkan estimasi biaya sekolah bulanan (SPP) <b>yang dibayarkan secara rutin setiap bulan.</b></p>
+                                    <CalcField
+                                        currency
+                                        compact
+                                        label={"Perkiraan uang sekolah"}
+                                        prefix={"Rp"}
+                                        suffix={"/ bulan"}
+                                        placeholder={""}
+                                        value={answers[103] || ""}
+                                        onChange={(e) => handleInputChange(103, e.target.value)}
+                                    />
+                                </div>
+                                <div className="calc-qextra-item">
+                                    <h2 className="home-serif calc-qextra-title">Perkiraan biaya lain-lain</h2>
+                                    <p className="calc-qsub">Masukkan estimasi <b>biaya tambahan</b> seperti buku, seragam, kegiatan ekstrakurikuler, transportasi, atau study tour. Masukkan dalam bentuk <b>persen</b>. <br/><br/><b><i>Berapa persen dari total biaya tahunan (uang sekolah + uang pangkal)?</i></b>. <br/><br/>Contoh: Jika total biaya tahunan = <b>Rp100.000.000</b> dan biaya tambahan <b>Rp20.000.000</b>, maka biaya tambahan adalah <b>20% dari total biaya tahunan</b> → masukkan angka <b>20.</b></p>
+                                    <CalcField
+                                        compact
+                                        label={"Perkiraan biaya lain-lain"}
+                                        suffix={"%"}
+                                        placeholder={""}
+                                        value={answers[104] || ""}
+                                        onChange={(e) => handleInputChange(104, e.target.value)}
+                                    />
+                                </div>
+                            </>
+                        ) : null}
+                    />
                 )
             }
 
             {
                 currentStep > totalSteps &&
                 (
-                    <div>
-                        <FormHeader
-                            href={"/"}
-                            title={"Perhitungan Rencana Pendidikan Anak"}
-                            currentStep={totalSteps}
-                            totalSteps={totalSteps}
-                        />
+                    <CalcResultShell href={"/"} title={"Perhitungan Rencana Pendidikan Anak"} totalSteps={totalSteps}>
                         <div className="p-5">
-                            <div
-                                className={`
-                                    p-8 rounded-2xl bg-gradient-to-br
-                                    transform
-                                    text-white relative overflow-hidden
-                                    mb-8
-                                `}
-                                style={{
-                                    background: "linear-gradient(135deg, #252E64 50%, #12174F 90%)"
-                                }}
-                            >
+                            <div className="calc-result-capture">
                                 {isResultReady && (() => {
                                     const results = calculateResults();
                                     return (
                                         <>
-                                            <b><h1 className="text-3xl text-bold">RINCIAN BIAYA PENDIDIKAN:</h1></b>
-                                            <br/>
-                                            <h5 className="text-2xl">Jenjang Pendidikan</h5>
-                                            <h3 className="text-md">{EDUCATION_RANGE_MAPPING[answers[3]]}</h3>
-                                            <br/>
-                                            <h3 className="text-2xl">Daerah Sekolah</h3>
-                                            <h3 className="text-md">{SCHOOL_REGION_MAPPING[answers[100]]}</h3>
-                                            <br/>
-                                            <h3 className="text-2xl">Jenis Sekolah</h3>
-                                            <h3 className="text-md">{SCHOOL_CATEGORY_MAPPING[answers[101]]}</h3>
-                                            <br/>
-                                            <h3 className="text-2xl">Perkiraan Uang Pangkal</h3>
-                                            <h3 className="text-md">{`Rp${formatNumber(answers[102])}`}</h3>
-                                            <br/>
-                                            <h3 className="text-2xl">Perkiraan Uang Sekolah</h3>
-                                            <h3 className="text-md">{`Rp${formatNumber(answers[103])}`}</h3>
-                                            <br/>
-                                            <h3 className="text-2xl">Perkiraan Biaya Lain-lain</h3>
-                                            <h3 className="text-md">{answers[104]}%</h3>
-                                            <br/>
-                                            <div className="w-full max-w-2xl rounded-lg overflow-hidden mt-4">
-                                                {/* Header */}
-                                                <div className="bg-[#A51246] p-4 text-center">
-                                                    <h2 className="text-xl font-semibold text-[#FFFFFF]">{EDUCATION_RANGE_MAPPING[answers[3]]}</h2>
-                                                </div>
-
-                                                {/* Cost Breakdown */}
-                                                <div className="divide-y divide-gray-700">
-                                                    {/* Uang Pangkal */}
-                                                    <div className="bg-[#1E2432] p-4 flex justify-between items-center">
-                                                        <span className="text-white text-lg">Uang Pangkal</span>
-                                                        <span className="text-white text-lg font-semibold">{`Rp${formatNumber(Math.round(results.uangPangkal))}`}</span>
+                                            <section className="calc-hero">
+                                                <h1 className="home-serif calc-edu-title">RINCIAN BIAYA PENDIDIKAN:</h1>
+                                            </section>
+                                            <div className="calc-rgrid">
+                                                <section className="calc-glass calc-section">
+                                                    <div className="calc-row"><span>Jenjang Pendidikan</span><strong>{EDUCATION_RANGE_MAPPING[answers[3]]}</strong></div>
+                                                    <div className="calc-row"><span>Daerah Sekolah</span><strong>{SCHOOL_REGION_MAPPING[answers[100]]}</strong></div>
+                                                    <div className="calc-row"><span>Jenis Sekolah</span><strong>{SCHOOL_CATEGORY_MAPPING[answers[101]]}</strong></div>
+                                                    <div className="calc-row"><span>Perkiraan Uang Pangkal</span><strong>{`Rp${formatNumber(answers[102])}`}</strong></div>
+                                                    <div className="calc-row"><span>Perkiraan Uang Sekolah</span><strong>{`Rp${formatNumber(answers[103])}`}</strong></div>
+                                                    <div className="calc-row"><span>Perkiraan Biaya Lain-lain</span><strong>{answers[104]}%</strong></div>
+                                                </section>
+                                                <section className="calc-glass calc-section">
+                                                    <h2 className="home-serif">{EDUCATION_RANGE_MAPPING[answers[3]]}</h2>
+                                                    <div>
+                                                        <div className="calc-row"><span>Uang Pangkal</span><strong>{`Rp${formatNumber(Math.round(results.uangPangkal))}`}</strong></div>
+                                                        <div className="calc-row"><span>SPP</span><strong>{`Rp${formatNumber(Math.round(results.spp))}`}</strong></div>
+                                                        <div className="calc-row"><span>Biaya Lain</span><strong>{`Rp${formatNumber(Math.round(results.biayaLainLain))}`}</strong></div>
+                                                        <div className="calc-row"><span>Total biaya pendidikan (setelah memperhitungkan inflasi)</span><strong className="is-short">{`Rp${formatNumber(Math.round(results.total))}`}</strong></div>
                                                     </div>
-
-                                                    {/* SPP */}
-                                                    <div className="bg-[#3A4356] p-4 flex justify-between items-center">
-                                                        <span className="text-white text-lg">SPP</span>
-                                                        <span className="text-white text-lg font-semibold">{`Rp${formatNumber(Math.round(results.spp))}`}</span>
+                                                </section>
+                                                <section className="calc-glass calc-section is-wide">
+                                                    <h2 className="home-serif">Strategi</h2>
+                                                    <div>
+                                                        <div className="calc-row"><span>Jumlah tabungan yang harus terkumpul sebelum anak masuk {EDUCATION_RANGE_MAPPING[answers[3]]}</span><strong>{`Rp${formatNumber(Math.round(results.total))}`}</strong></div>
+                                                        <div className="calc-row"><span>Jumlah uang yang harus ditabung setiap akhir bulan</span><strong>{`Rp${formatNumber(Math.round(results.totalAmountToSaveMonthly))}`}</strong></div>
                                                     </div>
-
-                                                    {/* Biaya Lain */}
-                                                    <div className="bg-[#1E2432] p-4 flex justify-between items-center">
-                                                        <span className="text-white text-lg">Biaya Lain</span>
-                                                        <span className="text-white text-lg font-semibold">{`Rp${formatNumber(Math.round(results.biayaLainLain))}`}</span>
-                                                    </div>
-
-                                                    {/* Total */}
-                                                    <div className="bg-[#3A4356] p-4 flex justify-between items-center">
-                                                        <span className="text-white text-lg">Total biaya pendidikan (setelah memperhitungkan inflasi)</span>
-                                                        <span className="text-white text-lg font-semibold">{`Rp${formatNumber(Math.round(results.total))}`}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="bg-[#1E2432] rounded-lg p-4 mt-8">
-                                                <h4 className="text-2xl mb-4 font-semibold">Strategi</h4>
-                                                <div className="space-y-2">
-                                                    <div className="flex justify-between">
-                                                        <span>Jumlah tabungan yang harus terkumpul sebelum anak masuk {EDUCATION_RANGE_MAPPING[answers[3]]}</span>
-                                                        <span>{`Rp${formatNumber(Math.round(results.total))}`}</span>
-                                                    </div>
-                                                    <br/>
-                                                    <div className="flex justify-between">
-                                                        <span>Jumlah uang yang harus ditabung setiap akhir bulan</span>
-                                                        <span>{`Rp${formatNumber(Math.round(results.totalAmountToSaveMonthly))}`}</span>
-                                                    </div>
-                                                    <div className="flex justify-between">
-                                                        <span className="italic"><b>(Asumsi: Tidak ada imbal balik investasi)</b></span>
-                                                        <span></span>
-                                                    </div>
-                                                </div>
+                                                    <p className="calc-edu-note"><b>(Asumsi: Tidak ada imbal balik investasi)</b></p>
+                                                </section>
                                             </div>
                                         </>
                                     )
@@ -611,80 +585,10 @@ const EducationForm = () => {
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </CalcResultShell>
                 )
             }
 
-            {
-                currentStep === 3
-                && answers[currentStep]
-                && (
-                    <div className="p-6">
-                        <div className="bg-white rounded-xl p-6 shadow-lg">
-                            <h2 className="text-xl font-semibold my-2" style={{ color: "#12174F" }}>Jenjang sekolah</h2>
-                            <h2 className="text-md font-bold my-2" style={{ color: "#A51246" }}>{EDUCATION_RANGE_MAPPING[answers[3]]}</h2>
-                            <h2 className="text-xl font-semibold my-2 mt-8" style={{ color: "#12174F" }}>Daerah sekolah</h2>
-                            <div className="space-y-3 mt-4">
-                                {SCHOOL_REGION_OPTIONS.map((option, optIndex) => (
-                                    <SelectOption
-                                        key={optIndex}
-                                        questionId={100}
-                                        chosenValue={answers[100]}
-                                        optionValue={option.value}
-                                        optionDisplay={option.display}
-                                        handleInputChange={() => handleInputChange(100, option.value)}
-                                    />
-                                ))}
-                            </div>
-                            <h2 className="text-xl font-semibold my-2 mt-12" style={{ color: "#12174F" }}>Jenis sekolah</h2>
-                                {answers[100] !== "abroad" && SCHOOL_CATEGORY_OPTIONS.map((option, optIndex) => (
-                                    <SelectOption
-                                        key={optIndex}
-                                        questionId={101}
-                                        chosenValue={answers[101]}
-                                        optionValue={option.value}
-                                        optionDisplay={option.display}
-                                        handleInputChange={() => handleInputChange(101, option.value)}
-                                    />
-                                ))}
-                                {answers[100] === "abroad" &&
-                                    <SelectOption
-                                        questionId={101}
-                                        chosenValue={answers[101]}
-                                        optionValue={"general"}
-                                        optionDisplay={"General"}
-                                        handleInputChange={() => handleInputChange(101, "general")}
-                                    />
-                                }
-                            <h2 className="text-xl font-semibold my-2 mt-12" style={{ color: "#12174F" }}>Perkiraan uang pangkal</h2>
-                            <p className="text-sm mb-4" style={{ color: "#252E64" }}>Masukkan estimasi biaya masuk (uang pangkal) yang dibayarkan <b>saat pertama kali</b> mendaftarkan anak ke sekolah tersebut.</p>
-                            <CurrencyInput
-                                prefix={"Rp"}
-                                placeholder={""}
-                                value={answers[102] || ""}
-                                onChange={(e) => handleInputChange(102, e.target.value)}
-                            />
-                            <h2 className="text-xl font-semibold my-2 mt-12" style={{ color: "#12174F" }}>Perkiraan uang sekolah</h2>
-                            <p className="text-sm mb-4" style={{ color: "#252E64" }}>Masukkan estimasi biaya sekolah bulanan (SPP) <b>yang dibayarkan secara rutin setiap bulan.</b></p>
-                            <CurrencyInput
-                                prefix={"Rp"}
-                                suffix={"/ bulan"}
-                                placeholder={""}
-                                value={answers[103] || ""}
-                                onChange={(e) => handleInputChange(103, e.target.value)}
-                            />
-                            <h2 className="text-xl font-semibold my-2 mt-12" style={{ color: "#12174F" }}>Perkiraan biaya lain-lain</h2>
-                            <p className="text-sm mb-4" style={{ color: "#252E64" }}>Masukkan estimasi <b>biaya tambahan</b> seperti buku, seragam, kegiatan ekstrakurikuler, transportasi, atau study tour. Masukkan dalam bentuk <b>persen</b>. <br/><br/><b><i>Berapa persen dari total biaya tahunan (uang sekolah + uang pangkal)?</i></b>. <br/><br/>Contoh: Jika total biaya tahunan = <b>Rp100.000.000</b> dan biaya tambahan <b>Rp20.000.000</b>, maka biaya tambahan adalah <b>20% dari total biaya tahunan</b> → masukkan angka <b>20.</b></p>
-                            <NumberInput
-                                placeholder={""}
-                                suffix={"%"}
-                                value={answers[104] || ""}
-                                onChange={(e) => handleInputChange(104, e.target.value)}
-                            />
-                        </div>
-                    </div>
-                )
-            }
         </div>
     )
 }
