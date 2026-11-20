@@ -95,8 +95,8 @@ const VehiclePurchaseForm = () => {
         // Calculate if savings will meet down payment
         const isDownPaymentMet = totalProjectedSavings >= requiredDownPayment;
 
-        // Calculate total amount you need to save each month to be able to purchase
-        const futureAmountToSave = Math.max(0, futurePrice - totalProjectedSavings);
+        // The saving target is the down payment (same as the property DP calculator), not the full price
+        const futureAmountToSave = Math.max(0, requiredDownPayment - totalProjectedSavings);
         const totalAmountToSaveMonthly = monthlySavingNeeded(futureAmountToSave, returnRate, yearsUntilPurchase);
 
         return {
