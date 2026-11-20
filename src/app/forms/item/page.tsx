@@ -94,7 +94,7 @@ const ItemPurchaseForm = () => {
     };
 
     useEffect(() => {
-        const allFieldsFilled = Object.values(answers).every(value => value !== null);
+        const allFieldsFilled = Object.values(answers).every(value => value !== null && value !== "");
         setIsResultReady(allFieldsFilled);
     }, [answers]);
 

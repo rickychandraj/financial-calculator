@@ -130,7 +130,7 @@ const PensionFundForm = () => {
     };
 
     useEffect(() => {
-        const allFieldsFilled = Object.values(answers).every(value => value !== null);
+        const allFieldsFilled = Object.values(answers).every(value => value !== null && value !== "");
         setIsResultReady(allFieldsFilled && !ageError && !retirementAgeError);
     }, [answers, ageError, retirementAgeError]);
 

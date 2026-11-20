@@ -106,7 +106,7 @@ const DebtSimulation = () => {
     }, [answers[4]])
 
     useEffect(() => {
-        const allFieldsFilled = Object.values(answers).every(value => value !== null);
+        const allFieldsFilled = Object.values(answers).every(value => value !== null && value !== "");
         setIsResultReady(allFieldsFilled);
 
         if (answers[5] && Number(answers[5]) <= Math.max(Number(totalMinimumPaymentMonthly), Number(answers[3])/ 100 * Number(answers[2]))) {
