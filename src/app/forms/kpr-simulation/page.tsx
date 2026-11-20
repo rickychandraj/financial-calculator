@@ -16,6 +16,7 @@ const KPRSimulationForm = () => {
         4: "10", // default interest rate
         5: null, // monthly income
         6: null, // other installments
+        7: null, // floating interest rate
     });
 
     const questions = [
@@ -117,7 +118,7 @@ const KPRSimulationForm = () => {
     };
 
     useEffect(() => {
-        const allFieldsFilled = Object.values(answers).every(value => value !== null);
+        const allFieldsFilled = Object.values(answers).every(value => value !== null && value !== "");
         setIsResultReady(allFieldsFilled);
     }, [answers]);
 
