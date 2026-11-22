@@ -24,7 +24,7 @@ const DPPropertyForm = () => {
         {
             id: 1,
             text: L("Berapa harga properti yang ingin kamu beli?", "What is the price of the property you want to buy?"),
-            subtext: L("Masukkan harga properti sesuai yang tertera pada brosur atau info dari developer/penjual", "Enter the property price shown in the brochure or given by the developer/seller"),
+            subtext: L("Masukkan harga properti sesuai brosur atau info dari pengembang atau penjual.", "Enter the property price shown in the brochure or given by the developer/seller"),
             type: "currency",
             prefix: "Rp"
         },
@@ -38,7 +38,7 @@ const DPPropertyForm = () => {
         {
             id: 3,
             text: L("Berapa persen DP yang ingin kamu siapkan?", "What down payment percentage do you want to prepare?"),
-            subtext: L("Minimal DP untuk KPR biasanya 10-20% dari harga properti. Semakin besar DP, semakin kecil cicilan KPR-mu nanti", "The minimum down payment for a mortgage (KPR) is usually 10-20% of the property price. The bigger the down payment, the smaller your mortgage instalments later"),
+            subtext: L("Minimal DP untuk KPR biasanya 10% sampai 20% dari harga properti. Semakin besar DP, semakin kecil cicilan KPR-mu nanti.", "The minimum down payment for a mortgage (KPR) is usually 10-20% of the property price. The bigger the down payment, the smaller your mortgage instalments later"),
             type: "number",
             suffix: "%"
         },
@@ -145,11 +145,11 @@ const DPPropertyForm = () => {
                                 const results = calculateDPProjection();
                                 return (
                                     <>
-                                        <h3 className="text-3xl mb-6">{L("Hasil Perhitungan DP Properti", "Property Down Payment Result")}</h3>
+                                        <h3 className="text-3xl mb-6">{L("Hasil perhitungan DP properti", "Property Down Payment Result")}</h3>
 
                                         {/* Target Summary */}
                                         <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
-                                            <h4 className="text-2xl mb-4">{L("Ringkasan Target DP", "Down Payment Target Summary")}</h4>
+                                            <h4 className="text-2xl mb-4">{L("Ringkasan target DP", "Down Payment Target Summary")}</h4>
                                             <div className="space-y-2">
                                                 <div className="flex justify-between">
                                                     <span>{L("Harga properti saat ini", "Property price today")}</span>
@@ -161,7 +161,7 @@ const DPPropertyForm = () => {
                                                     <span>{`Rp${fmt(Math.round(results.futurePrice))}`}</span>
                                                 </div>
                                                 <div className="flex justify-between">
-                                                    <span><b>{L("(Asumsi: Tingkat Inflasi = 4% / tahun)", "(Assumption: inflation rate = 4% / year)")}</b></span>
+                                                    <span><b>{L("(Asumsi: inflasi 4% per tahun)", "(Assumption: inflation rate = 4% / year)")}</b></span>
                                                     <span></span>
                                                 </div>
                                                 <br/>
@@ -173,7 +173,7 @@ const DPPropertyForm = () => {
                                         </div>
 
                                         <div className="bg-[#3A4356] rounded-lg p-4 mb-4">
-                                            <h4 className="text-2xl mb-4">{L(`Proyeksi ${answers[2]} Tahun`, `${answers[2]}-Year Projection`)}</h4>
+                                            <h4 className="text-2xl mb-4">{L(`Proyeksi ${answers[2]} tahun`, `${answers[2]}-Year Projection`)}</h4>
                                             <div className="space-y-2">
                                                 <div className="flex justify-between">
                                                     <span>{L("Dana yang sudah terkumpul", "Funds saved so far")}</span>
@@ -185,7 +185,7 @@ const DPPropertyForm = () => {
                                                     <span>{`Rp${fmt(Math.round(results.totalProjectedSavings))}`}</span>
                                                 </div>
                                                 <div className="flex justify-between">
-                                                    <span><b>{L("(Asumsi: Imbal Hasil Investasi = 6% / tahun)", "(Assumption: investment return = 6% / year)")}</b></span>
+                                                    <span><b>{L("(Asumsi: imbal hasil investasi 6% per tahun)", "(Assumption: investment return = 6% / year)")}</b></span>
                                                     <span></span>
                                                 </div>
                                                 <br/>
@@ -193,7 +193,7 @@ const DPPropertyForm = () => {
                                                     <span>{L("Selisih dengan target", "Gap to target")}</span>
                                                     <span className={results.isTargetMet ? "text-green-400" : "text-red-400"}>
                                                         {results.isTargetMet
-                                                            ? L("Target Tercapai", "Target reached")
+                                                            ? L("Target tercapai", "Target reached")
                                                             : `Rp${fmt(Math.round(results.gapToTarget))}`
                                                         }
                                                     </span>
@@ -215,7 +215,7 @@ const DPPropertyForm = () => {
                                                         <span>{`Rp${fmt(Math.round(results.totalAmountToSaveMonthly))}`}</span>
                                                     </div>
                                                     <div className="flex justify-between">
-                                                        <span><b>{L("(Asumsi: Imbal Hasil Investasi = 6% / tahun)", "(Assumption: investment return = 6% / year)")}</b></span>
+                                                        <span><b>{L("(Asumsi: imbal hasil investasi 6% per tahun)", "(Assumption: investment return = 6% / year)")}</b></span>
                                                         <span></span>
                                                     </div>
                                                 </div>

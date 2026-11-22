@@ -721,7 +721,7 @@ const CoupleTestForm = () => {
                                             href={`https://mamaberuang.myr.id/lp/couple-test-${REVERSE_MAPPINGS[results.financePersona]}/`}
                                             className="bg-[#A51246] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#8A0F3D] transition-colors"
                                         >
-                                            {L("Lihat Hasil Lengkap", "See Full Result")}
+                                            {L("Lihat hasil lengkap", "See Full Result")}
                                         </a>
                                     </div>
                                 </>
@@ -799,7 +799,7 @@ const CoupleTestForm = () => {
                                         marginLeft: "auto"
                                     }}
                                 >
-                                    {L("Lihat Hasil Kecocokan", "See Compatibility Result")}
+                                    {L("Lihat hasil kecocokan", "See Compatibility Result")}
                                 </button>
                             </div>
                         </CalcResultShell>
@@ -841,19 +841,19 @@ const CoupleTestForm = () => {
                                     <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
                                         <div className="space-y-2">
                                             <div className="flex">
-                                                <span className="text-gray-300 font-bold">{L("Ekonomi dan Gaya Hidup", "Finances and Lifestyle")}</span>
+                                                <span className="text-gray-300 font-bold">{L("Ekonomi dan gaya hidup", "Finances and Lifestyle")}</span>
                                             </div>
                                             <div className="flex">
                                                 <span className="text-white-400 font-semibold">{SIMULATION_RESULT[`${MAPPINGS[resultQueryParam as string]} x ${partnerPersonality}`]["lifestyle"]}</span>
                                             </div>
                                             <div className="flex pt-8">
-                                                <span className="text-gray-300 font-bold">{L("Pengelolaan Keuangan", "Money Management")}</span>
+                                                <span className="text-gray-300 font-bold">{L("Pengelolaan keuangan", "Money Management")}</span>
                                             </div>
                                             <div className="flex">
                                                 <span className="text-white-400 font-semibold">{SIMULATION_RESULT[`${MAPPINGS[resultQueryParam as string]} x ${partnerPersonality}`]["moneyManagement"]}</span>
                                             </div>
                                             <div className="flex pt-8">
-                                                <span className="text-gray-300 font-bold">{L("Target Masa Depan", "Future Goals")}</span>
+                                                <span className="text-gray-300 font-bold">{L("Target masa depan", "Future Goals")}</span>
                                             </div>
                                             <div className="flex">
                                                 <span className="text-white-400 font-semibold">{SIMULATION_RESULT[`${MAPPINGS[resultQueryParam as string]} x ${partnerPersonality}`]["futureTarget"]}</span>
@@ -861,7 +861,7 @@ const CoupleTestForm = () => {
                                         </div>
                                     </div>
 
-                                    <h1 className="text-xl font-semibold mb-4 mt-8">{L("Potensi Konflik", "Possible Conflicts")}</h1>
+                                    <h1 className="text-xl font-semibold mb-4 mt-8">{L("Potensi konflik", "Possible Conflicts")}</h1>
                                     <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
                                         <div className="space-y-2">
                                             <div className="flex">
