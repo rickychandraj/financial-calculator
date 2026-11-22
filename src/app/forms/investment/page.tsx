@@ -70,7 +70,7 @@ const InvestmentForm = () => {
         {
             id: 6,
             text: L("Berapa imbal hasil per tahun dari produk investasimu?", "What yearly return do you expect from your investment?"),
-            subtext: L("Pakai gambaran ini sesuai profil risikomu. Konservatif (reksa dana pasar uang): sekitar 4% sampai 5%. Moderat (obligasi atau reksa dana pendapatan tetap): sekitar 6% sampai 7%. Agresif (saham atau reksa dana saham): sekitar 10% dalam jangka panjang, tapi bisa turun tajam dalam satu tahun. Angka ini rata-rata masa lalu, bukan jaminan.", "Use this guide for your risk profile. Conservative (money market funds): about 4% to 5%. Moderate (bonds or fixed income funds): about 6% to 7%. Aggressive (stocks or equity funds): about 10% over the long term, but it can drop sharply in a single year. These are past averages, not a guarantee."),
+            subtext: L("Pakai gambaran ini sesuai profil risikomu. Konservatif (reksa dana pasar uang): sekitar 4% sampai 5%. Moderat (obligasi atau reksa dana pendapatan tetap): sekitar 6% sampai 7%. Agresif (saham atau reksa dana saham): sekitar 8% sampai 10% dalam jangka panjang, tapi bisa turun tajam dalam satu tahun. Angka ini rata-rata masa lalu, bukan jaminan.", "Use this guide for your risk profile. Conservative (money market funds): about 4% to 5%. Moderate (bonds or fixed income funds): about 6% to 7%. Aggressive (stocks or equity funds): about 8% to 10% over the long term, but it can drop sharply in a single year. These are past averages, not a guarantee."),
             type: "number",
             suffix: L("% per tahun", "% per year"),
         }
