@@ -2,11 +2,15 @@
 
 import React, {useEffect, useState} from "react";
 import CalcQuestionFlow, { CalcResultShell, CalcNotice } from "@/components/calc/question-flow";
+import { useLanguage } from "@/lib/i18n";
 import { contributionNeeded, formatNumber } from "@/lib/calc/finance";
 import { CalcField, CalcOptions } from "@/components/calc";
 
 const EducationForm = () => {
     const [currentStep, setCurrentStep] = useState(1);
+    const { lang } = useLanguage();
+    const L = (id: string, en: string) => (lang === "en" ? en : id);
+    const fmt = (value: number | string) => formatNumber(value, lang);
     const [educationFundStrategy, setEducationFundStrategy] = useState<any>(null);
     const [kidName, setKidName] = useState("");
     const [isResultReady, setIsResultReady] = useState(false);
@@ -23,38 +27,38 @@ const EducationForm = () => {
     })
 
     const EDUCATION_RANGE_MAPPING = {
-        sd: "SD/MI",
-        smp: "SMP/MTs",
-        sma: "SMA/SMK/MA",
-        s1: "S1/D4",
+        sd: L("SD/MI", "Primary school (SD/MI)"),
+        smp: L("SMP/MTs", "Junior high (SMP/MTs)"),
+        sma: L("SMA/SMK/MA", "Senior high (SMA/SMK/MA)"),
+        s1: L("S1/D4", "Bachelor's degree (S1/D4)"),
     }
 
     const SCHOOL_REGION_OPTIONS = [
         {value: "jakarta", display: "Jakarta"},
-        {value: "java", display: "Pulau Jawa (di luar Jakarta)"},
-        {value: "non_java", display: "Luar Pulau Jawa"},
-        {value: "abroad", display: "Luar Negeri"},
+        {value: "java", display: L("Pulau Jawa (di luar Jakarta)", "Java (outside Jakarta)")},
+        {value: "non_java", display: L("Luar Pulau Jawa", "Outside Java")},
+        {value: "abroad", display: L("Luar Negeri", "Abroad")},
     ]
 
     const SCHOOL_REGION_MAPPING = {
         jakarta: "Jakarta",
-        java: "Pulau Jawa (di luar Jakarta)",
-        non_java: "Luar Pulau Jawa",
-        abroad: "Luar Negeri",
+        java: L("Pulau Jawa (di luar Jakarta)", "Java (outside Jakarta)"),
+        non_java: L("Luar Pulau Jawa", "Outside Java"),
+        abroad: L("Luar Negeri", "Abroad"),
     }
 
     const SCHOOL_CATEGORY_OPTIONS = [
-        {value: "negeri", display: "Negeri"},
-        {value: "swasta", display: "Swasta"},
-        {value: "national", display: "Nasional Plus"},
-        {value: "international", display: "Internasional"},
+        {value: "negeri", display: L("Negeri", "Public")},
+        {value: "swasta", display: L("Swasta", "Private")},
+        {value: "national", display: L("Nasional Plus", "National Plus")},
+        {value: "international", display: L("Internasional", "International")},
     ]
 
     const SCHOOL_CATEGORY_MAPPING = {
-        negeri: "Negeri",
-        swasta: "Swasta",
-        national: "Nasional Plus",
-        international: "Internasional",
+        negeri: L("Negeri", "Public"),
+        swasta: L("Swasta", "Private"),
+        national: L("Nasional Plus", "National Plus"),
+        international: L("Internasional", "International"),
     }
 
     const UANG_PANGKAL_MAPPING = {
@@ -250,27 +254,27 @@ const EducationForm = () => {
     const questions = [
         {
             id: 1,
-            text: "Nama anak",
-            subtext: "Catatan: informasi ini hanya akan digunakan untuk kebutuhan penamaan perhitungan",
+            text: L("Nama anak", "Child's name"),
+            subtext: L("Catatan: informasi ini hanya akan digunakan untuk kebutuhan penamaan perhitungan", "Note: this is only used to label the calculation"),
             type: "text",
         },
         {
             id: 2,
-            text: `Usia ${kidName} saat ini`,
+            text: L(`Usia ${kidName} saat ini`, `${kidName}'s current age`),
             subtext: "",
             type: "number",
-            suffix: "tahun",
+            suffix: L("tahun", "years"),
         },
         {
             id: 3,
-            text: `Rencana pendidikan untuk ${kidName}`,
-            subtext: "Silakan pilih salah satu jenjang pendidikan yang ingin kamu ketahui estimasi biayanya.",
+            text: L(`Rencana pendidikan untuk ${kidName}`, `Education plan for ${kidName}`),
+            subtext: L("Silakan pilih salah satu jenjang pendidikan yang ingin kamu ketahui estimasi biayanya.", "Choose the school level you want a cost estimate for."),
             type: "select",
             options: [
-                {value: "sd", display: "SD/MI"},
-                {value: "smp", display: "SMP/MTs"},
-                {value: "sma", display: "SMA/SMK/MA"},
-                {value: "s1", display: "S1/D4"},
+                {value: "sd", display: L("SD/MI", "Primary school (SD/MI)")},
+                {value: "smp", display: L("SMP/MTs", "Junior high (SMP/MTs)")},
+                {value: "sma", display: L("SMA/SMK/MA", "Senior high (SMA/SMK/MA)")},
+                {value: "s1", display: L("S1/D4", "Bachelor's degree (S1/D4)")},
             ],
         },
     ]
@@ -435,11 +439,11 @@ const EducationForm = () => {
                 (
                     <CalcNotice
                         href={"/"}
-                        title={"Perhitungan Rencana Pendidikan Anak"}
+                        title={L("Perhitungan Rencana Pendidikan Anak", "Children's Education Plan")}
                         totalSteps={totalSteps}
-                        heading={"DISCLAIMER ⚠️"}
-                        text={"Gunakan kalkulator ini sebelum anak masuk jenjang pendidikan yang dituju agar hasil perhitungan lebih relevan untuk perencanaan ke depan."}
-                        buttonLabel={"Baik, saya mengerti"}
+                        heading={L("DISCLAIMER ⚠️", "DISCLAIMER ⚠️")}
+                        text={L("Gunakan kalkulator ini sebelum anak masuk jenjang pendidikan yang dituju agar hasil perhitungan lebih relevan untuk perencanaan ke depan.", "Use this calculator before your child starts the school level you are planning for, so the result is more useful for planning ahead.")}
+                        buttonLabel={L("Baik, saya mengerti", "OK, I understand")}
                         onContinue={() => handleSetIsAcknowledged()}
                     />
                 )
@@ -449,7 +453,7 @@ const EducationForm = () => {
                 (
                     <CalcQuestionFlow
                         href={"/"}
-                        title={"Perhitungan Rencana Pendidikan Anak"}
+                        title={L("Perhitungan Rencana Pendidikan Anak", "Children's Education Plan")}
                         questions={questions}
                         answers={answers}
                         currentStep={currentStep}
@@ -462,34 +466,34 @@ const EducationForm = () => {
                         extra={currentStep === 3 && answers[currentStep] ? (
                             <>
                                 <div className="calc-qextra-item">
-                                    <h2 className="home-serif calc-qextra-title">Jenjang sekolah</h2>
+                                    <h2 className="home-serif calc-qextra-title">{L("Jenjang sekolah", "School level")}</h2>
                                     <p className="calc-qextra-chosen">{EDUCATION_RANGE_MAPPING[answers[3]]}</p>
                                 </div>
                                 <div className="calc-qextra-item">
-                                    <h2 className="home-serif calc-qextra-title">Daerah sekolah</h2>
+                                    <h2 className="home-serif calc-qextra-title">{L("Daerah sekolah", "School location")}</h2>
                                     <CalcOptions
-                                        label={"Daerah sekolah"}
+                                        label={L("Daerah sekolah", "School location")}
                                         options={SCHOOL_REGION_OPTIONS}
                                         value={answers[100]}
                                         onSelect={(value) => handleInputChange(100, value)}
                                     />
                                 </div>
                                 <div className="calc-qextra-item">
-                                    <h2 className="home-serif calc-qextra-title">Jenis sekolah</h2>
+                                    <h2 className="home-serif calc-qextra-title">{L("Jenis sekolah", "School type")}</h2>
                                     <CalcOptions
-                                        label={"Jenis sekolah"}
+                                        label={L("Jenis sekolah", "School type")}
                                         options={answers[100] === "abroad" ? [{value: "general", display: "General"}] : SCHOOL_CATEGORY_OPTIONS}
                                         value={answers[101]}
                                         onSelect={(value) => handleInputChange(101, value)}
                                     />
                                 </div>
                                 <div className="calc-qextra-item">
-                                    <h2 className="home-serif calc-qextra-title">Perkiraan uang pangkal</h2>
-                                    <p className="calc-qsub">Masukkan estimasi biaya masuk (uang pangkal) yang dibayarkan <b>saat pertama kali</b> mendaftarkan anak ke sekolah tersebut.</p>
+                                    <h2 className="home-serif calc-qextra-title">{L("Perkiraan uang pangkal", "Estimated enrolment fee")}</h2>
+                                    <p className="calc-qsub">{lang === "en" ? <>Enter the estimated enrolment fee (uang pangkal) paid <b>once, when you first enrol</b> your child at the school.</> : <>Masukkan estimasi biaya masuk (uang pangkal) yang dibayarkan <b>saat pertama kali</b> mendaftarkan anak ke sekolah tersebut.</>}</p>
                                     <CalcField
                                         currency
                                         compact
-                                        label={"Perkiraan uang pangkal"}
+                                        label={L("Perkiraan uang pangkal", "Estimated enrolment fee")}
                                         prefix={"Rp"}
                                         placeholder={""}
                                         value={answers[102] || ""}
@@ -497,25 +501,25 @@ const EducationForm = () => {
                                     />
                                 </div>
                                 <div className="calc-qextra-item">
-                                    <h2 className="home-serif calc-qextra-title">Perkiraan uang sekolah</h2>
-                                    <p className="calc-qsub">Masukkan estimasi biaya sekolah bulanan (SPP) <b>yang dibayarkan secara rutin setiap bulan.</b></p>
+                                    <h2 className="home-serif calc-qextra-title">{L("Perkiraan uang sekolah", "Estimated school fees")}</h2>
+                                    <p className="calc-qsub">{lang === "en" ? <>Enter the estimated monthly school fee (SPP) <b>that you pay every month.</b></> : <>Masukkan estimasi biaya sekolah bulanan (SPP) <b>yang dibayarkan secara rutin setiap bulan.</b></>}</p>
                                     <CalcField
                                         currency
                                         compact
-                                        label={"Perkiraan uang sekolah"}
+                                        label={L("Perkiraan uang sekolah", "Estimated school fees")}
                                         prefix={"Rp"}
-                                        suffix={"/ bulan"}
+                                        suffix={L("/ bulan", "/ month")}
                                         placeholder={""}
                                         value={answers[103] || ""}
                                         onChange={(e) => handleInputChange(103, e.target.value)}
                                     />
                                 </div>
                                 <div className="calc-qextra-item">
-                                    <h2 className="home-serif calc-qextra-title">Perkiraan biaya lain-lain</h2>
-                                    <p className="calc-qsub">Masukkan estimasi <b>biaya tambahan</b> seperti buku, seragam, kegiatan ekstrakurikuler, transportasi, atau study tour. Masukkan dalam bentuk <b>persen</b>. <br/><br/><b><i>Berapa persen dari total biaya tahunan (uang sekolah + uang pangkal)?</i></b>. <br/><br/>Contoh: Jika total biaya tahunan = <b>Rp100.000.000</b> dan biaya tambahan <b>Rp20.000.000</b>, maka biaya tambahan adalah <b>20% dari total biaya tahunan</b> → masukkan angka <b>20.</b></p>
+                                    <h2 className="home-serif calc-qextra-title">{L("Perkiraan biaya lain-lain", "Estimated other costs")}</h2>
+                                    <p className="calc-qsub">{lang === "en" ? <>Enter the estimated <b>extra costs</b>, such as books, uniforms, extracurricular activities, transport or study tours, as a <b>percentage</b>. <br/><br/><b><i>What percentage of the total yearly cost (school fees + enrolment fee) is it?</i></b> <br/><br/>Example: if the total yearly cost = <b>Rp100,000,000</b> and the extra costs are <b>Rp20,000,000</b>, the extra costs are <b>20% of the total yearly cost</b> → enter <b>20.</b></> : <>Masukkan estimasi <b>biaya tambahan</b> seperti buku, seragam, kegiatan ekstrakurikuler, transportasi, atau study tour. Masukkan dalam bentuk <b>persen</b>. <br/><br/><b><i>Berapa persen dari total biaya tahunan (uang sekolah + uang pangkal)?</i></b>. <br/><br/>Contoh: Jika total biaya tahunan = <b>Rp100.000.000</b> dan biaya tambahan <b>Rp20.000.000</b>, maka biaya tambahan adalah <b>20% dari total biaya tahunan</b> → masukkan angka <b>20.</b></>}</p>
                                     <CalcField
                                         compact
-                                        label={"Perkiraan biaya lain-lain"}
+                                        label={L("Perkiraan biaya lain-lain", "Estimated other costs")}
                                         suffix={"%"}
                                         placeholder={""}
                                         value={answers[104] || ""}
@@ -531,7 +535,7 @@ const EducationForm = () => {
             {
                 currentStep > totalSteps &&
                 (
-                    <CalcResultShell href={"/"} title={"Perhitungan Rencana Pendidikan Anak"} totalSteps={totalSteps}>
+                    <CalcResultShell href={"/"} title={L("Perhitungan Rencana Pendidikan Anak", "Children's Education Plan")} totalSteps={totalSteps}>
                         <div className="p-5">
                             <div className="calc-result-capture">
                                 {isResultReady && (() => {
@@ -539,33 +543,33 @@ const EducationForm = () => {
                                     return (
                                         <>
                                             <section className="calc-hero">
-                                                <h1 className="home-serif calc-edu-title">RINCIAN BIAYA PENDIDIKAN:</h1>
+                                                <h1 className="home-serif calc-edu-title">{L("RINCIAN BIAYA PENDIDIKAN:", "EDUCATION COST BREAKDOWN:")}</h1>
                                             </section>
                                             <div className="calc-rgrid">
                                                 <section className="calc-glass calc-section">
-                                                    <div className="calc-row"><span>Jenjang Pendidikan</span><strong>{EDUCATION_RANGE_MAPPING[answers[3]]}</strong></div>
-                                                    <div className="calc-row"><span>Daerah Sekolah</span><strong>{SCHOOL_REGION_MAPPING[answers[100]]}</strong></div>
-                                                    <div className="calc-row"><span>Jenis Sekolah</span><strong>{SCHOOL_CATEGORY_MAPPING[answers[101]]}</strong></div>
-                                                    <div className="calc-row"><span>Perkiraan Uang Pangkal</span><strong>{`Rp${formatNumber(answers[102])}`}</strong></div>
-                                                    <div className="calc-row"><span>Perkiraan Uang Sekolah</span><strong>{`Rp${formatNumber(answers[103])}`}</strong></div>
-                                                    <div className="calc-row"><span>Perkiraan Biaya Lain-lain</span><strong>{answers[104]}%</strong></div>
+                                                    <div className="calc-row"><span>{L("Jenjang Pendidikan", "School level")}</span><strong>{EDUCATION_RANGE_MAPPING[answers[3]]}</strong></div>
+                                                    <div className="calc-row"><span>{L("Daerah Sekolah", "School location")}</span><strong>{SCHOOL_REGION_MAPPING[answers[100]]}</strong></div>
+                                                    <div className="calc-row"><span>{L("Jenis Sekolah", "School type")}</span><strong>{SCHOOL_CATEGORY_MAPPING[answers[101]]}</strong></div>
+                                                    <div className="calc-row"><span>{L("Perkiraan Uang Pangkal", "Estimated enrolment fee")}</span><strong>{`Rp${fmt(answers[102])}`}</strong></div>
+                                                    <div className="calc-row"><span>{L("Perkiraan Uang Sekolah", "Estimated school fees")}</span><strong>{`Rp${fmt(answers[103])}`}</strong></div>
+                                                    <div className="calc-row"><span>{L("Perkiraan Biaya Lain-lain", "Estimated other costs")}</span><strong>{answers[104]}%</strong></div>
                                                 </section>
                                                 <section className="calc-glass calc-section">
                                                     <h2 className="home-serif">{EDUCATION_RANGE_MAPPING[answers[3]]}</h2>
                                                     <div>
-                                                        <div className="calc-row"><span>Uang Pangkal</span><strong>{`Rp${formatNumber(Math.round(results.uangPangkal))}`}</strong></div>
-                                                        <div className="calc-row"><span>SPP</span><strong>{`Rp${formatNumber(Math.round(results.spp))}`}</strong></div>
-                                                        <div className="calc-row"><span>Biaya Lain</span><strong>{`Rp${formatNumber(Math.round(results.biayaLainLain))}`}</strong></div>
-                                                        <div className="calc-row"><span>Total biaya pendidikan (setelah memperhitungkan inflasi)</span><strong className="is-short">{`Rp${formatNumber(Math.round(results.total))}`}</strong></div>
+                                                        <div className="calc-row"><span>{L("Uang Pangkal", "Enrolment fee")}</span><strong>{`Rp${fmt(Math.round(results.uangPangkal))}`}</strong></div>
+                                                        <div className="calc-row"><span>{L("SPP", "School fees")}</span><strong>{`Rp${fmt(Math.round(results.spp))}`}</strong></div>
+                                                        <div className="calc-row"><span>{L("Biaya Lain", "Other costs")}</span><strong>{`Rp${fmt(Math.round(results.biayaLainLain))}`}</strong></div>
+                                                        <div className="calc-row"><span>{L("Total biaya pendidikan (setelah memperhitungkan inflasi)", "Total education cost (after inflation)")}</span><strong className="is-short">{`Rp${fmt(Math.round(results.total))}`}</strong></div>
                                                     </div>
                                                 </section>
                                                 <section className="calc-glass calc-section is-wide">
-                                                    <h2 className="home-serif">Strategi</h2>
+                                                    <h2 className="home-serif">{L("Strategi", "Strategy")}</h2>
                                                     <div>
-                                                        <div className="calc-row"><span>Jumlah tabungan yang harus terkumpul sebelum anak masuk {EDUCATION_RANGE_MAPPING[answers[3]]}</span><strong>{`Rp${formatNumber(Math.round(results.total))}`}</strong></div>
-                                                        <div className="calc-row"><span>Jumlah uang yang harus ditabung setiap akhir bulan</span><strong>{`Rp${formatNumber(Math.round(results.totalAmountToSaveMonthly))}`}</strong></div>
+                                                        <div className="calc-row"><span>{L(`Jumlah tabungan yang harus terkumpul sebelum anak masuk ${EDUCATION_RANGE_MAPPING[answers[3]]}`, `Savings needed before your child starts ${EDUCATION_RANGE_MAPPING[answers[3]]}`)}</span><strong>{`Rp${fmt(Math.round(results.total))}`}</strong></div>
+                                                        <div className="calc-row"><span>{L("Jumlah uang yang harus ditabung setiap akhir bulan", "Amount to save at the end of each month")}</span><strong>{`Rp${fmt(Math.round(results.totalAmountToSaveMonthly))}`}</strong></div>
                                                     </div>
-                                                    <p className="calc-edu-note"><b>(Asumsi: Tidak ada imbal balik investasi)</b></p>
+                                                    <p className="calc-edu-note"><b>{L("(Asumsi: Tidak ada imbal balik investasi)", "(Assumption: no investment return)")}</b></p>
                                                 </section>
                                             </div>
                                         </>
@@ -581,7 +585,7 @@ const EducationForm = () => {
                                         display: currentStep === 1 ? "none" : "block"
                                     }}
                                 >
-                                    Kembali ke pertanyaan sebelumnya
+                                    {L("Kembali ke pertanyaan sebelumnya", "Back to the previous question")}
                                 </button>
                             </div>
                         </div>

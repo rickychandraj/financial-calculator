@@ -2,9 +2,11 @@
 
 import React, { Suspense, useEffect, useState } from "react";
 import CalcQuestionFlow, { CalcResultShell } from "@/components/calc/question-flow";
+import { useLanguage } from "@/lib/i18n";
 import { useSearchParams } from "next/navigation";
 import {
     DESCRIPTION,
+    DESCRIPTION_EN,
     MAPPINGS,
     REVERSE_MAPPINGS,
     SIMULATION_RESULT,
@@ -39,6 +41,8 @@ const CoupleTestForm = () => {
     ]
 
     const [currentStep, setCurrentStep] = useState(1);
+    const { lang } = useLanguage();
+    const L = (id: string, en: string) => (lang === "en" ? en : id);
     const [resultPersona, setResultPersona] = useState<any>(null);
     const [isResultReady, setIsResultReady] = useState(false);
     const [answers, setAnswers] = useState<Record<number, any>>({
@@ -83,470 +87,470 @@ const CoupleTestForm = () => {
     const questions = [
         {
             id: 1,
-            text: "Saat belanja, saya menghabiskan uang lebih banyak dari yang direncanakan",
+            text: L("Saat belanja, saya menghabiskan uang lebih banyak dari yang direncanakan", "When I shop, I spend more than I planned"),
             type: "select",
             category: "Binger",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 2,
-            text: "Saya tahu persis harga dari semua barang yang saya beli",
+            text: L("Saya tahu persis harga dari semua barang yang saya beli", "I know exactly how much everything I buy costs"),
             type: "select",
             category: "Planner",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 3,
-            text: "Saya susah untuk menolak ketika ditawarkan barang dengan diskon besar",
+            text: L("Saya susah untuk menolak ketika ditawarkan barang dengan diskon besar", "I find it hard to say no to a big discount"),
             type: "select",
             category: "Binger",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 4,
-            text: "Saya tidak terlalu suka masak, jadi lebih sering beli makanan siap saji",
+            text: L("Saya tidak terlalu suka masak, jadi lebih sering beli makanan siap saji", "I don't really like cooking, so I usually buy ready-made food"),
             type: "select",
             category: "Cannot Control Finances",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 5,
-            text: "Saya suka ketika rumah terasa hangat dan nyaman",
+            text: L("Saya suka ketika rumah terasa hangat dan nyaman", "I like my home to feel warm and cosy"),
             type: "select",
             category: "Orderly",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 6,
-            text: "Saya tidak suka minta kembalian ketika membayar tunai",
+            text: L("Saya tidak suka minta kembalian ketika membayar tunai", "I don't like asking for change when I pay in cash"),
             type: "select",
             category: "Cannot Control Finances",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 7,
-            text: "Sebelum belanja, saya selalu pikirkan dengan baik apa saja yang dibutuhkan",
+            text: L("Sebelum belanja, saya selalu pikirkan dengan baik apa saja yang dibutuhkan", "Before I shop, I always think carefully about what I need"),
             type: "select",
             category: "Planner",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 8,
-            text: "Ketika sedang beres-beres, saya menyadari bahwa saya banyak membeli barang yang sebenarnya tidak diperlukan",
+            text: L("Ketika sedang beres-beres, saya menyadari bahwa saya banyak membeli barang yang sebenarnya tidak diperlukan", "When I tidy up, I notice I have bought a lot of things I didn't really need"),
             type: "select",
             category: "Cannot Control Finances",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 9,
-            text: "Saya menikmati belanja bersama teman-teman",
+            text: L("Saya menikmati belanja bersama teman-teman", "I enjoy shopping with friends"),
             type: "select",
             category: "Binger",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 10,
-            text: "Saya seringkali harus meminjam uang di akhir bulan",
+            text: L("Saya seringkali harus meminjam uang di akhir bulan", "I often have to borrow money at the end of the month"),
             type: "select",
             category: "Economizer",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 11,
-            text: "Saya selalu membuat daftar belanja sebelum pergi ke toko",
+            text: L("Saya selalu membuat daftar belanja sebelum pergi ke toko", "I always make a shopping list before I go to the shop"),
             type: "select",
             category: "Planner",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 12,
-            text: "Saya biasanya memeriksa banyak pilihan terlebih dahulu sebelum membeli sesuatu",
+            text: L("Saya biasanya memeriksa banyak pilihan terlebih dahulu sebelum membeli sesuatu", "I usually check lots of options before I buy something"),
             type: "select",
             category: "Planner",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 13,
-            text: "Saya mencatat semua pengeluaran saya",
+            text: L("Saya mencatat semua pengeluaran saya", "I keep track of all my spending"),
             type: "select",
             category: "Diligent",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 14,
-            text: "Saya selalu membandingkan harga sebelum membeli barang apapun",
+            text: L("Saya selalu membandingkan harga sebelum membeli barang apapun", "I always compare prices before I buy anything"),
             type: "select",
             category: "Diligent",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 15,
-            text: "Saya dapat mengatur uang agar cukup sampai akhir bulan",
+            text: L("Saya dapat mengatur uang agar cukup sampai akhir bulan", "I can make my money last until the end of the month"),
             type: "select",
             category: "Diligent",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 16,
-            text: "Bayar tagihan membuat saya sangat pusing",
+            text: L("Bayar tagihan membuat saya sangat pusing", "Paying bills gives me a real headache"),
             type: "select",
             category: "Economizer",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 17,
-            text: "Saya menjaga keuangan rumah tangga tetap teratur",
+            text: L("Saya menjaga keuangan rumah tangga tetap teratur", "I keep our household finances in order"),
             type: "select",
             category: "Orderly",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 18,
-            text: "Saya tidak suka membuang barang yang masih bisa dipakai",
+            text: L("Saya tidak suka membuang barang yang masih bisa dipakai", "I don't like throwing away things that can still be used"),
             type: "select",
             category: "Economizer",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 19,
-            text: "Saya suka memberi hadiah untuk diri sendiri",
+            text: L("Saya suka memberi hadiah untuk diri sendiri", "I like treating myself to gifts"),
             type: "select",
             category: "Ups and Downs",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 20,
-            text: "Saya lebih memilih untuk membuat makanan sendiri daripada membeli makan di kantin",
+            text: L("Saya lebih memilih untuk membuat makanan sendiri daripada membeli makan di kantin", "I'd rather make my own food than buy a meal at the canteen"),
             type: "select",
             category: "Economizer",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 21,
-            text: "Saya punya beberapa kebiasaan buruk yang membuat saya boros",
+            text: L("Saya punya beberapa kebiasaan buruk yang membuat saya boros", "I have a few bad habits that make me overspend"),
             type: "select",
             category: "Cannot Control Finances",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 22,
-            text: "Saya menikmati ketika nongkrong bersama teman-teman",
+            text: L("Saya menikmati ketika nongkrong bersama teman-teman", "I enjoy hanging out with friends"),
             type: "select",
             category: "Ups and Downs",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 23,
-            text: "Saya ingin anak-anak saya memiliki semua yang mereka butuhkan",
+            text: L("Saya ingin anak-anak saya memiliki semua yang mereka butuhkan", "I want my children to have everything they need"),
             type: "select",
             category: "Ups and Downs",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 24,
-            text: "Saya suka barang-barang yang sedang trending",
+            text: L("Saya suka barang-barang yang sedang trending", "I like things that are trending"),
             type: "select",
             category: "Orderly",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 25,
-            text: "Saya terlambat bayar beberapa tagihan",
+            text: L("Saya terlambat bayar beberapa tagihan", "I pay some bills late"),
             type: "select",
             category: "Economizer",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 26,
-            text: "Saya hanya berhemat ketika keadaan keuangan sedang kurang baik",
+            text: L("Saya hanya berhemat ketika keadaan keuangan sedang kurang baik", "I only cut back when money is tight"),
             type: "select",
             category: "Ups and Downs",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 27,
-            text: "Saya selalu punya tabungan untuk keadaan darurat",
+            text: L("Saya selalu punya tabungan untuk keadaan darurat", "I always have savings for emergencies"),
             type: "select",
             category: "Diligent",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 28,
-            text: "Kalau sedang butuh uang lebih, saya mencari kerja sampingan",
+            text: L("Kalau sedang butuh uang lebih, saya mencari kerja sampingan", "When I need extra money, I look for a side job"),
             type: "select",
             category: "Diligent",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 29,
-            text: "Kalau saya menyukai suatu barang, saya langsung membelinya",
+            text: L("Kalau saya menyukai suatu barang, saya langsung membelinya", "When I like something, I buy it straight away"),
             type: "select",
             category: "Binger",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 30,
-            text: "Saya bingung uang saya habis ke mana",
+            text: L("Saya bingung uang saya habis ke mana", "I can't tell where my money goes"),
             type: "select",
             category: "Binger",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 31,
-            text: "Saya mengetahui persis jumlah uang yang saya punya di dompet dan rekening bank",
+            text: L("Saya mengetahui persis jumlah uang yang saya punya di dompet dan rekening bank", "I know exactly how much money I have in my wallet and bank account"),
             type: "select",
             category: "Planner",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 32,
-            text: "Ketika belanja bulanan, saya sering kaget dengan total yang harus dibayar",
+            text: L("Ketika belanja bulanan, saya sering kaget dengan total yang harus dibayar", "When I do the monthly shopping, the total often surprises me"),
             type: "select",
             category: "Binger",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 33,
-            text: "Saya terjebak hutang yang bikin stres",
+            text: L("Saya terjebak hutang yang bikin stres", "I'm stuck in debt that stresses me out"),
             type: "select",
             category: "Economizer",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 34,
-            text: "Saya suka untuk mencoba keberuntungan saya",
+            text: L("Saya suka untuk mencoba keberuntungan saya", "I like to try my luck"),
             type: "select",
             category: "Ups and Downs",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 35,
-            text: "Saya sering memberi kejutan untuk orang tercinta dengan hadiah buatan sendiri",
+            text: L("Saya sering memberi kejutan untuk orang tercinta dengan hadiah buatan sendiri", "I often surprise my loved ones with homemade gifts"),
             type: "select",
             category: "Orderly",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         },
         {
             id: 36,
-            text: "Saya menghabiskan banyak uang untuk makanan sehat dan air mineral",
+            text: L("Saya menghabiskan banyak uang untuk makanan sehat dan air mineral", "I spend a lot of money on healthy food and bottled water"),
             type: "select",
             category: "Orderly",
             options: [
-                {value: 1, display: "Hampir tidak pernah"},
-                {value: 2, display: "Jarang"},
-                {value: 3, display: "Kadang-kadang"},
-                {value: 4, display: "Sering"},
-                {value: 5, display: "Hampir selalu"},
+                {value: 1, display: L("Hampir tidak pernah", "Almost never")},
+                {value: 2, display: L("Jarang", "Rarely")},
+                {value: 3, display: L("Kadang-kadang", "Sometimes")},
+                {value: 4, display: L("Sering", "Often")},
+                {value: 5, display: L("Hampir selalu", "Almost always")},
             ],
         }
     ]
@@ -688,7 +692,7 @@ const CoupleTestForm = () => {
             {currentStep <= totalSteps && !resultQueryParam && (
                 <CalcQuestionFlow
                     href={"/"}
-                    title={"Tes Kecocokkan Pasangan"}
+                    title={L("Tes Kecocokkan Pasangan", "Couple Compatibility Test")}
                     questions={questions}
                     answers={answers}
                     currentStep={currentStep}
@@ -702,7 +706,7 @@ const CoupleTestForm = () => {
             )}
 
             {currentStep > totalSteps && (
-                <CalcResultShell href={"/"} title={"Tes Kecocokkan Pasangan"} totalSteps={totalSteps}>
+                <CalcResultShell href={"/"} title={L("Tes Kecocokkan Pasangan", "Couple Compatibility Test")} totalSteps={totalSteps}>
                     <div className="p-5">
                         {isResultReady && (() => {
                             const results = calculateResults();
@@ -711,13 +715,13 @@ const CoupleTestForm = () => {
                                     {/*Overlay with CTA*/}
                                     <div className="absolute inset-0 bg-black/60 backdrop-blur-md backdrop-brightness-50 flex flex-col items-center justify-center bg-black/50 rounded-2xl">
                                         <p className="text-center text-white text-md mb-6 px-4">
-                                            Kamu harus mengisi beberapa data terlebih dahulu untuk melihat hasil lengkap tes ini
+                                            {L("Kamu harus mengisi beberapa data terlebih dahulu untuk melihat hasil lengkap tes ini", "Fill in a few details first to see the full result of this test")}
                                         </p>
                                         <a
                                             href={`https://mamaberuang.myr.id/lp/couple-test-${REVERSE_MAPPINGS[results.financePersona]}/`}
                                             className="bg-[#A51246] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#8A0F3D] transition-colors"
                                         >
-                                            Lihat Hasil Lengkap
+                                            {L("Lihat Hasil Lengkap", "See Full Result")}
                                         </a>
                                     </div>
                                 </>
@@ -730,7 +734,7 @@ const CoupleTestForm = () => {
             {
                 resultQueryParam && !isCheckingMatchScore && (
                     <>
-                        <CalcResultShell href={"/"} title={"Hasil Tes"} totalSteps={null}>
+                        <CalcResultShell href={"/"} title={L("Hasil Tes", "Test Result")} totalSteps={null}>
                             <div className="p-5">
                                 <div
                                     className={`
@@ -746,10 +750,10 @@ const CoupleTestForm = () => {
                                     <div className="bg-[#3A4356] rounded-lg p-4 mb-4">
                                         <div className="space-y-2">
                                             <div className="flex">
-                                                <span className="font-semibold">Personality finansial kamu adalah <span className={"text-green-300 font-semibold"}>{MAPPINGS[resultQueryParam]}</span>!</span>
+                                                <span className="font-semibold">{L("Personality finansial kamu adalah ", "Your financial personality is ")}<span className={"text-green-300 font-semibold"}>{MAPPINGS[resultQueryParam]}</span>!</span>
                                             </div>
                                             <div className="flex">
-                                                <span>{DESCRIPTION[MAPPINGS[resultQueryParam]]}</span>
+                                                <span>{(lang === "en" ? DESCRIPTION_EN : DESCRIPTION)[MAPPINGS[resultQueryParam]]}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -757,15 +761,15 @@ const CoupleTestForm = () => {
                                     <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
                                         <div className="space-y-2">
                                             <div className="flex">
-                                                <span className="font-semibold">Kamu paling cocok berpasangan dengan</span>
+                                                <span className="font-semibold">{L("Kamu paling cocok berpasangan dengan", "You are most compatible with")}</span>
                                             </div>
                                             {MOST_MATCH_MAPPINGS[MAPPINGS[resultQueryParam]]}
                                         </div>
                                     </div>
                                 </div>
-                                <h2 className="text-xl font-semibold my-2 mt-12" style={{ color: "#12174F" }}>Apa kepribadian pasangan kamu?</h2>
+                                <h2 className="text-xl font-semibold my-2 mt-12" style={{ color: "#12174F" }}>{L("Apa kepribadian pasangan kamu?", "What is your partner's personality?")}</h2>
                                 <p className="text-left text-black text-md mb-6 px-4">
-                                    Pasangan kamu harus mengambil tes kepribadian keuangan ini secara terpisah, yuk bagikan link ini: <Link href={"https://calculator.mamaberuang.com/forms/couple-test"} className="text-blue-600 underline hover:text-blue-800">https://calculator.mamaberuang.com/forms/couple-test</Link> ke pasangan kamu. Kemudian, masukkan hasil tes kepribadian keuangan pasangan kamu dibawah ini
+                                    {lang === "en" ? <>Your partner needs to take this financial personality test separately. Share this link with your partner: <Link href={"https://calculator.mamaberuang.com/forms/couple-test"} className="text-blue-600 underline hover:text-blue-800">https://calculator.mamaberuang.com/forms/couple-test</Link>. Then choose your partner's financial personality result below</> : <>Pasangan kamu harus mengambil tes kepribadian keuangan ini secara terpisah, yuk bagikan link ini: <Link href={"https://calculator.mamaberuang.com/forms/couple-test"} className="text-blue-600 underline hover:text-blue-800">https://calculator.mamaberuang.com/forms/couple-test</Link> ke pasangan kamu. Kemudian, masukkan hasil tes kepribadian keuangan pasangan kamu dibawah ini</>}
                                 </p>
                                 {partnerPersonalityOptions.map((option, optIndex) => (
                                     <div
@@ -795,7 +799,7 @@ const CoupleTestForm = () => {
                                         marginLeft: "auto"
                                     }}
                                 >
-                                    Submit
+                                    {L("Submit", "Submit")}
                                 </button>
                             </div>
                         </CalcResultShell>
@@ -806,7 +810,7 @@ const CoupleTestForm = () => {
             {
                 isCheckingMatchScore && (
                     <>
-                        <CalcResultShell href={"/"} title={"Hasil Tes Kecocokkan"} totalSteps={totalSteps} onBack={() => setIsCheckingMatchScore(false)}>
+                        <CalcResultShell href={"/"} title={L("Hasil Tes Kecocokkan", "Compatibility Result")} totalSteps={totalSteps} onBack={() => setIsCheckingMatchScore(false)}>
                             <div className="p-5">
                                 <div
                                     className={`
@@ -825,28 +829,31 @@ const CoupleTestForm = () => {
                                                 <span className="font-semibold"><span className={"text-green-300 font-semibold"}>{MAPPINGS[resultQueryParam as string]}</span> x <span className={"text-green-300 font-semibold"}>{partnerPersonality}</span></span>
                                             </div>
                                             <div className="flex">
-                                                <span>Berikut simulasi dan analisis kecocokan <span className={"text-green-300 font-semibold"}>{MAPPINGS[resultQueryParam as string]}</span> jika berpasangan dengan <span className={"text-green-300 font-semibold"}>{partnerPersonality}</span>:</span>
+                                                <span>{L("Berikut simulasi dan analisis kecocokan ", "Here is the simulation and compatibility analysis for ")}<span className={"text-green-300 font-semibold"}>{MAPPINGS[resultQueryParam as string]}</span>{L(" jika berpasangan dengan ", " paired with ")}<span className={"text-green-300 font-semibold"}>{partnerPersonality}</span>:</span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <h1 className="text-xl font-semibold mb-4 mt-8">Simulasi</h1>
+                                    {lang === "en" && (
+                                        <p className="text-sm mb-4">The detailed analysis below is in Indonesian for now.</p>
+                                    )}
+                                    <h1 className="text-xl font-semibold mb-4 mt-8">{L("Simulasi", "Simulation")}</h1>
                                     <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
                                         <div className="space-y-2">
                                             <div className="flex">
-                                                <span className="text-gray-300 font-bold">Ekonomi dan Gaya Hidup</span>
+                                                <span className="text-gray-300 font-bold">{L("Ekonomi dan Gaya Hidup", "Finances and Lifestyle")}</span>
                                             </div>
                                             <div className="flex">
                                                 <span className="text-white-400 font-semibold">{SIMULATION_RESULT[`${MAPPINGS[resultQueryParam as string]} x ${partnerPersonality}`]["lifestyle"]}</span>
                                             </div>
                                             <div className="flex pt-8">
-                                                <span className="text-gray-300 font-bold">Pengelolaan Keuangan</span>
+                                                <span className="text-gray-300 font-bold">{L("Pengelolaan Keuangan", "Money Management")}</span>
                                             </div>
                                             <div className="flex">
                                                 <span className="text-white-400 font-semibold">{SIMULATION_RESULT[`${MAPPINGS[resultQueryParam as string]} x ${partnerPersonality}`]["moneyManagement"]}</span>
                                             </div>
                                             <div className="flex pt-8">
-                                                <span className="text-gray-300 font-bold">Target Masa Depan</span>
+                                                <span className="text-gray-300 font-bold">{L("Target Masa Depan", "Future Goals")}</span>
                                             </div>
                                             <div className="flex">
                                                 <span className="text-white-400 font-semibold">{SIMULATION_RESULT[`${MAPPINGS[resultQueryParam as string]} x ${partnerPersonality}`]["futureTarget"]}</span>
@@ -854,7 +861,7 @@ const CoupleTestForm = () => {
                                         </div>
                                     </div>
 
-                                    <h1 className="text-xl font-semibold mb-4 mt-8">Potensi Konflik</h1>
+                                    <h1 className="text-xl font-semibold mb-4 mt-8">{L("Potensi Konflik", "Possible Conflicts")}</h1>
                                     <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
                                         <div className="space-y-2">
                                             <div className="flex">
@@ -878,7 +885,7 @@ const CoupleTestForm = () => {
                                         </div>
                                     </div>
 
-                                    <h1 className="text-xl font-semibold mb-4 mt-8">Saran</h1>
+                                    <h1 className="text-xl font-semibold mb-4 mt-8">{L("Saran", "Suggestions")}</h1>
                                     <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
                                         <div className="space-y-2">
                                             {SUGGESTION_RESULT[`${MAPPINGS[resultQueryParam as string]} x ${partnerPersonality}`].map((item, index) => (
