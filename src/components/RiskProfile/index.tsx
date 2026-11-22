@@ -64,7 +64,7 @@ const RiskProfile = () => {
                             <b className="is-accent">{r.profileValue}</b>
                         </div>
                         <div className="home-float-icon home-risk-icon-gauge">
-                            <img src="/home/float-3.svg" alt="" width={21} height={18} />
+                            <img src="/home/float-3.svg" alt="" width={24} height={24} />
                         </div>
                         <div className="home-float-card home-risk-time-card">
                             <span>{r.timeLabel}</span>
