@@ -40,7 +40,7 @@ const PensionFundForm = () => {
         {
             id: 1,
             text: L("Berapa pengeluaran kamu setiap bulan?", "How much do you spend each month?"),
-            subtext: L("Jumlah uang yang harus kamu keluarkan setiap bulannya untuk hidup, termasuk biaya sewa/kos, makan, dll", "The money you need to live each month, including rent, food, etc."),
+            subtext: L("Total biaya hidupmu per bulan, termasuk sewa atau kos, makan, dan lainnya.", "The money you need to live each month, including rent, food, etc."),
             type: "currency",
             prefix: "Rp"
         },
@@ -53,25 +53,25 @@ const PensionFundForm = () => {
         },
         {
             id: 3,
-            text: L("Kamu ingin pensiun di usia", "You want to retire at age"),
-            subtext: L("Target usia kamu saat kamu sudah tidak lagi bekerja", "The age at which you plan to stop working"),
+            text: L("Di usia berapa kamu ingin pensiun?", "At what age do you want to retire?"),
+            subtext: L("Usia saat kamu berencana berhenti bekerja.", "The age at which you plan to stop working."),
             type: "number",
             suffix: L("tahun", "years"),
             error: retirementAgeError,
         },
         {
             id: 4,
-            text: L("Dana pensiun yang telah tersedia sampai saat ini", "Retirement savings you have so far"),
-            subtext: L("Jumlah tabungan untuk dana pensiun yang sudah terkumpul sampai dengan kamu mengisi form ini", "Retirement savings you have built up as of filling in this form"),
+            text: L("Berapa dana pensiun yang sudah terkumpul?", "How much have you saved for retirement so far?"),
+            subtext: L("Hitung hanya tabungan khusus dana pensiun sampai hari ini.", "Count only savings set aside for retirement up to today."),
             type: "currency",
             prefix: "Rp",
         },
         {
             id: 5,
-            text: L("Kamu akan investasi di produk yang return-nya?", "What return does the product you will invest in have?"),
-            subtext: L("Dengan asumsi kamu akan menaruh uang tabunganmu pada instrumen investasi. Sebagai gambaran: untuk profil risiko konservatif, kamu cocok investasi di reksadana pasar uang atau obligasi dengan return rata-rata 6% per tahun. Untuk profil risiko moderat, kamu cocok berinvestasi di obligasi atau reksadana campuran dengan return rata-rata 10% per tahun. Untuk profil risiko agresif, kamu cocok berinvestasi di saham atau reksadana saham dengan return rata-rata 15% per tahun.", "This assumes you put your savings in an investment product. As a guide: with a conservative risk profile, money market or bond mutual funds suit you, with an average return of 6% a year. With a moderate risk profile, bonds or balanced mutual funds suit you, with an average return of 10% a year. With an aggressive risk profile, stocks or equity mutual funds suit you, with an average return of 15% a year."),
+            text: L("Berapa imbal hasil per tahun dari produk investasimu?", "What yearly return do you expect from your investment?"),
+            subtext: L("Pakai gambaran ini sesuai profil risikomu. Konservatif (reksa dana pasar uang): sekitar 4% sampai 5%. Moderat (obligasi atau reksa dana pendapatan tetap): sekitar 6% sampai 7%. Agresif (saham atau reksa dana saham): sekitar 8% sampai 10% dalam jangka panjang, tapi bisa turun tajam dalam satu tahun. Angka ini rata-rata masa lalu, bukan jaminan.", "Use this guide for your risk profile. Conservative (money market funds): about 4% to 5%. Moderate (bonds or fixed income funds): about 6% to 7%. Aggressive (stocks or equity funds): about 8% to 10% over the long term, but it can drop sharply in a single year. These are past averages, not a guarantee."),
             type: "number",
-            suffix: L("% / tahun", "% / year")
+            suffix: L("% per tahun", "% per year")
         },
     ];
 
@@ -177,12 +177,12 @@ const PensionFundForm = () => {
                                 background: "linear-gradient(135deg, #252E64 50%, #12174F 100%)"
                             }}
                         >
-                            <h3 className="text-3xl mb-1">{L("Hasil Perhitungan Dana Pensiun", "Retirement Fund Result")}</h3>
+                            <h3 className="text-3xl mb-1">{L("Hasil perhitungan dana pensiun", "Retirement Fund Result")}</h3>
                             <p className="text-sm mb-6">{L("Perhitungan ini menggunakan asumsi angka harapan hidup sampai dengan ", "This calculation assumes a life expectancy of ")}<span className={"font-bold"}> {LIFE_EXPECTANCY} {L("tahun", "years")} </span></p>
 
                             {/* Input Summary Section */}
                             <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
-                                <h4 className="text-2xl mb-4">{L("Ringkasan Input", "Your Inputs")}</h4>
+                                <h4 className="text-2xl mb-4">{L("Ringkasan jawaban", "Your Inputs")}</h4>
                                 <div className="space-y-2">
                                     <div className="flex justify-between">
                                         <span>{L("Usia saat ini", "Current age")}</span>
@@ -210,7 +210,7 @@ const PensionFundForm = () => {
                                     <>
                                         {/* Projected Needs Section */}
                                         <div className="bg-[#3A4356] rounded-lg p-4 mb-4">
-                                            <h4 className="text-2xl mb-4">{L("Proyeksi Kebutuhan", "Projected Needs")}</h4>
+                                            <h4 className="text-2xl mb-4">{L("Proyeksi kebutuhan", "Projected Needs")}</h4>
                                             <div className="space-y-2">
                                                 <div className="flex justify-between">
                                                     <span>{L("Proyeksi nilai total dana yang terkumpul", "Projected value of your savings")}</span>
@@ -221,11 +221,15 @@ const PensionFundForm = () => {
                                                     <span>{`Rp${fmt(Math.round(results.futureMonthlyExpenses))}`}</span>
                                                 </div>
                                                 <div className="flex justify-between">
+                                                    <span className="italic"><b>{L("(Asumsi: inflasi 5,7% per tahun)", "(Assumption: inflation of 5.7% a year)")}</b></span>
+                                                    <span></span>
+                                                </div>
+                                                <div className="flex justify-between">
                                                     <span>{L("Proyeksi total dana pensiun yang dibutuhkan", "Projected retirement fund needed")}</span>
                                                     <span>{`Rp${fmt(Math.round(results.totalNeeded))}`}</span>
                                                 </div>
                                                 <div className="flex justify-between">
-                                                    <span>{L("Gap dengan dana saat ini", "Gap from your current savings")}</span>
+                                                    <span>{L("Selisih dengan dana saat ini", "Gap from your current savings")}</span>
                                                     <span>{`Rp${fmt(Math.round(results.currentGap))}`}</span>
                                                 </div>
                                             </div>
@@ -240,7 +244,7 @@ const PensionFundForm = () => {
                                                     <span>{`Rp${fmt(Math.round(results.currentGap))}`}</span>
                                                 </div>
                                                 <div className="flex justify-between">
-                                                    <span>{L("Total uang yang harus ditabung setiap akhir bulan (per bulan ini)", "Amount to save at the end of each month (starting this month)")}</span>
+                                                    <span>{L("Total uang yang harus ditabung setiap akhir bulan (mulai bulan ini)", "Amount to save at the end of each month (starting this month)")}</span>
                                                     <span>{`Rp${fmt(Math.round(results.totalAmountToSaveMonthly))}`}</span>
                                                 </div>
                                             </div>

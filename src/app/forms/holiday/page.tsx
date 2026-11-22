@@ -23,14 +23,14 @@ const HolidayPlanningForm = () => {
         {
             id: 1,
             text: L("Berapa lama lagi kamu ingin pergi liburan?", "How many years from now do you want to go on holiday?"),
-            subtext: L("Contoh: saat ini tahun 2024, dan kamu ingin pergi pada tahun 2026, berarti 2026 - 2024 = 2 tahun. Berarti kolom di bawah diisi dengan angka 2", "Example: it is 2024 now and you want to go in 2026, so 2026 - 2024 = 2 years. Enter 2 in the field below"),
+            subtext: L("Contoh: kalau kamu ingin pergi 2 tahun lagi, isi kolom di bawah dengan angka 2", "Example: if you want to go in 2 years, enter 2 in the field below"),
             type: "number",
             suffix: L("tahun", "years")
         },
         {
             id: 2,
-            text: L("Berapa perkiraan biaya liburan PER ORANG saat ini?", "What is the estimated holiday cost PER PERSON today?"),
-            subtext: L("Perkiraan total biaya termasuk transportasi, akomodasi, konsumsi, tiket wisata, dll", "Estimated total cost, including transport, accommodation, food, attraction tickets, etc."),
+            text: L("Berapa perkiraan biaya liburan per orang saat ini?", "What is the estimated holiday cost per person today?"),
+            subtext: L("Perkiraan total biaya termasuk transportasi, akomodasi, konsumsi, tiket wisata, dan lainnya", "Estimated total cost, including transport, accommodation, food, attraction tickets, etc."),
             type: "currency",
             prefix: "Rp",
         },
@@ -156,11 +156,11 @@ const HolidayPlanningForm = () => {
                                 background: "linear-gradient(135deg, #252E64 50%, #12174F 90%)"
                             }}
                         >
-                            <h3 className="text-3xl mb-6">{L("Hasil Perhitungan Dana Liburan", "Holiday Fund Result")}</h3>
+                            <h3 className="text-3xl mb-6">{L("Hasil perhitungan dana liburan", "Holiday Fund Result")}</h3>
 
                             {/* Cost Analysis */}
                             <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
-                                <h4 className="text-2xl mb-4">{L("Analisis Biaya", "Cost Analysis")}</h4>
+                                <h4 className="text-2xl mb-4">{L("Analisis biaya", "Cost Analysis")}</h4>
                                 <div className="space-y-2">
                                     {isResultReady && (() => {
                                         const results = calculateResults();
@@ -176,7 +176,7 @@ const HolidayPlanningForm = () => {
                                                     <span>{`Rp${fmt(Math.round(results.futureCostPerPerson))}`}</span>
                                                 </div>
                                                 <div className="flex justify-between">
-                                                    <span className="italic"><b>{L("(Asumsi: Tingkat Inflasi = 4% / tahun)", "(Assumption: inflation rate = 4% / year)")}</b></span>
+                                                    <span className="italic"><b>{L("(Asumsi: inflasi 4% per tahun)", "(Assumption: inflation rate = 4% / year)")}</b></span>
                                                     <span></span>
                                                 </div>
                                                 <br/>
@@ -190,7 +190,7 @@ const HolidayPlanningForm = () => {
                                                     <span>{`Rp${fmt(Math.round(results.totalFutureCost))}`}</span>
                                                 </div>
                                                 <div className="flex justify-between">
-                                                    <span className="italic"><b>{L("(Asumsi: Tingkat Inflasi = 4% / tahun)", "(Assumption: inflation rate = 4% / year)")}</b></span>
+                                                    <span className="italic"><b>{L("(Asumsi: inflasi 4% per tahun)", "(Assumption: inflation rate = 4% / year)")}</b></span>
                                                     <span></span>
                                                 </div>
                                             </>
@@ -201,7 +201,7 @@ const HolidayPlanningForm = () => {
 
                             {/* Savings Progress */}
                             <div className="bg-[#3A4356] rounded-lg p-4 mb-4">
-                                <h4 className="text-2xl mb-4">{L("Progress Tabungan", "Savings Progress")}</h4>
+                                <h4 className="text-2xl mb-4">{L("Progres tabungan", "Savings Progress")}</h4>
                                 <div className="space-y-2">
                                     <div className="flex justify-between">
                                         <span>{L("Dana yang sudah terkumpul", "Funds saved so far")}</span>
@@ -217,15 +217,15 @@ const HolidayPlanningForm = () => {
                                                     <span>{`Rp${fmt(Math.round(results.totalProjectedSavings))}`}</span>
                                                 </div>
                                                 <div className="flex justify-between">
-                                                    <span className="italic"><b>{L("(Asumsi: Imbal Balik Investasi = 6% / tahun)", "(Assumption: investment return = 6% / year)")}</b></span>
+                                                    <span className="italic"><b>{L("(Asumsi: imbal hasil investasi 6% per tahun)", "(Assumption: investment return = 6% / year)")}</b></span>
                                                     <span></span>
                                                 </div>
                                                 <br/>
                                                 <div className="flex justify-between">
-                                                    <span>{L("Gap dengan target", "Gap to target")}</span>
+                                                    <span>{L("Selisih dengan target", "Gap to target")}</span>
                                                     <span className={results.isTargetMet ? "text-green-400" : "text-red-400"}>
                                                         {results.isTargetMet
-                                                            ? L("Dana Mencukupi", "Fully funded")
+                                                            ? L("Dana mencukupi", "Fully funded")
                                                             : `Rp${fmt(Math.round(results.gapToTarget))}`}
                                                     </span>
                                                 </div>
@@ -248,11 +248,11 @@ const HolidayPlanningForm = () => {
                                             </div>
                                             <br/>
                                             <div className="flex justify-between">
-                                                <span>{L("Total uang yang harus ditabung setiap akhir bulan (per bulan ini)", "Amount to save at the end of each month (starting this month)")}</span>
+                                                <span>{L("Total uang yang harus ditabung setiap akhir bulan (mulai bulan ini)", "Amount to save at the end of each month (starting this month)")}</span>
                                                 <span>{`Rp${fmt(Math.round(results.totalAmountToSaveMonthly))}`}</span>
                                             </div>
                                             <div className="flex justify-between">
-                                                <span className="italic"><b>{L("(Asumsi: Imbal Balik Investasi = 6% / tahun)", "(Assumption: investment return = 6% / year)")}</b></span>
+                                                <span className="italic"><b>{L("(Asumsi: imbal hasil investasi 6% per tahun)", "(Assumption: investment return = 6% / year)")}</b></span>
                                                 <span></span>
                                             </div>
                                             <br/>

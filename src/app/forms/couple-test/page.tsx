@@ -204,7 +204,7 @@ const CoupleTestForm = () => {
         },
         {
             id: 10,
-            text: L("Saya seringkali harus meminjam uang di akhir bulan", "I often have to borrow money at the end of the month"),
+            text: L("Saya sering kali harus meminjam uang di akhir bulan", "I often have to borrow money at the end of the month"),
             type: "select",
             category: "Economizer",
             options: [
@@ -256,7 +256,7 @@ const CoupleTestForm = () => {
         },
         {
             id: 14,
-            text: L("Saya selalu membandingkan harga sebelum membeli barang apapun", "I always compare prices before I buy anything"),
+            text: L("Saya selalu membandingkan harga sebelum membeli barang apa pun", "I always compare prices before I buy anything"),
             type: "select",
             category: "Diligent",
             options: [
@@ -503,7 +503,7 @@ const CoupleTestForm = () => {
         },
         {
             id: 33,
-            text: L("Saya terjebak hutang yang bikin stres", "I'm stuck in debt that stresses me out"),
+            text: L("Saya terjebak utang yang bikin stres", "I'm stuck in debt that stresses me out"),
             type: "select",
             category: "Economizer",
             options: [
@@ -692,7 +692,7 @@ const CoupleTestForm = () => {
             {currentStep <= totalSteps && !resultQueryParam && (
                 <CalcQuestionFlow
                     href={"/"}
-                    title={L("Tes Kecocokkan Pasangan", "Couple Compatibility Test")}
+                    title={L("Tes Kecocokan Pasangan", "Couple Compatibility Test")}
                     questions={questions}
                     answers={answers}
                     currentStep={currentStep}
@@ -706,7 +706,7 @@ const CoupleTestForm = () => {
             )}
 
             {currentStep > totalSteps && (
-                <CalcResultShell href={"/"} title={L("Tes Kecocokkan Pasangan", "Couple Compatibility Test")} totalSteps={totalSteps}>
+                <CalcResultShell href={"/"} title={L("Tes Kecocokan Pasangan", "Couple Compatibility Test")} totalSteps={totalSteps}>
                     <div className="p-5">
                         {isResultReady && (() => {
                             const results = calculateResults();
@@ -721,7 +721,7 @@ const CoupleTestForm = () => {
                                             href={`https://mamaberuang.myr.id/lp/couple-test-${REVERSE_MAPPINGS[results.financePersona]}/`}
                                             className="bg-[#A51246] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#8A0F3D] transition-colors"
                                         >
-                                            {L("Lihat Hasil Lengkap", "See Full Result")}
+                                            {L("Lihat hasil lengkap", "See Full Result")}
                                         </a>
                                     </div>
                                 </>
@@ -750,7 +750,7 @@ const CoupleTestForm = () => {
                                     <div className="bg-[#3A4356] rounded-lg p-4 mb-4">
                                         <div className="space-y-2">
                                             <div className="flex">
-                                                <span className="font-semibold">{L("Personality finansial kamu adalah ", "Your financial personality is ")}<span className={"text-green-300 font-semibold"}>{MAPPINGS[resultQueryParam]}</span>!</span>
+                                                <span className="font-semibold">{L("Kepribadian finansial kamu adalah ", "Your financial personality is ")}<span className={"text-green-300 font-semibold"}>{MAPPINGS[resultQueryParam]}</span>!</span>
                                             </div>
                                             <div className="flex">
                                                 <span>{(lang === "en" ? DESCRIPTION_EN : DESCRIPTION)[MAPPINGS[resultQueryParam]]}</span>
@@ -769,7 +769,7 @@ const CoupleTestForm = () => {
                                 </div>
                                 <h2 className="text-xl font-semibold my-2 mt-12" style={{ color: "#12174F" }}>{L("Apa kepribadian pasangan kamu?", "What is your partner's personality?")}</h2>
                                 <p className="text-left text-black text-md mb-6 px-4">
-                                    {lang === "en" ? <>Your partner needs to take this financial personality test separately. Share this link with your partner: <Link href={"https://calculator.mamaberuang.com/forms/couple-test"} className="text-blue-600 underline hover:text-blue-800">https://calculator.mamaberuang.com/forms/couple-test</Link>. Then choose your partner's financial personality result below</> : <>Pasangan kamu harus mengambil tes kepribadian keuangan ini secara terpisah, yuk bagikan link ini: <Link href={"https://calculator.mamaberuang.com/forms/couple-test"} className="text-blue-600 underline hover:text-blue-800">https://calculator.mamaberuang.com/forms/couple-test</Link> ke pasangan kamu. Kemudian, masukkan hasil tes kepribadian keuangan pasangan kamu dibawah ini</>}
+                                    {lang === "en" ? <>Your partner needs to take this financial personality test separately. Share this link with your partner: <Link href={"https://calculator.mamaberuang.com/forms/couple-test"} className="text-blue-600 underline hover:text-blue-800">https://calculator.mamaberuang.com/forms/couple-test</Link>. Then choose your partner's financial personality result below</> : <>Pasangan kamu harus mengambil tes kepribadian keuangan ini secara terpisah, yuk bagikan link ini: <Link href={"https://calculator.mamaberuang.com/forms/couple-test"} className="text-blue-600 underline hover:text-blue-800">https://calculator.mamaberuang.com/forms/couple-test</Link> ke pasangan kamu. Kemudian, masukkan hasil tes kepribadian keuangan pasangan kamu di bawah ini</>}
                                 </p>
                                 {partnerPersonalityOptions.map((option, optIndex) => (
                                     <div
@@ -799,7 +799,7 @@ const CoupleTestForm = () => {
                                         marginLeft: "auto"
                                     }}
                                 >
-                                    {L("Submit", "Submit")}
+                                    {L("Lihat hasil kecocokan", "See Compatibility Result")}
                                 </button>
                             </div>
                         </CalcResultShell>
@@ -810,7 +810,7 @@ const CoupleTestForm = () => {
             {
                 isCheckingMatchScore && (
                     <>
-                        <CalcResultShell href={"/"} title={L("Hasil Tes Kecocokkan", "Compatibility Result")} totalSteps={totalSteps} onBack={() => setIsCheckingMatchScore(false)}>
+                        <CalcResultShell href={"/"} title={L("Hasil Tes Kecocokan", "Compatibility Result")} totalSteps={totalSteps} onBack={() => setIsCheckingMatchScore(false)}>
                             <div className="p-5">
                                 <div
                                     className={`
@@ -841,19 +841,19 @@ const CoupleTestForm = () => {
                                     <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
                                         <div className="space-y-2">
                                             <div className="flex">
-                                                <span className="text-gray-300 font-bold">{L("Ekonomi dan Gaya Hidup", "Finances and Lifestyle")}</span>
+                                                <span className="text-gray-300 font-bold">{L("Ekonomi dan gaya hidup", "Finances and Lifestyle")}</span>
                                             </div>
                                             <div className="flex">
                                                 <span className="text-white-400 font-semibold">{SIMULATION_RESULT[`${MAPPINGS[resultQueryParam as string]} x ${partnerPersonality}`]["lifestyle"]}</span>
                                             </div>
                                             <div className="flex pt-8">
-                                                <span className="text-gray-300 font-bold">{L("Pengelolaan Keuangan", "Money Management")}</span>
+                                                <span className="text-gray-300 font-bold">{L("Pengelolaan keuangan", "Money Management")}</span>
                                             </div>
                                             <div className="flex">
                                                 <span className="text-white-400 font-semibold">{SIMULATION_RESULT[`${MAPPINGS[resultQueryParam as string]} x ${partnerPersonality}`]["moneyManagement"]}</span>
                                             </div>
                                             <div className="flex pt-8">
-                                                <span className="text-gray-300 font-bold">{L("Target Masa Depan", "Future Goals")}</span>
+                                                <span className="text-gray-300 font-bold">{L("Target masa depan", "Future Goals")}</span>
                                             </div>
                                             <div className="flex">
                                                 <span className="text-white-400 font-semibold">{SIMULATION_RESULT[`${MAPPINGS[resultQueryParam as string]} x ${partnerPersonality}`]["futureTarget"]}</span>
@@ -861,7 +861,7 @@ const CoupleTestForm = () => {
                                         </div>
                                     </div>
 
-                                    <h1 className="text-xl font-semibold mb-4 mt-8">{L("Potensi Konflik", "Possible Conflicts")}</h1>
+                                    <h1 className="text-xl font-semibold mb-4 mt-8">{L("Potensi konflik", "Possible Conflicts")}</h1>
                                     <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
                                         <div className="space-y-2">
                                             <div className="flex">

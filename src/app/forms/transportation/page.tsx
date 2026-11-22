@@ -22,21 +22,21 @@ const VehiclePurchaseForm = () => {
         {
             id: 1,
             text: L("Berapa lama lagi kamu ingin membeli kendaraan impianmu?", "How many years from now do you want to buy your dream vehicle?"),
-            subtext: L("Contoh: saat ini tahun 2022 dan kamu ingin membeli kendaraan pada tahun 2027, berarti 2027 - 2022 = 5 tahun. Berarti kolom di bawah diisi dengan angka 5", "Example: it is 2022 now and you want to buy the vehicle in 2027, so 2027 - 2022 = 5 years. Enter 5 in the field below"),
+            subtext: L("Contoh: kalau kamu ingin membeli kendaraan 5 tahun lagi, isi kolom di bawah dengan angka 5", "Example: if you want to buy the vehicle in 5 years, enter 5 in the field below"),
             type: "number",
             suffix: L("tahun", "years")
         },
         {
             id: 2,
             text: L("Berapa harga kendaraan impianmu saat ini?", "How much does your dream vehicle cost today?"),
-            subtext: L("Harga kendaraan impianmu saat kamu mengisi form ini", "The price of your dream vehicle as you fill in this form"),
+            subtext: L("Harga kendaraan impianmu saat ini", "The price of your dream vehicle as you fill in this form"),
             type: "currency",
             prefix: "Rp",
         },
         {
             id: 3,
-            text: L("Berapa besar %DP (Down Payment) yang ingin kamu bayarkan?", "What down payment (DP) percentage do you want to pay?"),
-            subtext: L("Kalau kamu berencana membeli kendaraan dengan sistem KKB, maka ada biaya awal yang harus kamu bayarkan, besaran DP biasanya berkisar antara 10-50%. Kalau kamu berencana membeli kendaraan secara cash, isi kolom di bawah dengan angka 100", "If you plan to buy the vehicle with a car loan (KKB), you pay an upfront amount first; the down payment is usually 10-50%. If you plan to pay in cash, enter 100 in the field below"),
+            text: L("Berapa persen uang muka (DP) yang ingin kamu bayar?", "What down payment (DP) percentage do you want to pay?"),
+            subtext: L("Kalau membeli lewat kredit kendaraan bermotor (KKB), kamu perlu membayar uang muka (DP), biasanya 10% sampai 50% dari harga. Kalau membeli tunai, isi kolom di bawah dengan angka 100.", "If you buy with a vehicle loan (KKB), you pay a down payment first, usually 10% to 50% of the price. If you pay in cash, enter 100 in the field below."),
             type: "number",
             suffix: "%",
         },
@@ -157,11 +157,11 @@ const VehiclePurchaseForm = () => {
                                 background: "linear-gradient(135deg, #252E64 50%, #12174F 90%)"
                             }}
                         >
-                            <h3 className="text-3xl mb-6">{L("Hasil Perhitungan Dana Kendaraan", "Vehicle Fund Result")}</h3>
+                            <h3 className="text-3xl mb-6">{L("Hasil perhitungan dana kendaraan", "Vehicle Fund Result")}</h3>
 
                             {/* Vehicle Cost Analysis */}
                             <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
-                                <h4 className="text-2xl mb-4">{L("Analisis Biaya Kendaraan", "Vehicle Cost Analysis")}</h4>
+                                <h4 className="text-2xl mb-4">{L("Analisis biaya kendaraan", "Vehicle Cost Analysis")}</h4>
                                 <div className="space-y-2">
                                     <div className="flex justify-between">
                                         <span>{L("Harga kendaraan saat ini", "Vehicle price today")}</span>
@@ -183,11 +183,11 @@ const VehiclePurchaseForm = () => {
                                                 </div>
                                                 <br/>
                                                 <div className="flex justify-between">
-                                                    <span>{L("Proyeksi jumlah dana yang harus dikumpulkan", "Projected remaining amount (after the down payment)")}</span>
+                                                    <span>{L("Proyeksi sisa harga setelah DP (dibayar lewat kredit)", "Projected remaining amount (after the down payment)")}</span>
                                                     <span>{`Rp${fmt(Math.round(results.loanAmount))}`}</span>
                                                 </div>
                                                 <div className="flex justify-between ">
-                                                    <span className="italic"><b>{L("(Asumsi: Tingkat Inflasi = 4% / tahun)", "(Assumption: inflation rate = 4% / year)")}</b></span>
+                                                    <span className="italic"><b>{L("(Asumsi: inflasi 4% per tahun)", "(Assumption: inflation rate = 4% / year)")}</b></span>
                                                     <span></span>
                                                 </div>
                                             </>
@@ -198,7 +198,7 @@ const VehiclePurchaseForm = () => {
 
                             {/* Savings Progress */}
                             <div className="bg-[#3A4356] rounded-lg p-4 mb-4">
-                                <h4 className="text-2xl mb-4">{L("Progress Tabungan", "Savings Progress")}</h4>
+                                <h4 className="text-2xl mb-4">{L("Progres tabungan", "Savings Progress")}</h4>
                                 <div className="space-y-2">
                                     {isResultReady && (() => {
                                         const results = calculateResults();
@@ -214,15 +214,15 @@ const VehiclePurchaseForm = () => {
                                                     <span>{`Rp${fmt(Math.round(results.totalProjectedSavings))}`}</span>
                                                 </div>
                                                 <div className="flex justify-between">
-                                                    <span className="italic"><b>{L("(Asumsi: Imbal Balik Investasi = 6% / tahun)", "(Assumption: investment return = 6% / year)")}</b></span>
+                                                    <span className="italic"><b>{L("(Asumsi: imbal hasil investasi 6% per tahun)", "(Assumption: investment return = 6% / year)")}</b></span>
                                                     <span></span>
                                                 </div>
                                                 <br/>
                                                 <div className="flex justify-between">
-                                                    <span>{L("Gap dengan target DP", "Gap to down payment target")}</span>
+                                                    <span>{L("Selisih dengan target DP", "Gap to down payment target")}</span>
                                                     <span className={results.isDownPaymentMet ? "text-green-400" : "text-red-400"}>
                                                         {results.isDownPaymentMet
-                                                            ? L("Dana Mencukupi", "Fully funded")
+                                                            ? L("Dana mencukupi", "Fully funded")
                                                             : `Rp${fmt(Math.round(results.downPaymentGap))}`}
                                                     </span>
                                                 </div>
@@ -246,11 +246,11 @@ const VehiclePurchaseForm = () => {
                                             </div>
                                             <br/>
                                             <div className="flex justify-between">
-                                                <span>{L("Total uang yang harus ditabung setiap akhir bulan (per bulan ini)", "Amount to save at the end of each month (starting this month)")}</span>
+                                                <span>{L("Total uang yang harus ditabung setiap akhir bulan (mulai bulan ini)", "Amount to save at the end of each month (starting this month)")}</span>
                                                 <span>{`Rp${fmt(Math.round(results.totalAmountToSaveMonthly))}`}</span>
                                             </div>
                                             <div className="flex justify-between">
-                                                <span className="italic"><b>{L("(Asumsi: Imbal Balik Investasi = 6% / tahun)", "(Assumption: investment return = 6% / year)")}</b></span>
+                                                <span className="italic"><b>{L("(Asumsi: imbal hasil investasi 6% per tahun)", "(Assumption: investment return = 6% / year)")}</b></span>
                                                 <span></span>
                                             </div>
                                             <br/>

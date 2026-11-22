@@ -142,7 +142,7 @@ export const SIMULATION_RESULT = {
     },
     "Diligent x Binger": {
         lifestyle: "Si Binger cenderung hidup untuk saat ini, menikmati pengeluaran untuk barang dan pengalaman yang memberikan kepuasan instan. Mereka sering membeli barang secara impulsif dan kurang memperhatikan anggaran. Di sisi lain, si Diligent sangat fokus pada kerja keras dan perencanaan keuangan jangka panjang. Mereka disiplin dalam pengelolaan keuangan, selalu berusaha menambah pendapatan, dan menghindari pengeluaran yang tidak perlu.",
-        moneyManagement: "Si Binger seringkali mengabaikan anggaran dan pengelolaan uang yang teratur, sementara si Diligent sangat terstruktur dan disiplin dalam hal ini. Diligent mungkin merasa perlu untuk menabung dan berinvestasi untuk masa depan, sedangkan Binger lebih suka menghabiskan uang untuk kesenangan saat ini. Perbedaan ini bisa menimbulkan ketegangan dalam hubungan mereka.",
+        moneyManagement: "Si Binger sering kali mengabaikan anggaran dan pengelolaan uang yang teratur, sementara si Diligent sangat terstruktur dan disiplin dalam hal ini. Diligent mungkin merasa perlu untuk menabung dan berinvestasi untuk masa depan, sedangkan Binger lebih suka menghabiskan uang untuk kesenangan saat ini. Perbedaan ini bisa menimbulkan ketegangan dalam hubungan mereka.",
         futureTarget: "Si Diligent memiliki tujuan jangka panjang yang jelas, seperti membeli rumah, menabung untuk pensiun, atau investasi lainnya. Si Binger mungkin tidak memiliki rencana keuangan jangka panjang yang solid dan lebih fokus pada menikmati hidup sekarang. Ini bisa membuat mereka memiliki prioritas yang berbeda dalam hal keuangan dan kehidupan.",
     },
     "Diligent x Orderly": {
@@ -178,7 +178,7 @@ export const SIMULATION_RESULT = {
     },
     "Binger x Diligent": {
         lifestyle: "Si Binger cenderung hidup untuk saat ini, menikmati pengeluaran untuk barang dan pengalaman yang memberikan kepuasan instan. Mereka sering membeli barang secara impulsif dan kurang memperhatikan anggaran. Di sisi lain, si Diligent sangat fokus pada kerja keras dan perencanaan keuangan jangka panjang. Mereka disiplin dalam pengelolaan keuangan, selalu berusaha menambah pendapatan, dan menghindari pengeluaran yang tidak perlu.",
-        moneyManagement: "Si Binger seringkali mengabaikan anggaran dan pengelolaan uang yang teratur, sementara si Diligent sangat terstruktur dan disiplin dalam hal ini. Diligent mungkin merasa perlu untuk menabung dan berinvestasi untuk masa depan, sedangkan Binger lebih suka menghabiskan uang untuk kesenangan saat ini. Perbedaan ini bisa menimbulkan ketegangan dalam hubungan mereka.",
+        moneyManagement: "Si Binger sering kali mengabaikan anggaran dan pengelolaan uang yang teratur, sementara si Diligent sangat terstruktur dan disiplin dalam hal ini. Diligent mungkin merasa perlu untuk menabung dan berinvestasi untuk masa depan, sedangkan Binger lebih suka menghabiskan uang untuk kesenangan saat ini. Perbedaan ini bisa menimbulkan ketegangan dalam hubungan mereka.",
         futureTarget: "Si Diligent memiliki tujuan jangka panjang yang jelas, seperti membeli rumah, menabung untuk pensiun, atau investasi lainnya. Si Binger mungkin tidak memiliki rencana keuangan jangka panjang yang solid dan lebih fokus pada menikmati hidup sekarang. Ini bisa membuat mereka memiliki prioritas yang berbeda dalam hal keuangan dan kehidupan.",
     },
     "Binger x Orderly": {

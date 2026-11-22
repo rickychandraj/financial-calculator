@@ -24,37 +24,37 @@ const InvestmentForm = () => {
     let questions = [
         {
             id: 1,
-            text: L("Jumlah uang yang ingin kamu capai", "The amount of money you want to reach"),
-            subtext: L("Berapa banyak jumlah uang yang ingin kamu kumpulkan?", "How much money do you want to collect?"),
+            text: L("Berapa target dana yang ingin kamu capai?", "How much money do you want to reach?"),
+            subtext: L("Jumlah uang yang ingin kamu kumpulkan.", "The amount you want to collect."),
             type: "currency",
             prefix: "Rp"
         },
         {
             id: 2,
-            text: L("Jumlah waktu untuk mengumpulkan uang tersebut", "Time to collect that money"),
-            subtext: L("Berapa lama waktu yang kamu inginkan untuk mencapai nominal targetmu?", "How long do you want to take to reach your target amount?"),
+            text: L("Berapa lama kamu ingin mengumpulkan uang tersebut?", "How long do you want to take to collect it?"),
+            subtext: L("Isi dalam hitungan tahun.", "Enter the number of years."),
             type: "number",
             suffix: L("tahun", "years"),
         },
         {
             id: 3,
-            text: L("Uang yang kamu miliki saat ini sebesar", "The money you have now"),
-            subtext: L("Jumlah uangmu saat ini yang kamu tabung khusus untuk target keuangan ini", "Money you have already saved just for this financial goal"),
+            text: L("Berapa uang yang sudah kamu miliki untuk target ini?", "How much do you already have for this goal?"),
+            subtext: L("Hitung hanya uang yang kamu tabung khusus untuk target ini.", "Count only the money saved just for this goal."),
             type: "currency",
             prefix: "Rp",
         },
         {
             id: 4,
-            text: L("Kamu akan menabung setiap", "How often will you save?"),
+            text: L("Seberapa sering kamu akan menabung?", "How often will you save?"),
             type: "select",
             options: [
-                { value: "yearly", display: L("Tahun", "Year") },
-                { value: "monthly", display: L("Bulan", "Month") },
+                { value: "yearly", display: L("Setiap tahun", "Every year") },
+                { value: "monthly", display: L("Setiap bulan", "Every month") },
             ],
         },
         {
             id: 5,
-            text: L("Kamu akan menambahkan dana pada", "When will you add money?"),
+            text: L("Kapan kamu akan menambahkan dana?", "When will you add money?"),
             type: "select",
             options: [
                 {
@@ -69,10 +69,10 @@ const InvestmentForm = () => {
         },
         {
             id: 6,
-            text: L("Kamu akan investasi di produk yang returnnya?", "What return does the product you will invest in have?"),
-            subtext: L("Dengan asumsi kamu akan menaruh uang tabunganmu pada instrumen investasi. Sebagai gambaran: untuk profil risiko konservatif, kamu cocok investasi di reksadana pasar uang atau obligasi dengan return rata-rata 6% per tahun. Untuk profil risiko moderat, kamu cocok berinvestasi di obligasi atau reksadana campuran dengan return rata-rata 10% per tahun. Untuk profil risiko agresif, kamu cocok berinvestasi di saham atau reksadana saham dengan return rata-rata 15% per tahun.", "This assumes you put your savings in an investment product. As a guide: with a conservative risk profile, money market or bond mutual funds suit you, with an average return of 6% a year. With a moderate risk profile, bonds or balanced mutual funds suit you, with an average return of 10% a year. With an aggressive risk profile, stocks or equity mutual funds suit you, with an average return of 15% a year."),
+            text: L("Berapa imbal hasil per tahun dari produk investasimu?", "What yearly return do you expect from your investment?"),
+            subtext: L("Pakai gambaran ini sesuai profil risikomu. Konservatif (reksa dana pasar uang): sekitar 4% sampai 5%. Moderat (obligasi atau reksa dana pendapatan tetap): sekitar 6% sampai 7%. Agresif (saham atau reksa dana saham): sekitar 8% sampai 10% dalam jangka panjang, tapi bisa turun tajam dalam satu tahun. Angka ini rata-rata masa lalu, bukan jaminan.", "Use this guide for your risk profile. Conservative (money market funds): about 4% to 5%. Moderate (bonds or fixed income funds): about 6% to 7%. Aggressive (stocks or equity funds): about 8% to 10% over the long term, but it can drop sharply in a single year. These are past averages, not a guarantee."),
             type: "number",
-            suffix: L("% / tahun", "% / year"),
+            suffix: L("% per tahun", "% per year"),
         }
     ];
 
@@ -180,11 +180,11 @@ const InvestmentForm = () => {
                                     background: "linear-gradient(135deg, #252E64 50%, #12174F 100%)"
                                 }}
                             >
-                                <h3 className="text-2xl mb-6">{L("Hasil Perhitungan Simulasi Investasi", "Investment Simulation Result")}</h3>
+                                <h3 className="text-2xl mb-6">{L("Hasil perhitungan simulasi investasi", "Investment Simulation Result")}</h3>
 
                                 {/* Target Section */}
                                 <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
-                                    <h4 className="text-2xl mb-4">{L("Ringkasan Target Investasi", "Investment Target Summary")}</h4>
+                                    <h4 className="text-2xl mb-4">{L("Ringkasan target investasi", "Investment Target Summary")}</h4>
                                     <div className="space-y-2">
                                         <div className="flex justify-between">
                                             <span>{L("Target jumlah dana", "Target amount")}</span>

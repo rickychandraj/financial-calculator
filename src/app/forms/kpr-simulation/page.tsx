@@ -187,7 +187,7 @@ const KPRSimulationForm = () => {
 
                                         {/* Monthly Payments */}
                                         <div className="bg-[#3A4356] rounded-lg p-4 mb-4">
-                                            <h4 className="text-2xl mb-4">Progress Tabungan</h4>
+                                            <h4 className="text-2xl mb-4">Progres Tabungan</h4>
                                             <div className="space-y-2">
                                                 <div className="flex justify-between">
                                                     <span>Total Cicilan</span>
