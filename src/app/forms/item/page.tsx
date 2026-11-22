@@ -21,7 +21,7 @@ const ItemPurchaseForm = () => {
         {
             id: 1,
             text: L("Berapa lama lagi kamu ingin membeli barang impianmu?", "How many years from now do you want to buy your dream item?"),
-            subtext: L("Contoh: saat ini tahun 2022, dan kamu ingin membeli barang pada tahun 2023, berarti 2023 - 2022 = 1 tahun. Berarti kolom di bawah diisi dengan angka 1", "Example: it is 2022 now and you want to buy the item in 2023, so 2023 - 2022 = 1 year. Enter 1 in the field below"),
+            subtext: L("Contoh: kalau kamu ingin membeli barang 1 tahun lagi, isi kolom di bawah dengan angka 1", "Example: if you want to buy the item in 1 year, enter 1 in the field below"),
             type: "number",
             suffix: L("tahun", "years")
         },
@@ -170,7 +170,7 @@ const ItemPurchaseForm = () => {
 
                             {/* Savings Progress */}
                             <div className="bg-[#3A4356] rounded-lg p-4 mb-4">
-                                <h4 className="text-2xl mb-4">{L("Progress Tabungan", "Savings Progress")}</h4>
+                                <h4 className="text-2xl mb-4">{L("Progres Tabungan", "Savings Progress")}</h4>
                                 <div className="space-y-2">
                                     {isResultReady && (() => {
                                         const results = calculateResults();
@@ -186,7 +186,7 @@ const ItemPurchaseForm = () => {
                                                     <span>{`Rp${fmt(Math.round(results.totalProjectedSavings))}`}</span>
                                                 </div>
                                                 <div className="flex justify-between">
-                                                    <span className="italic"><b>{L("(Asumsi: Imbal Balik Investasi = 6% / tahun)", "(Assumption: investment return = 6% / year)")}</b></span>
+                                                    <span className="italic"><b>{L("(Asumsi: Imbal Hasil Investasi = 6% / tahun)", "(Assumption: investment return = 6% / year)")}</b></span>
                                                     <span></span>
                                                 </div>
                                             </>
@@ -208,11 +208,11 @@ const ItemPurchaseForm = () => {
                                             </div>
                                             <br/>
                                             <div className="flex justify-between">
-                                                <span>{L("Total uang yang harus ditabung setiap akhir bulan (per bulan ini)", "Amount to save at the end of each month (starting this month)")}</span>
+                                                <span>{L("Total uang yang harus ditabung setiap akhir bulan (mulai bulan ini)", "Amount to save at the end of each month (starting this month)")}</span>
                                                 <span>{`Rp${fmt(Math.round(results.totalAmountToSaveMonthly))}`}</span>
                                             </div>
                                             <div className="flex justify-between">
-                                                <span className="italic"><b>{L("(Asumsi: Imbal Balik Investasi = 6% / tahun)", "(Assumption: investment return = 6% / year)")}</b></span>
+                                                <span className="italic"><b>{L("(Asumsi: Imbal Hasil Investasi = 6% / tahun)", "(Assumption: investment return = 6% / year)")}</b></span>
                                                 <span></span>
                                             </div>
                                         </div>

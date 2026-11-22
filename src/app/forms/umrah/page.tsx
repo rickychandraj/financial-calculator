@@ -24,7 +24,7 @@ const UmrahPlanningForm = () => {
         {
             id: 1,
             text: L("Berapa lama lagi kamu ingin pergi umroh?", "How many years from now do you want to go on umrah?"),
-            subtext: L("Contoh: saat ini tahun 2024, dan kamu ingin pergi pada tahun 2026, berarti 2026 - 2024 = 2 tahun. Berarti kolom di bawah diisi dengan angka 2", "Example: it is 2024 now and you want to go in 2026, so 2026 - 2024 = 2 years. Enter 2 in the field below"),
+            subtext: L("Contoh: kalau kamu ingin pergi 2 tahun lagi, isi kolom di bawah dengan angka 2", "Example: if you want to go in 2 years, enter 2 in the field below"),
             type: "number",
             suffix: L("tahun", "years")
         },
@@ -52,7 +52,7 @@ const UmrahPlanningForm = () => {
         {
             id: 5,
             text: L("Kamu akan investasi di produk yang return-nya?", "What return does the product you will invest in have?"),
-            subtext: L("Dengan asumsi kamu akan menaruh uang tabunganmu pada instrumen investasi. Sebagai gambaran: untuk profil risiko konservatif, kamu cocok investasi di reksadana pasar uang atau obligasi dengan return rata-rata 6% per tahun. Untuk profil risiko moderat, kamu cocok berinvestasi di obligasi atau reksadana campuran dengan return rata-rata 10% per tahun. Untuk profil risiko agresif, kamu cocok berinvestasi di saham atau reksadana saham dengan return rata-rata 15% per tahun.", "This assumes you put your savings in an investment product. As a guide: with a conservative risk profile, money market or bond mutual funds suit you, with an average return of 6% a year. With a moderate risk profile, bonds or balanced mutual funds suit you, with an average return of 10% a year. With an aggressive risk profile, stocks or equity mutual funds suit you, with an average return of 15% a year."),
+            subtext: L("Dengan asumsi kamu akan menaruh uang tabunganmu pada instrumen investasi. Sebagai gambaran: untuk profil risiko konservatif, kamu cocok investasi di reksa dana pasar uang atau obligasi dengan return rata-rata 6% per tahun. Untuk profil risiko moderat, kamu cocok berinvestasi di obligasi atau reksa dana campuran dengan return rata-rata 10% per tahun. Untuk profil risiko agresif, kamu cocok berinvestasi di saham atau reksa dana saham dengan return rata-rata 15% per tahun.", "This assumes you put your savings in an investment product. As a guide: with a conservative risk profile, money market or bond mutual funds suit you, with an average return of 6% a year. With a moderate risk profile, bonds or balanced mutual funds suit you, with an average return of 10% a year. With an aggressive risk profile, stocks or equity mutual funds suit you, with an average return of 15% a year."),
             type: "number",
             suffix: L("% / tahun", "% / year"),
         },
@@ -164,7 +164,7 @@ const UmrahPlanningForm = () => {
                                 background: "linear-gradient(135deg, #252E64 50%, #12174F 90%)"
                             }}
                         >
-                            <h3 className="text-3xl mb-6">{L("Hasil Perhitungan Dana umroh", "Umrah Fund Result")}</h3>
+                            <h3 className="text-3xl mb-6">{L("Hasil Perhitungan Dana Umroh", "Umrah Fund Result")}</h3>
 
                             {/* Cost Analysis */}
                             <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
@@ -198,7 +198,7 @@ const UmrahPlanningForm = () => {
 
                             {/* Savings Progress */}
                             <div className="bg-[#3A4356] rounded-lg p-4 mb-4">
-                                <h4 className="text-2xl mb-4">{L("Progress Tabungan", "Savings Progress")}</h4>
+                                <h4 className="text-2xl mb-4">{L("Progres Tabungan", "Savings Progress")}</h4>
                                 <div className="space-y-2">
                                     <div className="flex justify-between">
                                         <span>{L("Dana yang sudah terkumpul", "Funds saved so far")}</span>
@@ -213,7 +213,7 @@ const UmrahPlanningForm = () => {
                                                     <span>{`Rp${fmt(Math.round(results.totalProjectedSavings))}`}</span>
                                                 </div>
                                                 <div className="flex justify-between">
-                                                    <span>{L("Gap dengan target", "Gap to target")}</span>
+                                                    <span>{L("Selisih dengan target", "Gap to target")}</span>
                                                     <span className={results.isTargetMet ? "text-green-400" : "text-red-400"}>
                                                         {results.isTargetMet
                                                             ? L("Dana Mencukupi", "Fully funded")
@@ -238,7 +238,7 @@ const UmrahPlanningForm = () => {
                                                 <span>{`Rp${fmt(Math.round(results.futureAmountToSave))}`}</span>
                                             </div>
                                             <div className="flex justify-between">
-                                                <span>{L("Total uang yang harus ditabung setiap akhir bulan (per bulan ini)", "Amount to save at the end of each month (starting this month)")}</span>
+                                                <span>{L("Total uang yang harus ditabung setiap akhir bulan (mulai bulan ini)", "Amount to save at the end of each month (starting this month)")}</span>
                                                 <span>{`Rp${fmt(Math.round(results.totalAmountToSaveMonthly))}`}</span>
                                             </div>
                                         </div>

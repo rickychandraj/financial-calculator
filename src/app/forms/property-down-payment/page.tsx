@@ -185,12 +185,12 @@ const DPPropertyForm = () => {
                                                     <span>{`Rp${fmt(Math.round(results.totalProjectedSavings))}`}</span>
                                                 </div>
                                                 <div className="flex justify-between">
-                                                    <span><b>{L("(Asumsi: Imbal Balik Investasi = 6% / tahun)", "(Assumption: investment return = 6% / year)")}</b></span>
+                                                    <span><b>{L("(Asumsi: Imbal Hasil Investasi = 6% / tahun)", "(Assumption: investment return = 6% / year)")}</b></span>
                                                     <span></span>
                                                 </div>
                                                 <br/>
                                                 <div className="flex justify-between">
-                                                    <span>{L("Gap dengan target", "Gap to target")}</span>
+                                                    <span>{L("Selisih dengan target", "Gap to target")}</span>
                                                     <span className={results.isTargetMet ? "text-green-400" : "text-red-400"}>
                                                         {results.isTargetMet
                                                             ? L("Target Tercapai", "Target reached")
@@ -211,11 +211,11 @@ const DPPropertyForm = () => {
                                                     </div>
                                                     <br/>
                                                     <div className="flex justify-between">
-                                                        <span>{L("Total uang yang harus ditabung setiap akhir bulan (per bulan ini)", "Amount to save at the end of each month (starting this month)")}</span>
+                                                        <span>{L("Total uang yang harus ditabung setiap akhir bulan (mulai bulan ini)", "Amount to save at the end of each month (starting this month)")}</span>
                                                         <span>{`Rp${fmt(Math.round(results.totalAmountToSaveMonthly))}`}</span>
                                                     </div>
                                                     <div className="flex justify-between">
-                                                        <span><b>{L("(Asumsi: Imbal Balik Investasi = 6% / tahun)", "(Assumption: investment return = 6% / year)")}</b></span>
+                                                        <span><b>{L("(Asumsi: Imbal Hasil Investasi = 6% / tahun)", "(Assumption: investment return = 6% / year)")}</b></span>
                                                         <span></span>
                                                     </div>
                                                 </div>

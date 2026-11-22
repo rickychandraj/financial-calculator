@@ -40,7 +40,7 @@ const PensionFundForm = () => {
         {
             id: 1,
             text: L("Berapa pengeluaran kamu setiap bulan?", "How much do you spend each month?"),
-            subtext: L("Jumlah uang yang harus kamu keluarkan setiap bulannya untuk hidup, termasuk biaya sewa/kos, makan, dll", "The money you need to live each month, including rent, food, etc."),
+            subtext: L("Jumlah uang yang harus kamu keluarkan setiap bulannya untuk hidup, termasuk biaya sewa/kos, makan, dan lainnya", "The money you need to live each month, including rent, food, etc."),
             type: "currency",
             prefix: "Rp"
         },
@@ -69,7 +69,7 @@ const PensionFundForm = () => {
         {
             id: 5,
             text: L("Kamu akan investasi di produk yang return-nya?", "What return does the product you will invest in have?"),
-            subtext: L("Dengan asumsi kamu akan menaruh uang tabunganmu pada instrumen investasi. Sebagai gambaran: untuk profil risiko konservatif, kamu cocok investasi di reksadana pasar uang atau obligasi dengan return rata-rata 6% per tahun. Untuk profil risiko moderat, kamu cocok berinvestasi di obligasi atau reksadana campuran dengan return rata-rata 10% per tahun. Untuk profil risiko agresif, kamu cocok berinvestasi di saham atau reksadana saham dengan return rata-rata 15% per tahun.", "This assumes you put your savings in an investment product. As a guide: with a conservative risk profile, money market or bond mutual funds suit you, with an average return of 6% a year. With a moderate risk profile, bonds or balanced mutual funds suit you, with an average return of 10% a year. With an aggressive risk profile, stocks or equity mutual funds suit you, with an average return of 15% a year."),
+            subtext: L("Dengan asumsi kamu akan menaruh uang tabunganmu pada instrumen investasi. Sebagai gambaran: untuk profil risiko konservatif, kamu cocok investasi di reksa dana pasar uang atau obligasi dengan return rata-rata 6% per tahun. Untuk profil risiko moderat, kamu cocok berinvestasi di obligasi atau reksa dana campuran dengan return rata-rata 10% per tahun. Untuk profil risiko agresif, kamu cocok berinvestasi di saham atau reksa dana saham dengan return rata-rata 15% per tahun.", "This assumes you put your savings in an investment product. As a guide: with a conservative risk profile, money market or bond mutual funds suit you, with an average return of 6% a year. With a moderate risk profile, bonds or balanced mutual funds suit you, with an average return of 10% a year. With an aggressive risk profile, stocks or equity mutual funds suit you, with an average return of 15% a year."),
             type: "number",
             suffix: L("% / tahun", "% / year")
         },
@@ -182,7 +182,7 @@ const PensionFundForm = () => {
 
                             {/* Input Summary Section */}
                             <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
-                                <h4 className="text-2xl mb-4">{L("Ringkasan Input", "Your Inputs")}</h4>
+                                <h4 className="text-2xl mb-4">{L("Ringkasan Jawaban", "Your Inputs")}</h4>
                                 <div className="space-y-2">
                                     <div className="flex justify-between">
                                         <span>{L("Usia saat ini", "Current age")}</span>
@@ -225,7 +225,7 @@ const PensionFundForm = () => {
                                                     <span>{`Rp${fmt(Math.round(results.totalNeeded))}`}</span>
                                                 </div>
                                                 <div className="flex justify-between">
-                                                    <span>{L("Gap dengan dana saat ini", "Gap from your current savings")}</span>
+                                                    <span>{L("Selisih dengan dana saat ini", "Gap from your current savings")}</span>
                                                     <span>{`Rp${fmt(Math.round(results.currentGap))}`}</span>
                                                 </div>
                                             </div>
@@ -240,7 +240,7 @@ const PensionFundForm = () => {
                                                     <span>{`Rp${fmt(Math.round(results.currentGap))}`}</span>
                                                 </div>
                                                 <div className="flex justify-between">
-                                                    <span>{L("Total uang yang harus ditabung setiap akhir bulan (per bulan ini)", "Amount to save at the end of each month (starting this month)")}</span>
+                                                    <span>{L("Total uang yang harus ditabung setiap akhir bulan (mulai bulan ini)", "Amount to save at the end of each month (starting this month)")}</span>
                                                     <span>{`Rp${fmt(Math.round(results.totalAmountToSaveMonthly))}`}</span>
                                                 </div>
                                             </div>
