@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-export const siteName = "Kalkulator Mama BerUANG";
+export const siteName = "Kalkulator BerUANG";
 export const siteDescription =
     "Kalkulator keuangan gratis dari Mama BerUANG by Ayu Sara. Hitung dana darurat, dana pensiun, pendidikan anak, DP properti, umroh, liburan, dan lainnya.";
 const ogImage = { url: "/opengraph-image.png", width: 1200, height: 630, alt: "Kalkulator Keuangan Mama BerUANG by Ayu Sara" };

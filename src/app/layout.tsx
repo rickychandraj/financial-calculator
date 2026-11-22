@@ -24,7 +24,7 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL("https://calculator.mamaberuang.com"),
   title: {
-    default: "Kalkulator Mama BerUANG by Ayu Sara",
+    default: siteName,
     template: `%s | ${siteName}`,
   },
   description,
@@ -33,12 +33,12 @@ export const metadata: Metadata = {
     locale: "id_ID",
     siteName,
     url: "/",
-    title: "Kalkulator Mama BerUANG by Ayu Sara",
+    title: siteName,
     description,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kalkulator Mama BerUANG by Ayu Sara",
+    title: siteName,
     description,
   },
   alternates: { canonical: "/" },
