@@ -2,8 +2,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import FormHeader from "@/components/ui/form-header";
-import FormQuestionCards from "@/components/ui/form-question-card";
+import CalcQuestionFlow, { CalcResultShell } from "@/components/calc/question-flow";
 import { formatNumber, monthlySavingNeeded } from "@/lib/calc/finance";
 
 
@@ -110,44 +109,27 @@ const DPPropertyForm = () => {
     };
 
 
+
     return (
-        <div
-            className="w-full max-w-3xl mx-auto min-h-screen"
-            style={{
-                fontFamily: "system-ui, sans-serif",
-                backgroundColor: "#F9FAFB",
-            }}
-        >
+        <div>
             {currentStep <= totalSteps && (
-                <div>
-                    <FormHeader
-                        href={"/"}
-                        title={"Simulasi DP Properti"}
-                        currentStep={currentStep}
-                        totalSteps={totalSteps}
-                    />
-                    <FormQuestionCards
-                        questions={questions}
-                        answers={answers}
-                        currentStep={currentStep}
-                        totalSteps={totalSteps}
-                        handleInputChange={handleInputChange}
-                        handleSetCurrentStep={setCurrentStep}
-                        handleGetResult={handleGetResult}
-                        handleIsNextButtonDisabled={handleIsNextButtonDisabled}
-                        isResultReady={isResultReady}
-                    />
-                </div>
+                <CalcQuestionFlow
+                    href={"/"}
+                    title={"Simulasi DP Properti"}
+                    questions={questions}
+                    answers={answers}
+                    currentStep={currentStep}
+                    totalSteps={totalSteps}
+                    handleInputChange={handleInputChange}
+                    handleSetCurrentStep={setCurrentStep}
+                    handleGetResult={handleGetResult}
+                    handleIsNextButtonDisabled={handleIsNextButtonDisabled}
+                    isResultReady={isResultReady}
+                />
             )}
 
             {currentStep > totalSteps && (
-                <div>
-                    <FormHeader
-                        href={"/"}
-                        title={"Simulasi DP Properti"}
-                        currentStep={totalSteps}
-                        totalSteps={totalSteps}
-                    />
+                <CalcResultShell href={"/"} title={"Simulasi DP Properti"} totalSteps={totalSteps}>
                     <div className="p-5">
                         <div
                             className="p-8 rounded-2xl bg-gradient-to-br transform text-white"
@@ -253,7 +235,7 @@ const DPPropertyForm = () => {
                             </button>
                         </div>
                     </div>
-                </div>
+                </CalcResultShell>
             )}
         </div>
     );

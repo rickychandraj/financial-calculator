@@ -108,9 +108,9 @@ export const CalcOptions = ({
     onSelect,
 }: {
     label: string;
-    options: { value: string; display: string }[];
-    value: string | null;
-    onSelect: (value: string) => void;
+    options: { value: string | number; display: string }[];
+    value: string | number | null;
+    onSelect: (value: any) => void;
 }) => (
     <div className="calc-options" role="radiogroup" aria-label={label}>
         {options.map((option, i) => {

@@ -51,7 +51,7 @@ const id = {
         comingSoon: "Segera hadir",
         check: {
             emergency: ["Dana Darurat", "Berapa bulan pengeluaran yang perlu kamu siapkan"],
-            retirement: ["Financial Freedom & Dana Pensiun", "Target pensiunmu dan berapa yang perlu ditabung tiap bulan"],
+            retirement: ["Dana Pensiun (Financial Freedom)", "Target pensiunmu dan berapa yang perlu ditabung tiap bulan"],
             couple: ["Tes Kecocokan Pasangan", "Seberapa sejalan kalian berdua dalam mengatur uang"],
         },
         dream: {
@@ -276,7 +276,7 @@ const en: Dictionary = {
         comingSoon: "Coming soon",
         check: {
             emergency: ["Emergency Fund", "How many months of expenses you should set aside"],
-            retirement: ["Financial Freedom & Retirement", "Your retirement target and how much to save each month"],
+            retirement: ["Retirement Fund (Financial Freedom)", "Your retirement target and how much to save each month"],
             couple: ["Couple Money Match", "How aligned the two of you are on managing money"],
         },
         dream: {
