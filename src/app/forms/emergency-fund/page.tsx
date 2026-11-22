@@ -1,7 +1,8 @@
 "use client";
 
 import React, {useEffect, useRef, useState} from "react";
-import {LanguageProvider, useLanguage} from "@/lib/i18n";
+import {useLanguage} from "@/lib/i18n";
+import {formatNumber as formatAmount} from "@/lib/calc/finance";
 import {CalcHeader, CalcProgress, CalcField, CalcOptions, CalcRing} from "@/components/calc";
 import {CalcBiodata, EMPTY_BIODATA} from "@/components/calc/biodata";
 import {emergencyAnswers, leadPayload, statsPayload, submit, type Biodata} from "@/lib/calc/submission";
@@ -114,21 +115,8 @@ const EmergencyFundForm = () => {
         placeholder: ef.q3.partnerDependents.placeholder,
     };
 
-    const formatNumber = (num) => {
-        // Remove any non-digit characters except decimal point
-        const cleanNum = num.toString().replace(/[^\d.]/g, '');
-
-        // Split into integer and decimal parts
-        const [integerPart, decimalPart] = cleanNum.split('.');
-
-        // Add thousand separators to integer part
-        const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-        // Return formatted number with decimal part if it exists
-        return decimalPart !== undefined
-            ? `${formattedInteger}.${decimalPart}`
-            : formattedInteger;
-    };
+    // Rp10.000.000 in Indonesian, Rp10,000,000 in English.
+    const formatNumber = (num) => formatAmount(num, lang);
 
     useEffect(() => {
         setEmergencyFund("");
@@ -205,7 +193,7 @@ const EmergencyFundForm = () => {
         }
 
         setIsResultReady(true);
-    }, [answers, emergencyFund]);
+    }, [answers, emergencyFund, lang]);
 
     const handleInputChange = (questionId, value) => {
         // Remove existing separators and validate input
@@ -599,10 +587,7 @@ const EmergencyFundForm = () => {
     );
 }
 
-const EmergencyFundPage = () => (
-    <LanguageProvider>
-        <EmergencyFundForm/>
-    </LanguageProvider>
-);
+// LanguageProvider comes from src/app/forms/layout.tsx, shared by every calculator.
+const EmergencyFundPage = () => <EmergencyFundForm/>;
 
 export default EmergencyFundPage;

@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { useLanguage } from "@/lib/i18n";
 import type { Lang } from "@/lib/i18n/dictionary";
+import { formatNumber } from "@/lib/calc/finance";
 import "./calc.css";
 
 const LANGS: Lang[] = ["en", "id"];
@@ -61,13 +62,6 @@ export const CalcProgress = ({ title, step, total, done = false, label }: { titl
     );
 };
 
-const formatNumber = (num: string | number) => {
-    const cleanNum = num.toString().replace(/[^\d.]/g, "");
-    const [integerPart, decimalPart] = cleanNum.split(".");
-    const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return decimalPart !== undefined ? `${formattedInteger}.${decimalPart}` : formattedInteger;
-};
-
 type FieldProps = {
     prefix?: string;
     suffix?: string;
@@ -79,8 +73,13 @@ type FieldProps = {
     label?: string;
 };
 
-/** Number / currency input. Same behaviour as the old inputs: digits only, thousands separated with commas. */
-export const CalcField = ({ prefix, suffix, placeholder, value, onChange, currency = false, compact = false, label }: FieldProps) => (
+/**
+ * Number / currency input: digits only. Currency amounts show thousands separators for the
+ * current language (10.000.000 in Indonesian, 10,000,000 in English); the page always receives plain digits.
+ */
+export const CalcField = ({ prefix, suffix, placeholder, value, onChange, currency = false, compact = false, label }: FieldProps) => {
+    const { lang } = useLanguage();
+    return (
     <label className={`calc-field${compact ? " is-compact" : ""}`}>
         {prefix && <span className="calc-field-pre">{prefix}</span>}
         <input
@@ -88,8 +87,12 @@ export const CalcField = ({ prefix, suffix, placeholder, value, onChange, curren
             inputMode="numeric"
             aria-label={label}
             placeholder={placeholder}
-            value={currency ? (value ? formatNumber(value) : "") : value}
-            onChange={onChange}
+            value={currency ? (value ? formatNumber(value, lang) : "") : value}
+            onChange={(e) => {
+                // Drop the separators so the page parses the same digits in either language.
+                if (currency) e.target.value = e.target.value.replace(/\D/g, "");
+                onChange(e);
+            }}
             onKeyPress={(e) => {
                 if (!/\d/.test(e.key)) e.preventDefault();
             }}
@@ -99,7 +102,8 @@ export const CalcField = ({ prefix, suffix, placeholder, value, onChange, curren
         />
         {suffix && <span className="calc-field-suf">{suffix}</span>}
     </label>
-);
+    );
+};
 
 export const CalcOptions = ({
     label,

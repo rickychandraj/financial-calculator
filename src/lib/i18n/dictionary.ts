@@ -171,7 +171,7 @@ const id = {
             text: "Berapa gaji / pendapatan kamu saat ini?",
             subtext: "Hitung besarnya total pemasukan bersih bulanan kamu",
             suffix: "per bulan",
-            placeholder: "Contoh: 50,000,000",
+            placeholder: "Contoh: 50.000.000",
         },
         q2: {
             text: "Berapa jumlah tanggungan (selain pasangan dan/atau anak) kamu setiap bulan?",
@@ -183,7 +183,7 @@ const id = {
             text: "Apa status kamu saat ini?",
             options: { single: "Lajang", married: "Menikah", divorced: "Cerai Hidup", widowed: "Cerai Mati" },
             kids: { text: "Berapa jumlah anak yang kamu miliki saat ini?", placeholder: "Contoh: 2", suffix: "orang" },
-            partnerIncome: { text: "Berapa total pemasukan pasangan kamu saat ini?", placeholder: "Contoh: 50,000,000" },
+            partnerIncome: { text: "Berapa total pemasukan pasangan kamu saat ini?", placeholder: "Contoh: 50.000.000" },
             partnerDependents: {
                 text: "Berapa jumlah tanggungan pasangan kamu setiap bulan?",
                 subtext: "Berapa banyak orang yang bergantung pada penghasilan pasangan kamu? Contoh : orang tua",
@@ -193,13 +193,13 @@ const id = {
         },
         q4: {
             text: "Berapa pengeluaran kamu setiap bulan?",
-            subtext: "Hitung besarnya pengeluaran bulanan kamu. Contoh: Bayar kos 3jt, listrik 1jt, pulsa 150k, transport 1jt. Berarti kolom ini diisi 5,150,000",
-            placeholder: "Contoh: 20,000,000",
+            subtext: "Hitung besarnya pengeluaran bulanan kamu. Contoh: Bayar kos 3jt, listrik 1jt, pulsa 150k, transport 1jt. Berarti kolom ini diisi 5.150.000",
+            placeholder: "Contoh: 20.000.000",
         },
         q5: {
             text: "Berapa jumlah dana darurat yang kamu miliki saat ini?",
-            subtext: "Berapa banyak jumlah dana darurat yang telah kamu kumpulkan hingga saat ini? Contoh: saat ini kamu punya uang 10 juta, tapi yang dikhususkan untuk dana darurat hanya 2 juta; maka masukkan angka 2,000,000 pada kolom ini",
-            placeholder: "Contoh: 100,000,000",
+            subtext: "Berapa banyak jumlah dana darurat yang telah kamu kumpulkan hingga saat ini? Contoh: saat ini kamu punya uang 10 juta, tapi yang dikhususkan untuk dana darurat hanya 2 juta; maka masukkan angka 2.000.000 pada kolom ini",
+            placeholder: "Contoh: 100.000.000",
         },
         result: {
             need: "Total dana darurat yang kamu butuhkan:",

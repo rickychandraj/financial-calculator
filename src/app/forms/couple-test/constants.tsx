@@ -30,6 +30,17 @@ export const DESCRIPTION = {
     "Ups and Downs": "Perpaduan antara perilaku keuangan positif dan negatif, mampu menghemat tetapi juga belanja impulsif.",
 }
 
+/** English versions of DESCRIPTION, shown when the visitor picks EN. */
+export const DESCRIPTION_EN = {
+    "Economizer": "Manages the budget carefully, but is often weighed down by debt and has little savings",
+    "Diligent": "Works hard to save and earn money, and tends to stay out of debt.",
+    "Binger": "Likes impulse shopping without managing money well, but usually doesn't have much debt.",
+    "Orderly": "Very organised with money and often has savings, but also likes buying trendy things.",
+    "Can't Control Finance": "Tries to manage money but often fails, and tends to have debt",
+    "Planner": "Plans ahead and spends carefully, saves actively and is free of debt.",
+    "Ups and Downs": "A mix of good and bad money habits: able to save, but also shops on impulse.",
+}
+
 export const MOST_MATCH_MAPPINGS = {
     "Economizer": (
         <ol className="list-disc space-y-2">

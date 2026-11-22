@@ -35,14 +35,19 @@ export function annuityPresentValue(payment: number, ratePerPeriod: number, peri
     return payment * (1 - Math.pow(1 + ratePerPeriod, -periods)) / ratePerPeriod;
 }
 
-/** "1234567.5" -> "1,234,567.5". Keeps a leading minus; anything that is not a number becomes "0". */
-export function formatNumber(value: number | string): string {
+/**
+ * "1234567.5" -> "1,234,567.5" (English, and the default), or "1.234.567,5" with lang "id".
+ * Keeps a leading minus; anything that is not a number becomes "0".
+ */
+export function formatNumber(value: number | string, lang: "id" | "en" = "en"): string {
     const text = String(value);
     const cleaned = text.replace(/[^\d.]/g, "");
     if (cleaned === "" || text === "Infinity" || text === "-Infinity") return "0";
 
+    const thousands = lang === "id" ? "." : ",";
+    const decimal = lang === "id" ? "," : ".";
     const [integerPart, decimalPart] = cleaned.split(".");
-    const grouped = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const grouped = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, thousands);
     const sign = text.trim().startsWith("-") && Number(cleaned) !== 0 ? "-" : "";
-    return sign + (decimalPart !== undefined ? `${grouped}.${decimalPart}` : grouped);
+    return sign + (decimalPart !== undefined ? `${grouped}${decimal}${decimalPart}` : grouped);
 }

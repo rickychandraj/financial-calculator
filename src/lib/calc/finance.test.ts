@@ -63,4 +63,8 @@ test("formatNumber", () => {
     assert.equal(formatNumber(-0), "0");
     assert.equal(formatNumber(NaN), "0");
     assert.equal(formatNumber(Infinity), "0");
+    assert.equal(formatNumber(1234567, "id"), "1.234.567");
+    assert.equal(formatNumber("1234.5", "id"), "1.234,5");
+    assert.equal(formatNumber(-45364000, "id"), "-45.364.000");
+    assert.equal(formatNumber(1234567, "en"), "1,234,567");
 });

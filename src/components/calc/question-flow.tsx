@@ -3,6 +3,8 @@
 import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import { CalcField, CalcOptions } from "@/components/calc";
+import { useLanguage } from "@/lib/i18n";
+import type { Lang } from "@/lib/i18n/dictionary";
 import "./calc.css";
 
 type Question = {
@@ -33,38 +35,57 @@ type Props = {
     extra?: React.ReactNode;
 };
 
-const CalcPlainHeader = ({ href, onBack }: { href: string; onBack?: () => void }) => (
+const LANGS: Lang[] = ["en", "id"];
+
+const CalcPlainHeader = ({ href, onBack }: { href: string; onBack?: () => void }) => {
+    const { lang, t, setLang } = useLanguage();
+    return (
     <header className="home-nav">
         <div className="home-container home-nav-inner">
             <Link href="/" className="home-brand">
                 <img src="/home/logo.png" alt="Mama BerUANG logo" width={40} height={36} className="home-brand-logo" />
                 <span className="home-brand-name">Mama BerUANG</span>
-                <span className="home-brand-sub">Kalkulator</span>
+                <span className="home-brand-sub">{t.nav.brandSub}</span>
             </Link>
             <div className="home-nav-right">
                 {onBack ? (
                     <button type="button" className="calc-back" onClick={onBack}>
                         <span aria-hidden="true">←</span>
-                        <span className="calc-back-label">Kembali</span>
+                        <span className="calc-back-label">{t.calc.back}</span>
                     </button>
                 ) : (
                     <Link href={href} className="calc-back">
                         <span aria-hidden="true">←</span>
-                        <span className="calc-back-label">Kembali</span>
+                        <span className="calc-back-label">{t.calc.back}</span>
                     </Link>
                 )}
+                <div className="home-lang" role="group" aria-label={t.nav.language}>
+                    {LANGS.map((code) => (
+                        <button
+                            key={code}
+                            type="button"
+                            aria-pressed={lang === code}
+                            className={`home-lang-btn${lang === code ? " is-active" : ""}`}
+                            onClick={() => setLang(code)}
+                        >
+                            {code.toUpperCase()}
+                        </button>
+                    ))}
+                </div>
             </div>
         </div>
     </header>
-);
+    );
+};
 
 const PlainProgress = ({ title, step, total }: { title: string; step: number; total: number }) => {
+    const { t } = useLanguage();
     const pct = Math.round(((step - 1) / total) * 100);
     return (
         <div className="calc-progress">
             <div className="calc-progress-row">
                 <span>
-                    <strong>{title}</strong> · Pertanyaan {Math.min(step, total)} dari {total}
+                    <strong>{title}</strong> · {t.calc.question} {Math.min(step, total)} {t.calc.of} {total}
                 </span>
                 <span>{pct}%</span>
             </div>
@@ -117,7 +138,7 @@ export const CalcNotice = ({
 /**
  * Question pages in the new calculator design (same layout as Dana Darurat).
  * Drop-in replacement for FormHeader + FormQuestionCards: same props, same questions and behaviour.
- * These calculators are Indonesian only, so the header has no language switch.
+ * The header has the EN/ID switch; each page passes its questions in the current language.
  */
 export const CalcQuestionFlow = ({
     href,
@@ -133,6 +154,7 @@ export const CalcQuestionFlow = ({
     isResultReady,
     extra,
 }: Props) => {
+    const { t } = useLanguage();
     const advanceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
     useEffect(() => () => {
         if (advanceTimer.current) clearTimeout(advanceTimer.current);
@@ -182,7 +204,7 @@ export const CalcQuestionFlow = ({
                                 }
                             }}
                         >
-                            <span className="home-eyebrow">Pertanyaan {currentStep}</span>
+                            <span className="home-eyebrow">{t.calc.question} {currentStep}</span>
                             <div className="calc-qhead">
                                 <h1 className="home-serif calc-qtitle">{question.text}</h1>
                                 {question.subtext && <p className="calc-qsub">{question.subtext}</p>}
@@ -235,7 +257,7 @@ export const CalcQuestionFlow = ({
 
                         <div className="calc-nav">
                             <button type="button" className="calc-btn-glass" disabled={currentStep === 1} onClick={goPrevious}>
-                                ← Sebelumnya
+                                ← {t.calc.previous}
                             </button>
                             {(question.type !== "select" || isLast) && (
                                 <button
@@ -244,7 +266,7 @@ export const CalcQuestionFlow = ({
                                     disabled={isLast ? !isResultReady : handleIsNextButtonDisabled(question.id)}
                                     onClick={goNext}
                                 >
-                                    {isLast ? "Selesai" : "Selanjutnya →"}
+                                    {isLast ? t.calc.finish : `${t.calc.next} →`}
                                 </button>
                             )}
                         </div>
@@ -274,7 +296,9 @@ export const CalcResultShell = ({
     /** Header back button runs this instead of linking to href (couple test match view). */
     onBack?: () => void;
     children: React.ReactNode;
-}) => (
+}) => {
+    const { t } = useLanguage();
+    return (
     <div className="home-page calc-page">
         <CalcPlainHeader href={href} onBack={onBack}/>
         <main className="calc-main calc-legacy-result">
@@ -282,7 +306,7 @@ export const CalcResultShell = ({
                 <div className="calc-progress">
                     <div className="calc-progress-row">
                         <span>
-                            <strong>{title}</strong> · Pertanyaan {totalSteps} dari {totalSteps}
+                            <strong>{title}</strong> · {t.calc.question} {totalSteps} {t.calc.of} {totalSteps}
                         </span>
                         <span>100%</span>
                     </div>
@@ -300,4 +324,6 @@ export const CalcResultShell = ({
             {children}
         </main>
     </div>
-);
+
+    );
+};

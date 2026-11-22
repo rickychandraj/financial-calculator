@@ -2,11 +2,15 @@
 
 import React, { useEffect, useState } from "react";
 import CalcQuestionFlow, { CalcResultShell } from "@/components/calc/question-flow";
+import { useLanguage } from "@/lib/i18n";
 import { formatNumber, monthlySavingNeeded } from "@/lib/calc/finance";
 
 
 const UmrahPlanningForm = () => {
     const [currentStep, setCurrentStep] = useState(1);
+    const { lang } = useLanguage();
+    const L = (id: string, en: string) => (lang === "en" ? en : id);
+    const fmt = (value: number | string) => formatNumber(value, lang);
     const [isResultReady, setIsResultReady] = useState(false);
     const [answers, setAnswers] = useState<Record<number, any>>({
         1: null, // years until umroh
@@ -19,38 +23,38 @@ const UmrahPlanningForm = () => {
     const questions = [
         {
             id: 1,
-            text: "Berapa lama lagi kamu ingin pergi umroh?",
-            subtext: "Contoh: saat ini tahun 2024, dan kamu ingin pergi pada tahun 2026, berarti 2026 - 2024 = 2 tahun. Berarti kolom di bawah diisi dengan angka 2",
+            text: L("Berapa lama lagi kamu ingin pergi umroh?", "How many years from now do you want to go on umrah?"),
+            subtext: L("Contoh: saat ini tahun 2024, dan kamu ingin pergi pada tahun 2026, berarti 2026 - 2024 = 2 tahun. Berarti kolom di bawah diisi dengan angka 2", "Example: it is 2024 now and you want to go in 2026, so 2026 - 2024 = 2 years. Enter 2 in the field below"),
             type: "number",
-            suffix: "tahun"
+            suffix: L("tahun", "years")
         },
         {
             id: 2,
-            text: "Berapa perkiraan biaya paket umroh PER ORANG saat ini?",
-            subtext: "Perkiraan total biaya termasuk visa, transportasi, akomodasi, dan kebutuhan ibadah. Paket Umroh dengan travel Aji Maju Wisata dari @_SemogaSegeraUmroh_ dimulai dari 30 juta rupiah per orang",
+            text: L("Berapa perkiraan biaya paket umroh PER ORANG saat ini?", "What is the estimated umrah package cost PER PERSON today?"),
+            subtext: L("Perkiraan total biaya termasuk visa, transportasi, akomodasi, dan kebutuhan ibadah. Paket Umroh dengan travel Aji Maju Wisata dari @_SemogaSegeraUmroh_ dimulai dari 30 juta rupiah per orang", "Estimated total cost, including visa, transport, accommodation and worship needs. Umrah packages with the travel agent Aji Maju Wisata from @_SemogaSegeraUmroh_ start from 30 million rupiah per person"),
             type: "currency",
             prefix: "Rp",
         },
         {
             id: 3,
-            text: "Berapa jumlah orang yang akan pergi umroh?",
-            subtext: "Jumlah orang yang akan ikut dalam perjalanan ibadah ini",
+            text: L("Berapa jumlah orang yang akan pergi umroh?", "How many people are going on umrah?"),
+            subtext: L("Jumlah orang yang akan ikut dalam perjalanan ibadah ini", "The number of people joining this pilgrimage"),
             type: "number",
-            suffix: "orang",
+            suffix: L("orang", "people"),
         },
         {
             id: 4,
-            text: "Berapa dana umroh yang sudah kamu kumpulkan?",
-            subtext: "Jumlah tabungan yang sudah kamu siapkan khusus untuk ibadah umroh. Jika belum sama sekali, masukkan 0.",
+            text: L("Berapa dana umroh yang sudah kamu kumpulkan?", "How much have you saved for umrah so far?"),
+            subtext: L("Jumlah tabungan yang sudah kamu siapkan khusus untuk ibadah umroh. Jika belum sama sekali, masukkan 0.", "Savings you have set aside just for umrah. If you have none yet, enter 0."),
             type: "currency",
             prefix: "Rp",
         },
         {
             id: 5,
-            text: "Kamu akan investasi di produk yang return-nya?",
-            subtext: "Dengan asumsi kamu akan menaruh uang tabunganmu pada instrumen investasi. Sebagai gambaran: untuk profil risiko konservatif, kamu cocok investasi di reksadana pasar uang atau obligasi dengan return rata-rata 6% per tahun. Untuk profil risiko moderat, kamu cocok berinvestasi di obligasi atau reksadana campuran dengan return rata-rata 10% per tahun. Untuk profil risiko agresif, kamu cocok berinvestasi di saham atau reksadana saham dengan return rata-rata 15% per tahun.",
+            text: L("Kamu akan investasi di produk yang return-nya?", "What return does the product you will invest in have?"),
+            subtext: L("Dengan asumsi kamu akan menaruh uang tabunganmu pada instrumen investasi. Sebagai gambaran: untuk profil risiko konservatif, kamu cocok investasi di reksadana pasar uang atau obligasi dengan return rata-rata 6% per tahun. Untuk profil risiko moderat, kamu cocok berinvestasi di obligasi atau reksadana campuran dengan return rata-rata 10% per tahun. Untuk profil risiko agresif, kamu cocok berinvestasi di saham atau reksadana saham dengan return rata-rata 15% per tahun.", "This assumes you put your savings in an investment product. As a guide: with a conservative risk profile, money market or bond mutual funds suit you, with an average return of 6% a year. With a moderate risk profile, bonds or balanced mutual funds suit you, with an average return of 10% a year. With an aggressive risk profile, stocks or equity mutual funds suit you, with an average return of 15% a year."),
             type: "number",
-            suffix: "% / tahun",
+            suffix: L("% / tahun", "% / year"),
         },
     ];
 
@@ -133,7 +137,7 @@ const UmrahPlanningForm = () => {
             {currentStep <= totalSteps && (
                 <CalcQuestionFlow
                     href={"/"}
-                    title={"Perhitungan Rencana Umroh"}
+                    title={L("Perhitungan Rencana Umroh", "Umrah Plan Calculation")}
                     questions={questions}
                     answers={answers}
                     currentStep={currentStep}
@@ -147,7 +151,7 @@ const UmrahPlanningForm = () => {
             )}
 
             {currentStep > totalSteps && (
-                <CalcResultShell href={"/"} title={"Perhitungan Rencana Umroh"} totalSteps={totalSteps}>
+                <CalcResultShell href={"/"} title={L("Perhitungan Rencana Umroh", "Umrah Plan Calculation")} totalSteps={totalSteps}>
                     <div className="p-5">
                         <div
                             className={`
@@ -160,31 +164,31 @@ const UmrahPlanningForm = () => {
                                 background: "linear-gradient(135deg, #252E64 50%, #12174F 90%)"
                             }}
                         >
-                            <h3 className="text-3xl mb-6">Hasil Perhitungan Dana umroh</h3>
+                            <h3 className="text-3xl mb-6">{L("Hasil Perhitungan Dana umroh", "Umrah Fund Result")}</h3>
 
                             {/* Cost Analysis */}
                             <div className="bg-[#1E2432] rounded-lg p-4 mb-4">
-                                <h4 className="text-2xl mb-4">Analisis Biaya</h4>
+                                <h4 className="text-2xl mb-4">{L("Analisis Biaya", "Cost Analysis")}</h4>
                                 <div className="space-y-2">
                                     {isResultReady && (() => {
                                         const results = calculateResults();
                                         return (
                                             <>
                                                 <div className="flex justify-between">
-                                                    <span>Biaya per orang (saat ini)</span>
-                                                    <span>{`Rp${formatNumber(Math.round(results.currentCostPerPerson))}`}</span>
+                                                    <span>{L("Biaya per orang (saat ini)", "Cost per person (today)")}</span>
+                                                    <span>{`Rp${fmt(Math.round(results.currentCostPerPerson))}`}</span>
                                                 </div>
                                                 <div className="flex justify-between">
-                                                    <span>Proyeksi biaya per orang ({answers[1]} tahun lagi)</span>
-                                                    <span>{`Rp${formatNumber(Math.round(results.futureCostPerPerson))}`}</span>
+                                                    <span>{L(`Proyeksi biaya per orang (${answers[1]} tahun lagi)`, `Projected cost per person (in ${answers[1]} ${Number(answers[1]) === 1 ? "year" : "years"})`)}</span>
+                                                    <span>{`Rp${fmt(Math.round(results.futureCostPerPerson))}`}</span>
                                                 </div>
                                                 <div className="flex justify-between">
-                                                    <span>Total biaya untuk {answers[3]} orang (saat ini)</span>
-                                                    <span>{`Rp${formatNumber(Math.round(results.totalCurrentCost))}`}</span>
+                                                    <span>{L(`Total biaya untuk ${answers[3]} orang (saat ini)`, `Total cost for ${answers[3]} ${Number(answers[3]) === 1 ? "person" : "people"} (today)`)}</span>
+                                                    <span>{`Rp${fmt(Math.round(results.totalCurrentCost))}`}</span>
                                                 </div>
                                                 <div className="flex justify-between">
-                                                    <span>Proyeksi total biaya untuk {answers[3]} orang ({answers[1]} tahun lagi)</span>
-                                                    <span>{`Rp${formatNumber(Math.round(results.totalFutureCost))}`}</span>
+                                                    <span>{L(`Proyeksi total biaya untuk ${answers[3]} orang (${answers[1]} tahun lagi)`, `Projected total cost for ${answers[3]} ${Number(answers[3]) === 1 ? "person" : "people"} (in ${answers[1]} ${Number(answers[1]) === 1 ? "year" : "years"})`)}</span>
+                                                    <span>{`Rp${fmt(Math.round(results.totalFutureCost))}`}</span>
                                                 </div>
                                             </>
                                         );
@@ -194,26 +198,26 @@ const UmrahPlanningForm = () => {
 
                             {/* Savings Progress */}
                             <div className="bg-[#3A4356] rounded-lg p-4 mb-4">
-                                <h4 className="text-2xl mb-4">Progress Tabungan</h4>
+                                <h4 className="text-2xl mb-4">{L("Progress Tabungan", "Savings Progress")}</h4>
                                 <div className="space-y-2">
                                     <div className="flex justify-between">
-                                        <span>Dana yang sudah terkumpul</span>
-                                        <span>{`Rp${formatNumber(answers[4])}`}</span>
+                                        <span>{L("Dana yang sudah terkumpul", "Funds saved so far")}</span>
+                                        <span>{`Rp${fmt(answers[4])}`}</span>
                                     </div>
                                     {isResultReady && (() => {
                                         const results = calculateResults();
                                         return (
                                             <>
                                                 <div className="flex justify-between">
-                                                    <span>Proyeksi nilai dana terkumpul {answers[1]} tahun lagi</span>
-                                                    <span>{`Rp${formatNumber(Math.round(results.totalProjectedSavings))}`}</span>
+                                                    <span>{L(`Proyeksi nilai dana terkumpul ${answers[1]} tahun lagi`, `Projected value of your savings in ${answers[1]} ${Number(answers[1]) === 1 ? "year" : "years"}`)}</span>
+                                                    <span>{`Rp${fmt(Math.round(results.totalProjectedSavings))}`}</span>
                                                 </div>
                                                 <div className="flex justify-between">
-                                                    <span>Gap dengan target</span>
+                                                    <span>{L("Gap dengan target", "Gap to target")}</span>
                                                     <span className={results.isTargetMet ? "text-green-400" : "text-red-400"}>
                                                         {results.isTargetMet
-                                                            ? "Dana Mencukupi"
-                                                            : `Rp${formatNumber(Math.round(results.gapToTarget))}`}
+                                                            ? L("Dana Mencukupi", "Fully funded")
+                                                            : `Rp${fmt(Math.round(results.gapToTarget))}`}
                                                     </span>
                                                 </div>
                                             </>
@@ -227,15 +231,15 @@ const UmrahPlanningForm = () => {
                                 const results = calculateResults();
                                 return (
                                     <div className="bg-[#1E2432] rounded-lg p-4">
-                                        <h4 className="text-2xl mb-4">Rekomendasi</h4>
+                                        <h4 className="text-2xl mb-4">{L("Rekomendasi", "Recommendation")}</h4>
                                         <div className="space-y-2">
                                             <div className="flex justify-between">
-                                                <span>Total uang yang harus ditabung hingga {answers[1]} tahun lagi</span>
-                                                <span>{`Rp${formatNumber(Math.round(results.futureAmountToSave))}`}</span>
+                                                <span>{L(`Total uang yang harus ditabung hingga ${answers[1]} tahun lagi`, `Total amount to save over the next ${answers[1]} ${Number(answers[1]) === 1 ? "year" : "years"}`)}</span>
+                                                <span>{`Rp${fmt(Math.round(results.futureAmountToSave))}`}</span>
                                             </div>
                                             <div className="flex justify-between">
-                                                <span>Total uang yang harus ditabung setiap akhir bulan (per bulan ini)</span>
-                                                <span>{`Rp${formatNumber(Math.round(results.totalAmountToSaveMonthly))}`}</span>
+                                                <span>{L("Total uang yang harus ditabung setiap akhir bulan (per bulan ini)", "Amount to save at the end of each month (starting this month)")}</span>
+                                                <span>{`Rp${fmt(Math.round(results.totalAmountToSaveMonthly))}`}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -252,7 +256,7 @@ const UmrahPlanningForm = () => {
                                     display: currentStep === 1 ? "none" : "block"
                                 }}
                             >
-                                Kembali ke pertanyaan sebelumnya
+                                {L("Kembali ke pertanyaan sebelumnya", "Back to the previous question")}
                             </button>
                         </div>
                     </div>
