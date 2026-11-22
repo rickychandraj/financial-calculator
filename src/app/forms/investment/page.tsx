@@ -15,6 +15,7 @@ const InvestmentForm = () => {
         3: null, // current savings
         4: null, // saving frequency
         5: null, // saving timing
+        6: null, // return rate
     });
 
     let questions = [
@@ -131,7 +132,7 @@ const InvestmentForm = () => {
     };
 
     useEffect(() => {
-        const allFieldsFilled = Object.values(answers).every(value => value !== null);
+        const allFieldsFilled = Object.values(answers).every(value => value !== null && value !== "");
         setIsResultReady(allFieldsFilled);
     }, [answers]);
 
