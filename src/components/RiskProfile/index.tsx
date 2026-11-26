@@ -51,7 +51,7 @@ const RiskProfile = () => {
                             {r.titleStart}<em>{r.titleEm}</em>
                         </h2>
                         <p className="home-risk-text">{r.text}</p>
-                        <Link href="#" className="home-btn home-btn-lg">{r.cta}</Link>
+                        <Link href="https://beruang-global.com/risk-profil-test/quiz" className="home-btn home-btn-lg">{r.cta}</Link>
                     </div>
                     <div className="home-risk-visual" aria-hidden="true">
                         <div className="home-risk-phone">
